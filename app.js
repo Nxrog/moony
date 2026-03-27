@@ -14,6 +14,8 @@ const BACKUP_HOSTS = [
 ];
 // Server IDs as used by the real CloudMoon app
 const VALID_SERVERS = ["21", "22", "23", "3", "4"];
+// Google OAuth client ID (same as the real CloudMoon app)
+const GOOGLE_CLIENT_ID = "196443591263-k5447s9icscrq54n57j29lmvm05addbe.apps.googleusercontent.com";
 
 // ===== STATE =====
 let _cachedHost = null;
