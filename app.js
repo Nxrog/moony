@@ -421,5 +421,15 @@ if (signinServer) {
   signinServer.addEventListener("change", () => {
     storeServer(signinServer.value);
     if (serverSelect) serverSelect.value = signinServer.value;
+    if (suServer)     suServer.value = signinServer.value;
+  });
+}
+
+// Server dropdown in sign-up form
+if (suServer) {
+  suServer.addEventListener("change", () => {
+    storeServer(suServer.value);
+    if (serverSelect) serverSelect.value = suServer.value;
+    if (signinServer) signinServer.value = suServer.value;
   });
 }
