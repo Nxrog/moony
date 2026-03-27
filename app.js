@@ -249,7 +249,10 @@ async function launchGame(packageName) {
 
     if (data.code === 0 && data.data?.sid) {
       showConnecting("Launching game…");
-      window.location.href = `../run-site/run.html?sid=${encodeURIComponent(data.data.sid)}`;
+      // SID is a temporary session token — redirect to the real CloudMoon
+      // streaming player on web.cloudmoonapp.com (the run-site isn't deployed
+      // on Vercel, so the relative path ../run-site/run.html would 404).
+      window.location.href = `https://web.cloudmoonapp.com/run-site/run.html?sid=${encodeURIComponent(data.data.sid)}`;
     } else {
       hideConnecting();
       alert(data.message || "Failed to connect to game server. Please try again.");
