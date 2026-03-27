@@ -14,8 +14,6 @@ const BACKUP_HOSTS = [
 ];
 // Server IDs as used by the real CloudMoon app
 const VALID_SERVERS = ["21", "22", "23", "3", "4"];
-// Google OAuth client ID (same as the real CloudMoon app)
-const GOOGLE_CLIENT_ID = "196443591263-k5447s9icscrq54n57j29lmvm05addbe.apps.googleusercontent.com";
 
 // ===== STATE =====
 let _cachedHost = null;
@@ -31,7 +29,13 @@ const errorMsg        = document.getElementById("error-msg");
 const serverSelect    = document.getElementById("server-select");    // game section
 const signinServer    = document.getElementById("signin-server");    // sign-in form
 const connectingOverlay = document.getElementById("connecting-overlay");
-const connectingMsg   = document.getElementById("connecting-msg");
+const connectingMsg     = document.getElementById("connecting-msg");
+const tabSignin         = document.getElementById("tab-signin");
+const tabSignup         = document.getElementById("tab-signup");
+const signupFormEl      = document.getElementById("signup-form");
+const signupError       = document.getElementById("signup-error");
+const signupSubmit      = document.getElementById("signup-submit");
+const suServer          = document.getElementById("su-server");
 
 // ============================================================
 // API HOST DISCOVERY
@@ -150,10 +154,23 @@ function hideConnecting() {
   if (connectingOverlay) connectingOverlay.style.display = "none";
 }
 
-// Sync both server dropdowns to the same value
+function showSignupError(msg) {
+  if (!signupError) return;
+  signupError.textContent = msg;
+  signupError.style.display = "block";
+}
+
+function hideSignupError() {
+  if (!signupError) return;
+  signupError.textContent = "";
+  signupError.style.display = "none";
+}
+
+// Sync all three server dropdowns to the same value
 function syncServerSelects(value) {
   if (serverSelect) serverSelect.value = value;
   if (signinServer) signinServer.value = value;
+  if (suServer)     suServer.value = value;
 }
 
 // ============================================================
@@ -175,7 +192,7 @@ async function login(email, password) {
   if (data.code === 40030) msg = "Password not set for this account. Use Google login.";
   else if (data.code === 40031) msg = "Incorrect password. Please try again.";
   else if (data.code === 40032) msg = "Email not registered on CloudMoon.";
-  return { ok: false, msg };
+  return { ok: false, code: data.code, msg };
 }
 
 // ============================================================
@@ -302,6 +319,75 @@ signoutBtn.addEventListener("click", () => {
   clearUser();
   showSignin();
 });
+
+// Tab switching (Sign in / Create account)
+if (tabSignin && tabSignup) {
+  function activateTab(which) {
+    const isSignin = which === "signin";
+    tabSignin.style.borderBottomColor = isSignin ? "var(--accent)" : "transparent";
+    tabSignin.style.color             = isSignin ? "var(--text)"   : "var(--muted)";
+    tabSignin.style.fontWeight        = isSignin ? "700" : "400";
+    tabSignup.style.borderBottomColor = isSignin ? "transparent" : "var(--accent)";
+    tabSignup.style.color             = isSignin ? "var(--muted)" : "var(--text)";
+    tabSignup.style.fontWeight        = isSignin ? "400" : "700";
+    signinForm.style.display   = isSignin ? "" : "none";
+    if (signupFormEl) signupFormEl.style.display = isSignin ? "none" : "";
+    hideError();
+    hideSignupError();
+  }
+  tabSignin.addEventListener("click", () => activateTab("signin"));
+  tabSignup.addEventListener("click", () => activateTab("signup"));
+}
+
+// Create-account form submit
+if (signupSubmit) {
+  signupSubmit.addEventListener("click", async () => {
+    hideSignupError();
+
+    const email    = document.getElementById("su-email").value.trim();
+    const password = document.getElementById("su-password").value;
+    const confirm  = document.getElementById("su-confirm").value;
+
+    if (!email)              { showSignupError("Please enter your email."); return; }
+    if (!password)           { showSignupError("Please enter a password."); return; }
+    if (password.length < 8) { showSignupError("Password must be at least 8 characters."); return; }
+    if (password !== confirm) { showSignupError("Passwords do not match."); return; }
+
+    if (suServer) storeServer(suServer.value);
+    if (suServer) syncServerSelects(suServer.value);
+
+    signupSubmit.disabled = true;
+    signupSubmit.textContent = "Creating account\u2026";
+
+    try {
+      const result = await login(email, password);
+      if (result.ok) {
+        // Already had an account with this email+password — just log them in
+        showGames();
+      } else if (result.code === 40032) {
+        showSignupError(
+          "No CloudMoon account found for this email. " +
+          "Visit cloudmoonapp.com to register first, then sign in here."
+        );
+      } else if (result.code === 40030) {
+        showSignupError(
+          "An account with this email exists but has no password set. " +
+          "Switch to the \u2018Sign in\u2019 tab and use Google login instead."
+        );
+      } else if (result.code === 40031) {
+        showSignupError("An account with this email already exists. Use the Sign in tab.");
+      } else {
+        showSignupError(result.msg || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      showSignupError("Network error \u2014 check your connection and try again.");
+      console.error(err);
+    } finally {
+      signupSubmit.disabled = false;
+      signupSubmit.textContent = "Create account";
+    }
+  });
+}
 
 // Search / filter
 searchInput.addEventListener("input", (e) => {
