@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TestingMoon - Cloud Game Checks</title>
+  <style>
+    :root{
+      color-scheme: dark;
+      --bg:#0b0f1a;
+      --card:#141a2b;
+      --muted:#9aa4b2;
+      --accent:#4f8cff;
+      --ok:#22c55e;
+      --bad:#ef4444;
+      --warn:#f59e0b;
+      --text:#e5e7eb;
+    }
+    *{box-sizing:border-box;font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}
+    body{margin:0;background:var(--bg);color:var(--text);}
+    header{padding:24px 20px;display:flex;align-items:center;gap:12px;}
+    header h1{font-size:20px;margin:0;}
+    header span{color:var(--muted);font-size:13px;}
+    main{max-width:980px;margin:0 auto;padding:0 16px 40px;}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+    .card{background:var(--card);border:1px solid #1f2942;border-radius:12px;padding:16px;}
+    .card h2{font-size:16px;margin:0 0 10px;}
+    .row{display:flex;gap:8px;flex-wrap:wrap;}
+    input,select,button{background:#0f1424;color:var(--text);border:1px solid #243152;border-radius:8px;padding:10px 12px;font-size:14px;}
+    input{flex:1;min-width:160px;}
+    button{cursor:pointer;}
+    button.primary{background:var(--accent);border-color:transparent;color:white;}
+    .status{margin-top:10px;font-size:13px;color:var(--muted);}
+    .status.ok{color:var(--ok);} .status.bad{color:var(--bad);} .status.warn{color:var(--warn);} 
+    .log{margin-top:8px;background:#0d1222;border:1px dashed #2a3554;border-radius:8px;padding:10px;font-size:12px;max-height:160px;overflow:auto;white-space:pre-wrap;}
+    .muted{color:var(--muted);} 
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TestingMoon</h1>
+    <span>Quick checks for CloudMoon web + game launch</span>
+  </header>
+  <main>
+    <div class="grid">
+      <section class="card">
+        <h2>Run-site availability</h2>
+        <div class="row">
+          <button class="primary" id="checkRunSite">Check /run-site/run.html</button>
+        </div>
+        <div class="status" id="runSiteStatus">Idle</div>
+      </section>
+
+      <section class="card">
+        <h2>API ping</h2>
+        <div class="row">
+          <select id="apiHost">
+            <option value="https://api.cloudmoon.cloudbatata.com">api.cloudmoon.cloudbatata.com</option>
+            <option value="https://api.prod.cloudmoonapp.com">api.prod.cloudmoonapp.com</option>
+            <option value="https://api.prod.geometry.today">api.prod.geometry.today</option>
+            <option value="https://hrz5zfjq02.execute-api.us-east-1.amazonaws.com">execute-api us-east-1</option>
+            <option value="custom">Custom…</option>
+          </select>
+          <input id="customApi" placeholder="https://your-api-host" style="display:none" />
+          <button class="primary" id="pingApi">Ping /_ping</button>
+        </div>
+        <div class="status" id="apiStatus">Idle</div>
+      </section>
+
+      <section class="card">
+        <h2>Launch game (sid)</h2>
+        <div class="row">
+          <input id="sid" placeholder="Enter sid" />
+          <select id="quality">
+            <option value="SD">SD</option>
+            <option value="HD">HD</option>
+          </select>
+          <select id="launchMode">
+            <option value="same">Open same tab</option>
+            <option value="new">Open new tab</option>
+          </select>
+          <button class="primary" id="openGame">Launch</button>
+        </div>
+        <div class="status" id="launchStatus">Idle</div>
+        <div class="muted" style="margin-top:6px;font-size:12px;">Opens /run-site/run.html?sid=...&quality=...</div>
+      </section>
+
+      <section class="card">
+        <h2>Quick log</h2>
+        <div class="log" id="log"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const logEl = document.getElementById('log');
+    const runSiteStatus = document.getElementById('runSiteStatus');
+    const apiStatus = document.getElementById('apiStatus');
+    const launchStatus = document.getElementById('launchStatus');
+
+    const apiHostSelect = document.getElementById('apiHost');
+    const customApi = document.getElementById('customApi');
+
+    function log(msg){
+      const line = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      logEl.textContent = (line + "\n" + logEl.textContent).slice(0, 5000);
+    }
+
+    apiHostSelect.addEventListener('change', () => {
+      customApi.style.display = apiHostSelect.value === 'custom' ? 'block' : 'none';
+    });
+
+    document.getElementById('checkRunSite').addEventListener('click', async () => {
+      runSiteStatus.textContent = 'Checking…';
+      runSiteStatus.className = 'status warn';
+      try{
+        const res = await fetch('/run-site/run.html', { method: 'HEAD' });
+        if(res.ok){
+          runSiteStatus.textContent = 'OK: run-site reachable';
+          runSiteStatus.className = 'status ok';
+          log('run-site OK');
+        } else {
+          runSiteStatus.textContent = `Not OK: ${res.status}`;
+          runSiteStatus.className = 'status bad';
+          log(`run-site bad (${res.status})`);
+        }
+      } catch (e){
+        runSiteStatus.textContent = 'Failed to reach run-site';
+        runSiteStatus.className = 'status bad';
+        log(`run-site error: ${e.message}`);
+      }
+    });
+
+    document.getElementById('pingApi').addEventListener('click', async () => {
+      apiStatus.textContent = 'Pinging…';
+      apiStatus.className = 'status warn';
+      const host = apiHostSelect.value === 'custom' ? customApi.value.trim() : apiHostSelect.value;
+      if(!host){
+        apiStatus.textContent = 'Missing API host';
+        apiStatus.className = 'status bad';
+        return;
+      }
+      try{
+        const res = await fetch(`${host}/_ping`, { method: 'GET' });
+        if(res.ok){
+          apiStatus.textContent = 'OK: API responds';
+          apiStatus.className = 'status ok';
+          log(`api OK (${host})`);
+        } else {
+          apiStatus.textContent = `Not OK: ${res.status}`;
+          apiStatus.className = 'status bad';
+          log(`api bad (${host}) status ${res.status}`);
+        }
+      } catch (e){
+        apiStatus.textContent = 'Failed to reach API';
+        apiStatus.className = 'status bad';
+        log(`api error: ${e.message}`);
+      }
+    });
+
+    document.getElementById('openGame').addEventListener('click', () => {
+      const sid = document.getElementById('sid').value.trim();
+      const quality = document.getElementById('quality').value;
+      const mode = document.getElementById('launchMode').value;
+      if(!sid){
+        launchStatus.textContent = 'Missing sid';
+        launchStatus.className = 'status bad';
+        return;
+      }
+      const url = `/run-site/run.html?sid=${encodeURIComponent(sid)}&quality=${encodeURIComponent(quality)}`;
+      if(mode === 'same'){
+        launchStatus.textContent = 'Opening in same tab…';
+        launchStatus.className = 'status ok';
+        log(`opening game (same tab): ${url}`);
+        window.location.href = url;
+        return;
+      }
+      const opened = window.open(url, '_blank', 'noopener');
+      if(opened){
+        launchStatus.textContent = 'Opened new tab';
+        launchStatus.className = 'status ok';
+        log(`opened game: ${url}`);
+      } else {
+        launchStatus.textContent = 'Popup blocked, opening same tab…';
+        launchStatus.className = 'status warn';
+        log('popup blocked, fallback to same tab');
+        window.location.href = url;
+      }
+    });
+  </script>
+</body>
+</html>
