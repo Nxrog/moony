@@ -248,11 +248,43 @@ async function launchGame(packageName) {
     const data = await res.json();
 
     if (data.code === 0 && data.data?.sid) {
+      const sid = data.data.sid;
+      showConnecting("Resolving session…");
+
+      // /web/sid returns the coordinator URLs (coor_tunnel, coor_cloudfront,
+      // android_instance_id) that the streaming player's getSocketUrl() needs
+      // to find the right WebRTC server.  Without these, the run-site falls
+      // back to window.location.hostname (e.g. your-app.vercel.app) as the
+      // WebSocket server — which obviously fails and returns 0.0.0.0.
+      // We resolve it here (same CORS context as login) and pass everything
+      // as URL params so the run-site can skip its own /web/sid call.
+      let sidData = null;
+      try {
+        const sidRes  = await apiFetch(`/web/sid?sid=${encodeURIComponent(sid)}`);
+        const sidJson = await sidRes.json();
+        if (sidJson.code === 0) sidData = sidJson.data;
+      } catch (_) { /* non-fatal — run-site will try its own /web/sid */ }
+
       showConnecting("Launching game…");
-      // SID is a temporary session token — redirect to the real CloudMoon
-      // streaming player on web.cloudmoonapp.com (the run-site isn't deployed
-      // on Vercel, so the relative path ../run-site/run.html would 404).
-      window.location.href = `https://web.cloudmoonapp.com/run-site/run.html?sid=${encodeURIComponent(data.data.sid)}`;
+
+      const p = new URLSearchParams({ sid });
+      // game param tells the streaming player which app to launch
+      p.set("game", packageName);
+      if (sidData) {
+        if (sidData.token)               p.set("token",               sidData.token);
+        if (sidData.email)               p.set("email",               sidData.email);
+        if (sidData.android_id)          p.set("userid",              sidData.android_id);
+        if (sidData.coor_tunnel)         p.set("coor_tunnel",         sidData.coor_tunnel);
+        if (sidData.coor_cloudfront)     p.set("coor_cloudfront",     sidData.coor_cloudfront);
+        if (sidData.android_instance_id) p.set("android_instance_id", sidData.android_instance_id);
+      } else {
+        // sidData not available — pass what we already know from the login session
+        const u = getStoredUser();
+        if (u?.token)  p.set("token",  u.token);
+        if (u?.userId) p.set("userid", u.userId);
+      }
+
+      window.location.href = `../run-site/run.html?${p.toString()}`;
     } else {
       hideConnecting();
       alert(data.message || "Failed to connect to game server. Please try again.");
