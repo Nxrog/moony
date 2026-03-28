@@ -30,8 +30,6 @@ const serverSelect    = document.getElementById("server-select");    // game sec
 const signinServer    = document.getElementById("signin-server");    // sign-in form
 const connectingOverlay = document.getElementById("connecting-overlay");
 const connectingMsg     = document.getElementById("connecting-msg");
-const tabSignin         = document.getElementById("tab-signin");
-const tabSignup         = document.getElementById("tab-signup");
 const needAccountBtn    = document.getElementById("need-account-btn");
 const accountModal      = document.getElementById("account-modal");
 const closeAccountModal = document.getElementById("close-account-modal");
@@ -341,72 +339,21 @@ signoutBtn.addEventListener("click", () => {
   showSignin();
 });
 
-// Tab switching (Sign in / Create account)
-if (tabSignin && tabSignup) {
-  function activateTab(which) {
-    const isSignin = which === "signin";
-    tabSignin.style.borderBottomColor = isSignin ? "var(--accent)" : "transparent";
-    tabSignin.style.color             = isSignin ? "var(--text)"   : "var(--muted)";
-    tabSignin.style.fontWeight        = isSignin ? "700" : "400";
-    tabSignup.style.borderBottomColor = isSignin ? "transparent" : "var(--accent)";
-    tabSignup.style.color             = isSignin ? "var(--muted)" : "var(--text)";
-    tabSignup.style.fontWeight        = isSignin ? "400" : "700";
-    signinForm.style.display   = isSignin ? "" : "none";
-    if (signupFormEl) signupFormEl.style.display = isSignin ? "none" : "";
-    hideError();
-    hideSignupError();
-  }
-  tabSignin.addEventListener("click", () => activateTab("signin"));
-  tabSignup.addEventListener("click", () => activateTab("signup"));
+// "No account?" → account-required info modal
+if (needAccountBtn) {
+  needAccountBtn.addEventListener("click", () => {
+    if (accountModal) accountModal.style.display = "flex";
+  });
 }
-
-// Create-account form submit
-if (signupSubmit) {
-  signupSubmit.addEventListener("click", async () => {
-    hideSignupError();
-
-    const email    = document.getElementById("su-email").value.trim();
-    const password = document.getElementById("su-password").value;
-    const confirm  = document.getElementById("su-confirm").value;
-
-    if (!email)              { showSignupError("Please enter your email."); return; }
-    if (!password)           { showSignupError("Please enter a password."); return; }
-    if (password.length < 8) { showSignupError("Password must be at least 8 characters."); return; }
-    if (password !== confirm) { showSignupError("Passwords do not match."); return; }
-
-    if (suServer) storeServer(suServer.value);
-    if (suServer) syncServerSelects(suServer.value);
-
-    signupSubmit.disabled = true;
-    signupSubmit.textContent = "Creating account\u2026";
-
-    try {
-      const result = await login(email, password);
-      if (result.ok) {
-        // Already had an account with this email+password — just log them in
-        showGames();
-      } else if (result.code === 40032) {
-        showSignupError(
-          "No CloudMoon account found for this email. " +
-          "Visit cloudmoonapp.com to register first, then sign in here."
-        );
-      } else if (result.code === 40030) {
-        showSignupError(
-          "An account with this email exists but has no password set. " +
-          "Switch to the \u2018Sign in\u2019 tab and use Google login instead."
-        );
-      } else if (result.code === 40031) {
-        showSignupError("An account with this email already exists. Use the Sign in tab.");
-      } else {
-        showSignupError(result.msg || "Something went wrong. Please try again.");
-      }
-    } catch (err) {
-      showSignupError("Network error \u2014 check your connection and try again.");
-      console.error(err);
-    } finally {
-      signupSubmit.disabled = false;
-      signupSubmit.textContent = "Create account";
-    }
+if (closeAccountModal) {
+  closeAccountModal.addEventListener("click", () => {
+    if (accountModal) accountModal.style.display = "none";
+  });
+}
+if (accountModal) {
+  // Close on backdrop click
+  accountModal.addEventListener("click", (e) => {
+    if (e.target === accountModal) accountModal.style.display = "none";
   });
 }
 
