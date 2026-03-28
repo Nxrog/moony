@@ -1,0 +1,1 @@
+function e(t){let a=0;return/[a-z]/.test(t)&&a++,/[A-Z]/.test(t)&&a++,/[0-9]/.test(t)&&a++,/[^a-zA-Z0-9]/.test(t)&&a++,a>=2}function s(t){return/^(?!.*\.\.)(?!\.)(?!.*\.$)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,})$/.test(t)}export{e as a,s as v};

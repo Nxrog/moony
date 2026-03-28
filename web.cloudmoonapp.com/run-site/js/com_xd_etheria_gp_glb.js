@@ -1,0 +1,1 @@
+const comXdEtheriaGpGlbConfig={supportLeftRocker:!0,supportRightClick:!0,pointerLock:!1,center:{x:258,y:584},keyBoardDirection:1,keyBoard:{m:{str:"M",key:"m",location:"",coordinate:"176,162",size:"small"}}};export default comXdEtheriaGpGlbConfig;
