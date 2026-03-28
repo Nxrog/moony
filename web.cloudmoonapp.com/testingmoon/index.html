@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#080808" />
-  <title>MoonPie - Play Instantly</title>
+  <title>MoonPie</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -59,23 +59,6 @@
       font-weight: 700;
       letter-spacing: 0.6px;
       font-size: 20px;
-    }
-
-    .logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--text);
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.12);
-      position: relative;
-    }
-
-    .logo::after {
-      content: "";
-      position: absolute;
-      inset: 9px;
-      border-radius: 50%;
-      background: var(--bg);
     }
 
     .header-actions {
@@ -194,7 +177,6 @@
       box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
     }
 
-    /* ── Game section ── */
     .game-section {
       display: none;
       width: min(1200px, 100%);
@@ -332,7 +314,7 @@
   <div class="page">
     <header>
       <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
+        <img src="/images/MoonPielogo.png" alt="MoonPie" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
         MoonPie
       </div>
       <div class="header-actions">
@@ -342,7 +324,7 @@
     </header>
 
     <main>
-      <!-- Sign-in panel -->
+
       <section class="panel" id="signin-panel">
         <div class="card">
           <h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">Sign in</h2>
@@ -377,7 +359,7 @@
         </div>
       </section>
 
-      <!-- Game section (shown after login) -->
+
       <section class="game-section" id="game-section">
         <div class="game-header">
           <h2>Pick a game</h2>
@@ -448,18 +430,18 @@
     </main>
 
     
-    <!-- Account-required modal -->
+
     <div id="account-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);z-index:9998;justify-content:center;align-items:center;">
       <div style="background:#111;border:1px solid rgba(255,255,255,0.12);border-radius:22px;padding:44px 36px;max-width:400px;width:90%;text-align:center;display:flex;flex-direction:column;gap:18px;box-shadow:0 30px 80px rgba(0,0,0,0.8);">
         <div style="font-size:56px;line-height:1;">🌙</div>
         <h2 style="font-size:22px;color:#f0f0f0;font-weight:700;">Account required</h2>
-        <p style="color:#666;font-size:14px;line-height:1.75;">MoonPie runs on CloudMoon's cloud gaming infrastructure. You'll need a free CloudMoon account — create one at <strong style="color:#c0c0c0;">cloudmoonapp.com</strong>, then come back and sign in here with your email and password.</p>
+        <p style="color:#666;font-size:14px;line-height:1.75;">You will need a free CloudMoon account, create one at <strong style="color:#c0c0c0;">cloudmoonapp.com</strong>, then come back and sign in here with your email and password.</p>
         <a href="https://cloudmoonapp.com" target="_blank" rel="noopener" style="display:block;padding:14px;border-radius:12px;background:#f0f0f0;color:#080808;font-weight:700;text-decoration:none;font-size:15px;">Create a free account →</a>
         <button id="close-account-modal" type="button" style="background:none;border:1px solid rgba(255,255,255,0.1);color:#666;border-radius:12px;padding:11px;cursor:pointer;font-size:13px;font-family:inherit;">Maybe later</button>
       </div>
     </div>
 
-    <!-- Connecting overlay -->
+
     <div id="connecting-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(6px);z-index:9999;flex-direction:column;justify-content:center;align-items:center;gap:24px;">
       <div style="width:52px;height:52px;border:3px solid rgba(255,255,255,0.08);border-top-color:#f0f0f0;border-radius:50%;animation:spin 0.75s linear infinite;"></div>
       <div id="connecting-msg" style="color:#f0f0f0;font-size:17px;font-weight:500;letter-spacing:0.3px;">Connecting…</div>
