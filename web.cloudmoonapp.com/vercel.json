@@ -15,6 +15,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/", "destination": "/testingmoon/" }
+    { "source": "/",            "destination": "/testingmoon/index.html" },
+    { "source": "/index.html",  "destination": "/testingmoon/index.html" }
   ]
 }
