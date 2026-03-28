@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0c1020" />
+  <title>CloudMoon - Play Instantly</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c1020;
+      --bg-2: #0a0f1a;
+      --card: rgba(20, 28, 48, 0.78);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e9f1ff;
+      --muted: #a8b4d6;
+      --accent: #7c5cff;
+      --accent-2: #38e4ff;
+      --success: #19d37f;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Roboto", sans-serif;
+      background: radial-gradient(1200px 800px at 20% -20%, #2c245f, transparent 60%),
+        radial-gradient(1000px 700px at 100% 10%, #123255, transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px clamp(20px, 6vw, 72px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      font-size: 20px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: conic-gradient(from 45deg, var(--accent), var(--accent-2), #c1b4ff, var(--accent));
+      box-shadow: 0 0 25px rgba(124, 92, 255, 0.55);
+      position: relative;
+    }
+
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border-radius: 50%;
+      background: rgba(10, 15, 26, 0.9);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pill {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .pill:hover {
+      border-color: rgba(124, 92, 255, 0.5);
+      box-shadow: 0 0 18px rgba(124, 92, 255, 0.2);
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 40px clamp(20px, 6vw, 80px) 72px;
+    }
+
+    .panel {
+      width: min(1200px, 100%);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+      align-items: stretch;
+    }
+
+    .hero {
+      padding: 36px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .input-group {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(11, 16, 30, 0.8);
+      color: var(--text);
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: rgba(124, 92, 255, 0.7);
+      box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: #0c1020;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(56, 228, 255, 0.2);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-weight: 500;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .game-section {
+      display: none;
+      width: min(1200px, 100%);
+      margin: 0 auto;
+    }
+
+    .game-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .game-header h2 {
+      font-size: clamp(24px, 3vw, 32px);
+    }
+
+    .search {
+      flex: 1;
+      min-width: 220px;
+      max-width: 360px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(11, 16, 30, 0.8);
+      color: var(--text);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+    }
+
+    .game-card {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      display: grid;
+      gap: 12px;
+      place-items: center;
+      text-align: center;
+      transition: 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56, 228, 255, 0.4);
+      box-shadow: 0 18px 30px rgba(12, 16, 32, 0.4);
+    }
+
+    .game-card img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px;
+    }
+
+    .game-card button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(124, 92, 255, 0.12);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 24px clamp(20px, 6vw, 72px) 40px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(25, 211, 127, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(25, 211, 127, 0.25);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .server-dropdown {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(11, 16, 30, 0.8);
+      color: var(--text);
+      font-size: 14px;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .server-dropdown:focus {
+      border-color: rgba(124, 92, 255, 0.7);
+      box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .hero,
+      .card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        CloudMoon
+      </div>
+      <div class="header-actions">
+        <span class="tag">Low latency cloud gaming</span>
+        <a class="pill" href="#">Support</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" id="signin-panel">
+        <div class="card">
+          <div style="display:flex;margin-bottom:22px;border-bottom:1px solid var(--border);">
+            <button id="tab-signin" type="button" style="flex:1;background:none;border:none;border-bottom:2px solid var(--accent);color:var(--text);font-family:inherit;font-weight:700;font-size:15px;padding:0 0 12px;cursor:pointer;">Sign in</button>
+            <button id="tab-signup" type="button" style="flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:inherit;font-size:15px;padding:0 0 12px;cursor:pointer;">Create account</button>
+          </div>
+          <form id="signin-form">
+            <div class="input-group">
+              <label for="email">Email or username</label>
+              <input id="email" name="email" type="text" placeholder="you@cloudmoon.com" required />
+            </div>
+            <div class="input-group">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="••••••••" required />
+            </div>
+            <div class="input-group">
+              <label for="signin-server">Server region</label>
+              <select id="signin-server" class="server-dropdown">
+                <option value="0">— Select a server —</option>
+                <option value="3">Asia</option>
+                <option value="4">Europe</option>
+                <option value="22">US West</option>
+                <option value="23">US East</option>
+                <option value="21">South America</option>
+              </select>
+            </div>
+            <div id="error-msg" style="display:none;color:#ff5a5a;font-size:13px;margin:-4px 0 10px;padding:10px 12px;background:rgba(255,90,90,0.08);border-radius:8px;border:1px solid rgba(255,90,90,0.2);"></div>
+            <button class="btn" type="submit">Continue to game list</button>
+          </form>
+          <div id="signup-form" style="display:none;">
+            <div class="input-group">
+              <label for="su-email">Email</label>
+              <input id="su-email" type="email" placeholder="you@example.com" />
+            </div>
+            <div class="input-group">
+              <label for="su-password">Password</label>
+              <input id="su-password" type="password" placeholder="At least 8 characters" />
+            </div>
+            <div class="input-group">
+              <label for="su-confirm">Confirm password</label>
+              <input id="su-confirm" type="password" placeholder="••••••••" />
+            </div>
+            <div class="input-group">
+              <label for="su-server">Server region</label>
+              <select id="su-server" class="server-dropdown">
+                <option value="0">— Select a server —</option>
+                <option value="3">Asia</option>
+                <option value="4">Europe</option>
+                <option value="22">US West</option>
+                <option value="23">US East</option>
+                <option value="21">South America</option>
+              </select>
+            </div>
+            <div id="signup-error" style="display:none;color:#ff5a5a;font-size:13px;margin:-4px 0 10px;padding:10px 12px;background:rgba(255,90,90,0.08);border-radius:8px;border:1px solid rgba(255,90,90,0.2);"></div>
+            <button class="btn" id="signup-submit" type="button">Create account</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-section" id="game-section">
+        <div class="game-header">
+          <div>
+            <h2>Pick a game</h2>
+          </div>
+          <input class="search" id="game-search" type="text" placeholder="Search games" />
+          <select id="server-select" class="server-dropdown" style="width:auto;min-width:160px;padding:10px 16px;border-radius:999px;">
+            <option value="0">— Server —</option>
+            <option value="3">Asia</option>
+            <option value="4">Europe</option>
+            <option value="22">US West</option>
+            <option value="23">US East</option>
+            <option value="21">South America</option>
+          </select>
+          <button class="pill" id="signout">Sign out</button>
+        </div>
+        <div class="games-grid" id="games-grid">
+          <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
+            <div>Fortnite</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
+            <div>Brawl Stars</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
+            <div>Genshin Impact</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
+            <div>Roblox</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
+            <div>Free Fire</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
+            <div>Clash Royale</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
+            <div>Stumble Guys</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
+            <div>Among Us</div>
+            <button type="button">Play now</button>
+          </div>
+          <div class="game-card" data-name="TikTok" data-pkg="com.zhiliaoapp.musically">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" />
+            <div>TikTok</div>
+            <button type="button">Open app</button>
+          </div>
+          <div class="game-card" data-name="YouTube" data-pkg="com.google.android.youtube">
+            <img src="../../cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" />
+            <div>YouTube</div>
+            <button type="button">Open app</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© 2026 CloudMoon. All rights reserved.</div>
+      <div>Streaming available in select regions • 24/7 support</div>
+    </footer>
+    <div id="connecting-overlay" style="display:none;position:fixed;inset:0;background:rgba(9,13,26,0.94);backdrop-filter:blur(4px);z-index:9999;flex-direction:column;justify-content:center;align-items:center;gap:22px;">
+      <div style="width:54px;height:54px;border:4px solid rgba(124,92,255,0.2);border-top-color:#7c5cff;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+      <div id="connecting-msg" style="color:#e9f1ff;font-size:17px;font-weight:500;letter-spacing:0.3px;">Connecting…</div>
+      <div style="color:#a8b4d6;font-size:13px;">This may take a moment</div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TestingMoon - Cloud Game Checks</title>
+  <style>
+    :root{
+      color-scheme: dark;
+      --bg:#0b0f1a;
+      --card:#141a2b;
+      --muted:#9aa4b2;
+      --accent:#4f8cff;
+      --ok:#22c55e;
+      --bad:#ef4444;
+      --warn:#f59e0b;
+      --text:#e5e7eb;
+    }
+    *{box-sizing:border-box;font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}
+    body{margin:0;background:var(--bg);color:var(--text);}
+    header{padding:24px 20px;display:flex;align-items:center;gap:12px;}
+    header h1{font-size:20px;margin:0;}
+    header span{color:var(--muted);font-size:13px;}
+    main{max-width:980px;margin:0 auto;padding:0 16px 40px;}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+    .card{background:var(--card);border:1px solid #1f2942;border-radius:12px;padding:16px;}
+    .card h2{font-size:16px;margin:0 0 10px;}
+    .row{display:flex;gap:8px;flex-wrap:wrap;}
+    input,select,button{background:#0f1424;color:var(--text);border:1px solid #243152;border-radius:8px;padding:10px 12px;font-size:14px;}
+    input{flex:1;min-width:160px;}
+    button{cursor:pointer;}
+    button.primary{background:var(--accent);border-color:transparent;color:white;}
+    .status{margin-top:10px;font-size:13px;color:var(--muted);}
+    .status.ok{color:var(--ok);} .status.bad{color:var(--bad);} .status.warn{color:var(--warn);} 
+    .log{margin-top:8px;background:#0d1222;border:1px dashed #2a3554;border-radius:8px;padding:10px;font-size:12px;max-height:160px;overflow:auto;white-space:pre-wrap;}
+    .muted{color:var(--muted);} 
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TestingMoon</h1>
+    <span>Quick checks for CloudMoon web + game launch</span>
+  </header>
+  <main>
+    <div class="grid">
+      <section class="card">
+        <h2>Run-site availability</h2>
+        <div class="row">
+          <button class="primary" id="checkRunSite">Check /run-site/run.html</button>
+        </div>
+        <div class="status" id="runSiteStatus">Idle</div>
+      </section>
+
+      <section class="card">
+        <h2>API ping</h2>
+        <div class="row">
+          <select id="apiHost">
+            <option value="https://api.cloudmoon.cloudbatata.com">api.cloudmoon.cloudbatata.com</option>
+            <option value="https://api.prod.cloudmoonapp.com">api.prod.cloudmoonapp.com</option>
+            <option value="https://api.prod.geometry.today">api.prod.geometry.today</option>
+            <option value="https://hrz5zfjq02.execute-api.us-east-1.amazonaws.com">execute-api us-east-1</option>
+            <option value="custom">Custom…</option>
+          </select>
+          <input id="customApi" placeholder="https://your-api-host" style="display:none" />
+          <button class="primary" id="pingApi">Ping /_ping</button>
+        </div>
+        <div class="status" id="apiStatus">Idle</div>
+      </section>
+
+      <section class="card">
+        <h2>Launch game (sid)</h2>
+        <div class="row">
+          <input id="sid" placeholder="Enter sid" />
+          <select id="quality">
+            <option value="SD">SD</option>
+            <option value="HD">HD</option>
+          </select>
+          <select id="launchMode">
+            <option value="same">Open same tab</option>
+            <option value="new">Open new tab</option>
+          </select>
+          <button class="primary" id="openGame">Launch</button>
+        </div>
+        <div class="status" id="launchStatus">Idle</div>
+        <div class="muted" style="margin-top:6px;font-size:12px;">Opens /run-site/run.html?sid=...&quality=...</div>
+      </section>
+
+      <section class="card">
+        <h2>Quick log</h2>
+        <div class="log" id="log"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const logEl = document.getElementById('log');
+    const runSiteStatus = document.getElementById('runSiteStatus');
+    const apiStatus = document.getElementById('apiStatus');
+    const launchStatus = document.getElementById('launchStatus');
+
+    const apiHostSelect = document.getElementById('apiHost');
+    const customApi = document.getElementById('customApi');
+
+    function log(msg){
+      const line = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      logEl.textContent = (line + "\n" + logEl.textContent).slice(0, 5000);
+    }
+
+    apiHostSelect.addEventListener('change', () => {
+      customApi.style.display = apiHostSelect.value === 'custom' ? 'block' : 'none';
+    });
+
+    document.getElementById('checkRunSite').addEventListener('click', async () => {
+      runSiteStatus.textContent = 'Checking…';
+      runSiteStatus.className = 'status warn';
+      try{
+        const res = await fetch('/run-site/run.html', { method: 'HEAD' });
+        if(res.ok){
+          runSiteStatus.textContent = 'OK: run-site reachable';
+          runSiteStatus.className = 'status ok';
+          log('run-site OK');
+        } else {
+          runSiteStatus.textContent = `Not OK: ${res.status}`;
+          runSiteStatus.className = 'status bad';
+          log(`run-site bad (${res.status})`);
+        }
+      } catch (e){
+        runSiteStatus.textContent = 'Failed to reach run-site';
+        runSiteStatus.className = 'status bad';
+        log(`run-site error: ${e.message}`);
+      }
+    });
+
+    document.getElementById('pingApi').addEventListener('click', async () => {
+      apiStatus.textContent = 'Pinging…';
+      apiStatus.className = 'status warn';
+      const host = apiHostSelect.value === 'custom' ? customApi.value.trim() : apiHostSelect.value;
+      if(!host){
+        apiStatus.textContent = 'Missing API host';
+        apiStatus.className = 'status bad';
+        return;
+      }
+      try{
+        const res = await fetch(`${host}/_ping`, { method: 'GET' });
+        if(res.ok){
+          apiStatus.textContent = 'OK: API responds';
+          apiStatus.className = 'status ok';
+          log(`api OK (${host})`);
+        } else {
+          apiStatus.textContent = `Not OK: ${res.status}`;
+          apiStatus.className = 'status bad';
+          log(`api bad (${host}) status ${res.status}`);
+        }
+      } catch (e){
+        apiStatus.textContent = 'Failed to reach API';
+        apiStatus.className = 'status bad';
+        log(`api error: ${e.message}`);
+      }
+    });
+
+    document.getElementById('openGame').addEventListener('click', () => {
+      const sid = document.getElementById('sid').value.trim();
+      const quality = document.getElementById('quality').value;
+      const mode = document.getElementById('launchMode').value;
+      if(!sid){
+        launchStatus.textContent = 'Missing sid';
+        launchStatus.className = 'status bad';
+        return;
+      }
+      const url = `/run-site/run.html?sid=${encodeURIComponent(sid)}&quality=${encodeURIComponent(quality)}`;
+      if(mode === 'same'){
+        launchStatus.textContent = 'Opening in same tab…';
+        launchStatus.className = 'status ok';
+        log(`opening game (same tab): ${url}`);
+        window.location.href = url;
+        return;
+      }
+      const opened = window.open(url, '_blank', 'noopener');
+      if(opened){
+        launchStatus.textContent = 'Opened new tab';
+        launchStatus.className = 'status ok';
+        log(`opened game: ${url}`);
+      } else {
+        launchStatus.textContent = 'Popup blocked, opening same tab…';
+        launchStatus.className = 'status warn';
+        log('popup blocked, fallback to same tab');
+        window.location.href = url;
+      }
+    });
+  </script>
+</body>
+</html>
