@@ -32,10 +32,9 @@ const connectingOverlay = document.getElementById("connecting-overlay");
 const connectingMsg     = document.getElementById("connecting-msg");
 const tabSignin         = document.getElementById("tab-signin");
 const tabSignup         = document.getElementById("tab-signup");
-const signupFormEl      = document.getElementById("signup-form");
-const signupError       = document.getElementById("signup-error");
-const signupSubmit      = document.getElementById("signup-submit");
-const suServer          = document.getElementById("su-server");
+const needAccountBtn    = document.getElementById("need-account-btn");
+const accountModal      = document.getElementById("account-modal");
+const closeAccountModal = document.getElementById("close-account-modal");
 
 // ============================================================
 // API HOST DISCOVERY
@@ -154,23 +153,10 @@ function hideConnecting() {
   if (connectingOverlay) connectingOverlay.style.display = "none";
 }
 
-function showSignupError(msg) {
-  if (!signupError) return;
-  signupError.textContent = msg;
-  signupError.style.display = "block";
-}
-
-function hideSignupError() {
-  if (!signupError) return;
-  signupError.textContent = "";
-  signupError.style.display = "none";
-}
-
-// Sync all three server dropdowns to the same value
+// Sync both server dropdowns to the same value
 function syncServerSelects(value) {
   if (serverSelect) serverSelect.value = value;
   if (signinServer) signinServer.value = value;
-  if (suServer)     suServer.value = value;
 }
 
 // ============================================================
@@ -189,9 +175,9 @@ async function login(email, password) {
   }
 
   let msg = data.message || "Login failed";
-  if (data.code === 40030) msg = "Password not set for this account. Use Google login.";
+  if (data.code === 40030) msg = "This account uses Google sign-in. Visit cloudmoonapp.com to set a password first.";
   else if (data.code === 40031) msg = "Incorrect password. Please try again.";
-  else if (data.code === 40032) msg = "Email not registered on CloudMoon.";
+  else if (data.code === 40032) msg = "No account found for this email. Create one at cloudmoonapp.com, then sign in here.";
   return { ok: false, code: data.code, msg };
 }
 
@@ -456,15 +442,5 @@ if (signinServer) {
   signinServer.addEventListener("change", () => {
     storeServer(signinServer.value);
     if (serverSelect) serverSelect.value = signinServer.value;
-    if (suServer)     suServer.value = signinServer.value;
-  });
-}
-
-// Server dropdown in sign-up form
-if (suServer) {
-  suServer.addEventListener("change", () => {
-    storeServer(suServer.value);
-    if (serverSelect) serverSelect.value = suServer.value;
-    if (signinServer) signinServer.value = suServer.value;
   });
 }
