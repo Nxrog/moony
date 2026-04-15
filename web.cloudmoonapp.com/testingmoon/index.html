@@ -38,24 +38,9 @@
       padding: 0 18px;
       display: flex;
       align-items: center;
-      gap: 10px;
       background: rgba(8,8,8,0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-    }
-
-    #time-badge {
-      display: none;
-      margin-left: auto;
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.55);
-      padding: 3px 9px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      letter-spacing: 0.3px;
-      font-family: inherit;
     }
 
     .brand {
@@ -367,21 +352,6 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .spinner {
-      width: 38px;
-      height: 38px;
-      border: 2px solid rgba(255,255,255,0.08);
-      border-top-color: #ccc;
-      border-radius: 50%;
-      animation: spin 0.65s linear infinite;
-    }
-
-    #connecting-msg {
-      font-size: 13px;
-      color: #555;
-      font-weight: 500;
-    }
-
     @media (max-width: 480px) {
       .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
       #game-section { padding: 12px 12px 32px; }
@@ -394,7 +364,6 @@
       <img src="/images/MoonPielogo.png" alt="" />
       MoonPie
     </div>
-    <span id="time-badge"></span>
   </header>
 
   <div class="page">
@@ -405,7 +374,7 @@
         <form id="signin-form">
           <div class="field">
             <label for="email">Email</label>
-            <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+            <input id="email" type="text" autocomplete="email" placeholder="you@example.com" required />
           </div>
           <div class="field">
             <label for="password">Password</label>
@@ -530,8 +499,8 @@
   </div>
 
   <div id="connecting-overlay">
-    <div class="spinner"></div>
-    <div id="connecting-msg">Connecting…</div>
+    <div style="width:38px;height:38px;border:2px solid rgba(255,255,255,0.08);border-top-color:#ccc;border-radius:50%;animation:spin 0.65s linear infinite;"></div>
+    <div id="connecting-msg" style="font-size:13px;color:#555;font-weight:500;">Connecting…</div>
   </div>
 
   <script src="/testingmoon/app.js"></script>
