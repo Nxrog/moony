@@ -1,6 +1,5 @@
 // ============================================================
 // CloudMoon — testingmoon/app.js
-// Real API integration: login → phone/connect → run.html?sid=
 // ============================================================
 
 
@@ -34,10 +33,6 @@ const needAccountBtn    = document.getElementById("need-account-btn");
 const accountModal      = document.getElementById("account-modal");
 const closeAccountModal = document.getElementById("close-account-modal");
 
-// ============================================================
-// API HOST DISCOVERY
-// Pings /_ping on each host; uses the first one that responds
-// ============================================================
 async function discoverApiHost() {
   if (_cachedHost) return _cachedHost;
 
@@ -95,9 +90,7 @@ function clearUser() {
   localStorage.removeItem("userData");
 }
 
-// ============================================================
-// SERVER SELECTION  (localStorage key: "selectedServer")
-// ============================================================
+
 function getSelectedServer() {
   return localStorage.getItem("selectedServer") || "0";
 }
@@ -221,13 +214,6 @@ async function launchGame(packageName) {
       const sid = data.data.sid;
       showConnecting("Resolving session…");
 
-      // /web/sid returns the coordinator URLs (coor_tunnel, coor_cloudfront,
-      // android_instance_id) that the streaming player's getSocketUrl() needs
-      // to find the right WebRTC server.  Without these, the run-site falls
-      // back to window.location.hostname (e.g. your-app.vercel.app) as the
-      // WebSocket server — which obviously fails and returns 0.0.0.0.
-      // We resolve it here (same CORS context as login) and pass everything
-      // as URL params so the run-site can skip its own /web/sid call.
       let sidData = null;
       try {
         const sidRes  = await apiFetch(`/web/sid?sid=${encodeURIComponent(sid)}`);
@@ -238,7 +224,6 @@ async function launchGame(packageName) {
       showConnecting("Launching game…");
 
       const p = new URLSearchParams({ sid });
-      // game param tells the streaming player which app to launch
       p.set("game", packageName);
       if (sidData) {
         if (sidData.token)               p.set("token",               sidData.token);
@@ -248,7 +233,6 @@ async function launchGame(packageName) {
         if (sidData.coor_cloudfront)     p.set("coor_cloudfront",     sidData.coor_cloudfront);
         if (sidData.android_instance_id) p.set("android_instance_id", sidData.android_instance_id);
       } else {
-        // sidData not available — pass what we already know from the login session
         const u = getStoredUser();
         if (u?.token)  p.set("token",  u.token);
         if (u?.userId) p.set("userid", u.userId);
@@ -266,14 +250,13 @@ async function launchGame(packageName) {
 }
 
 // ============================================================
-// INIT  —  restore session / server selection on page load
+// INIT  
 // ============================================================
 (function init() {
-  // Restore server selection
+
   const saved = getSelectedServer();
   if (VALID_SERVERS.includes(saved)) syncServerSelects(saved);
 
-  // Skip sign-in if already logged in
   const user = getStoredUser();
   if (user?.token && user?.init) {
     showGames();
@@ -284,7 +267,6 @@ async function launchGame(packageName) {
 // EVENT LISTENERS
 // ============================================================
 
-// Sign-in form submit
 signinForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   hideError();
@@ -319,13 +301,11 @@ signinForm.addEventListener("submit", async (e) => {
   }
 });
 
-// Sign out
 signoutBtn.addEventListener("click", () => {
   clearUser();
   showSignin();
 });
 
-// "No account?" → account-required info modal
 if (needAccountBtn) {
   needAccountBtn.addEventListener("click", () => {
     if (accountModal) accountModal.style.display = "flex";
@@ -337,13 +317,11 @@ if (closeAccountModal) {
   });
 }
 if (accountModal) {
-  // Close on backdrop click
   accountModal.addEventListener("click", (e) => {
     if (e.target === accountModal) accountModal.style.display = "none";
   });
 }
 
-// Search / filter
 searchInput.addEventListener("input", (e) => {
   const q = e.target.value.toLowerCase();
   gamesGrid.querySelectorAll(".game-card").forEach((card) => {
@@ -351,7 +329,6 @@ searchInput.addEventListener("input", (e) => {
   });
 });
 
-// Game card click — launch via real API
 gamesGrid.addEventListener("click", (e) => {
   const btn  = e.target.closest("button");
   if (!btn) return;
@@ -362,7 +339,6 @@ gamesGrid.addEventListener("click", (e) => {
   launchGame(pkg);
 });
 
-// Server dropdown in game section
 if (serverSelect) {
   serverSelect.addEventListener("change", () => {
     storeServer(serverSelect.value);
@@ -370,7 +346,6 @@ if (serverSelect) {
   });
 }
 
-// Server dropdown in sign-in panel
 if (signinServer) {
   signinServer.addEventListener("change", () => {
     storeServer(signinServer.value);
