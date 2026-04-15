@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080808" />
+  <title>MoonPie</title>
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #111;
+      --surface-2: #1a1a1a;
+      --border: rgba(255,255,255,0.07);
+      --border-hi: rgba(255,255,255,0.18);
+      --text: #eee;
+      --muted: #444;
+      --radius: 9px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 44px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      background: rgba(8,8,8,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .brand img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .page {
+      min-height: calc(100vh - 44px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    #signin-panel {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 40px 16px;
+    }
+
+    .signin-card {
+      width: 100%;
+      max-width: 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 22px 20px;
+    }
+
+    .signin-card h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .field { margin-bottom: 10px; }
+
+    .field label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.12s;
+    }
+
+    .field input:focus,
+    .field select:focus { border-color: var(--border-hi); }
+
+    #error-msg {
+      display: none;
+      margin: 8px 0;
+      padding: 7px 10px;
+      background: rgba(248,113,113,0.07);
+      border: 1px solid rgba(248,113,113,0.15);
+      border-radius: 7px;
+      color: #f87171;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 12px;
+      padding: 9px;
+      background: #eee;
+      color: #080808;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.12s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .signin-hint {
+      margin-top: 14px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .signin-hint button {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.22);
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 0;
+    }
+
+    #game-section {
+      display: none;
+      padding: 14px 18px 48px;
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar input {
+      flex: 1;
+      min-width: 130px;
+      max-width: 220px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+    }
+    .toolbar input:focus { border-color: var(--border-hi); }
+
+    .toolbar select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      appearance: none;
+      -webkit-appearance: none;
+      outline: none;
+      cursor: pointer;
+    }
+    .toolbar select:focus { border-color: var(--border-hi); }
+
+    .btn-signout {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 11px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: color 0.12s, border-color 0.12s;
+    }
+    .btn-signout:hover { color: var(--text); border-color: var(--border-hi); }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .game-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 12px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+      transition: border-color 0.12s, transform 0.1s;
+    }
+    .game-card:hover { border-color: var(--border-hi); }
+    .game-card:active { transform: scale(0.96); }
+
+    .game-card img {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+    }
+
+    .game-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .game-card button {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-radius: inherit;
+    }
+
+    #account-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.84);
+      backdrop-filter: blur(10px);
+      z-index: 9998;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 22px;
+      max-width: 320px;
+      width: 90%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .modal-box h3 { font-size: 14px; font-weight: 600; }
+
+    .modal-box p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .modal-box p strong { color: rgba(255,255,255,0.45); font-weight: 500; }
+
+    .modal-cta {
+      display: block;
+      padding: 9px;
+      background: #eee;
+      color: #080808;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .modal-dismiss {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    #connecting-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8,8,8,0.97);
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 480px) {
+      .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+      #game-section { padding: 12px 12px 32px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/images/MoonPielogo.png" alt="" />
+      MoonPie
+    </div>
+  </header>
+
+  <div class="page">
+
+    <section id="signin-panel">
+      <div class="signin-card">
+        <h2>Sign in</h2>
+        <form id="signin-form">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="text" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+          </div>
+          <div class="field">
+            <label for="signin-server">Region</label>
+            <select id="signin-server">
+              <option value="0">Select region…</option>
+              <option value="3">🌏 Asia</option>
+              <option value="4">🌍 Europe</option>
+              <option value="22">🌎 US West</option>
+              <option value="23">🌎 US East</option>
+              <option value="21">🌎 South America</option>
+            </select>
+          </div>
+          <div id="error-msg"></div>
+          <button class="btn-primary" type="submit">Continue →</button>
+        </form>
+        <div class="signin-hint">
+          No account? <button type="button" id="need-account-btn">cloudmoonapp.com</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="game-section">
+      <div class="toolbar">
+        <input id="game-search" type="text" placeholder="Search…" />
+        <select id="server-select">
+          <option value="0">All regions</option>
+          <option value="3">🌏 Asia</option>
+          <option value="4">🌍 Europe</option>
+          <option value="22">🌎 US West</option>
+          <option value="23">🌎 US East</option>
+          <option value="21">🌎 South America</option>
+        </select>
+        <button class="btn-signout" id="signout">Sign out</button>
+      </div>
+      <div class="games-grid" id="games-grid">
+        <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
+          <div class="game-name">Fortnite</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
+          <div class="game-name">Brawl Stars</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
+          <div class="game-name">Genshin Impact</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
+          <div class="game-name">Roblox</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
+          <div class="game-name">Free Fire</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
+          <div class="game-name">Clash Royale</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
+          <div class="game-name">Stumble Guys</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
+          <div class="game-name">Among Us</div>
+          <button type="button">Play now</button>
+        </div>
+        <div class="game-card" data-name="TikTok" data-pkg="com.zhiliaoapp.musically">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" />
+          <div class="game-name">TikTok</div>
+          <button type="button">Open</button>
+        </div>
+        <div class="game-card" data-name="YouTube" data-pkg="com.google.android.youtube">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" />
+          <div class="game-name">YouTube</div>
+          <button type="button">Open</button>
+        </div>
+        <div class="game-card" data-name="Spotify" data-pkg="com.spotify.music">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" />
+          <div class="game-name">Spotify</div>
+          <button type="button">Open</button>
+        </div>
+        <div class="game-card" data-name="Chrome" data-pkg="com.android.chrome">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" />
+          <div class="game-name">Chrome</div>
+          <button type="button">Open</button>
+        </div>
+        <div class="game-card" data-name="Discord" data-pkg="com.discord">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" />
+          <div class="game-name">Discord</div>
+          <button type="button">Open</button>
+        </div>
+        <div class="game-card" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter">
+          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" />
+          <div class="game-name">Call of Duty</div>
+          <button type="button">Play now</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="account-modal">
+    <div class="modal-box">
+      <h3>Account required</h3>
+      <p>Sign in with your <strong>CloudMoon</strong> account credentials. Create a free account at cloudmoonapp.com.</p>
+      <a href="https://cloudmoonapp.com" target="_blank" rel="noopener" class="modal-cta">cloudmoonapp.com →</a>
+      <button id="close-account-modal" class="modal-dismiss">Dismiss</button>
+    </div>
+  </div>
+
+  <div id="connecting-overlay">
+    <div style="width:38px;height:38px;border:2px solid rgba(255,255,255,0.08);border-top-color:#ccc;border-radius:50%;animation:spin 0.65s linear infinite;"></div>
+    <div id="connecting-msg" style="font-size:13px;color:#555;font-weight:500;">Connecting…</div>
+  </div>
+
+  <script src="/testingmoon/app.js"></script>
+</body>
+</html>
