@@ -297,7 +297,7 @@ signinForm.addEventListener("submit", async (e) => {
     console.error(err);
   } finally {
     btn.disabled = false;
-    btn.textContent = "Continue to game list";
+    btn.textContent = "Continue →";
   }
 });
 
@@ -325,7 +325,7 @@ if (accountModal) {
 searchInput.addEventListener("input", (e) => {
   const q = e.target.value.toLowerCase();
   gamesGrid.querySelectorAll(".game-card").forEach((card) => {
-    card.style.display = card.dataset.name.toLowerCase().includes(q) ? "grid" : "none";
+    card.style.display = card.dataset.name.toLowerCase().includes(q) ? "flex" : "none";
   });
 });
 
