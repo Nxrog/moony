@@ -33,58 +33,7 @@ const needAccountBtn    = document.getElementById("need-account-btn");
 const accountModal      = document.getElementById("account-modal");
 const closeAccountModal = document.getElementById("close-account-modal");
 
-const timeBadge = document.getElementById("time-badge");
-let _timeBadgeInterval = null;
-
-function _fmtTime(sec) {
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return m + ":" + String(s).padStart(2, "0");
-}
-
-function startTimerBadge(secLeft, isUnlimited) {
-  if (!timeBadge) return;
-  clearInterval(_timeBadgeInterval);
-  if (isUnlimited) {
-    timeBadge.textContent = "∞ Unlimited";
-    timeBadge.style.display = "inline-block";
-    return;
-  }
-  let remaining = Math.max(0, secLeft);
-  function update() {
-    if (remaining <= 0) {
-      timeBadge.textContent = "⏱ 0:00";
-      clearInterval(_timeBadgeInterval);
-      return;
-    }
-    timeBadge.textContent = "⏱ " + _fmtTime(remaining);
-    timeBadge.style.display = "inline-block";
-  }
-  update();
-  _timeBadgeInterval = setInterval(function () {
-    remaining--;
-    update();
-  }, 1000);
-}
-
-const TIME_CHECK_GAME = "com.supercell.brawlstars";
-
-async function fetchTimeLeft() {
-  try {
-    const res = await apiFetch("/web/ad", {
-      method: "POST",
-      body: JSON.stringify({ game_name: TIME_CHECK_GAME }),
-    });
-    const data = await res.json();
-    if (data.code === 0) {
-      startTimerBadge(data.data.timeSecLeft, data.data.unlimit);
-    }
-  } catch (err) {
-    console.error("fetchTimeLeft:", err);
-  }
-}
-
-
+async function discoverApiHost() {
   if (_cachedHost) return _cachedHost;
 
   const stored = sessionStorage.getItem("cm_host");
@@ -158,15 +107,12 @@ function showGames() {
   signinPanel.style.display = "none";
   gameSection.style.display = "block";
   window.scrollTo({ top: 0, behavior: "smooth" });
-  fetchTimeLeft();
 }
 
 function showSignin() {
   gameSection.style.display = "none";
   signinPanel.style.display = "grid";
   window.scrollTo({ top: 0, behavior: "smooth" });
-  clearInterval(_timeBadgeInterval);
-  if (timeBadge) timeBadge.style.display = "none";
 }
 
 function showError(msg) {
@@ -351,7 +297,7 @@ signinForm.addEventListener("submit", async (e) => {
     console.error(err);
   } finally {
     btn.disabled = false;
-    btn.textContent = "Continue →";
+    btn.textContent = "Continue to game list";
   }
 });
 
@@ -379,7 +325,7 @@ if (accountModal) {
 searchInput.addEventListener("input", (e) => {
   const q = e.target.value.toLowerCase();
   gamesGrid.querySelectorAll(".game-card").forEach((card) => {
-    card.style.display = card.dataset.name.toLowerCase().includes(q) ? "flex" : "none";
+    card.style.display = card.dataset.name.toLowerCase().includes(q) ? "grid" : "none";
   });
 });
 
