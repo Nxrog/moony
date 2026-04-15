@@ -3,7 +3,7 @@
 // Real API integration: login → phone/connect → run.html?sid=
 // ============================================================
 
-// ===== CONFIG =====
+
 const PRIMARY_HOSTS = [
   "https://api.cloudmoon.cloudbatata.com",
   "https://api.prod.cloudmoonapp.com",
@@ -12,13 +12,13 @@ const PRIMARY_HOSTS = [
 const BACKUP_HOSTS = [
   "https://hrz5zfjq02.execute-api.us-east-1.amazonaws.com",
 ];
-// Server IDs as used by the real CloudMoon app
+
 const VALID_SERVERS = ["21", "22", "23", "3", "4"];
 
-// ===== STATE =====
+
 let _cachedHost = null;
 
-// ===== DOM REFS =====
+
 const signinPanel     = document.getElementById("signin-panel");
 const gameSection     = document.getElementById("game-section");
 const signinForm      = document.getElementById("signin-form");
@@ -59,16 +59,13 @@ async function discoverApiHost() {
         return host;
       }
     } catch (_) {
-      // unreachable — try next
+     
     }
   }
   throw new Error("No CloudMoon API host is reachable right now.");
 }
 
-// ============================================================
-// AUTHENTICATED FETCH WRAPPER
-// Adds X-User-Token, Content-Type, and device query params
-// ============================================================
+
 async function apiFetch(path, opts = {}) {
   const host = await discoverApiHost();
   const url = new URL(path, host);
@@ -84,9 +81,7 @@ async function apiFetch(path, opts = {}) {
   return fetch(url.toString(), { ...opts, headers });
 }
 
-// ============================================================
-// USER STORAGE  (localStorage key: "userData")
-// ============================================================
+
 function getStoredUser() {
   try { return JSON.parse(localStorage.getItem("userData") || "null"); }
   catch { return null; }
@@ -114,9 +109,7 @@ function storeServer(id) {
   }
 }
 
-// ============================================================
-// UI HELPERS
-// ============================================================
+
 function showGames() {
   signinPanel.style.display = "none";
   gameSection.style.display = "block";
@@ -151,15 +144,13 @@ function hideConnecting() {
   if (connectingOverlay) connectingOverlay.style.display = "none";
 }
 
-// Sync both server dropdowns to the same value
+
 function syncServerSelects(value) {
   if (serverSelect) serverSelect.value = value;
   if (signinServer) signinServer.value = value;
 }
 
-// ============================================================
-// LOGIN  —  POST /login/pwd
-// ============================================================
+
 async function login(email, password) {
   const res = await apiFetch("/login/pwd", {
     method: "POST",
@@ -179,10 +170,7 @@ async function login(email, password) {
   return { ok: false, code: data.code, msg };
 }
 
-// ============================================================
-// PHONE LIST  —  GET /phone/list
-// Returns android_id of the user's allocated device
-// ============================================================
+
 async function getAndroidId() {
   const res = await apiFetch("/phone/list");
   const data = await res.json();
@@ -192,9 +180,7 @@ async function getAndroidId() {
   return null;
 }
 
-// ============================================================
-// GAME LAUNCH  —  POST /phone/connect  →  run.html?sid=…
-// ============================================================
+
 async function launchGame(packageName) {
   const user = getStoredUser();
   if (!user?.token) { showSignin(); return; }
