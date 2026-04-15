@@ -33,7 +33,54 @@ const needAccountBtn    = document.getElementById("need-account-btn");
 const accountModal      = document.getElementById("account-modal");
 const closeAccountModal = document.getElementById("close-account-modal");
 
-async function discoverApiHost() {
+const timeBadge = document.getElementById("time-badge");
+let _timeBadgeInterval = null;
+
+function _fmtTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return m + ":" + String(s).padStart(2, "0");
+}
+
+function startTimerBadge(secLeft, isUnlimited) {
+  if (!timeBadge) return;
+  clearInterval(_timeBadgeInterval);
+  if (isUnlimited) {
+    timeBadge.textContent = "∞ Unlimited";
+    timeBadge.style.display = "inline-block";
+    return;
+  }
+  let remaining = Math.max(0, secLeft);
+  function update() {
+    if (remaining <= 0) {
+      timeBadge.textContent = "⏱ 0:00";
+      clearInterval(_timeBadgeInterval);
+      return;
+    }
+    timeBadge.textContent = "⏱ " + _fmtTime(remaining);
+    timeBadge.style.display = "inline-block";
+  }
+  update();
+  _timeBadgeInterval = setInterval(function () {
+    remaining--;
+    update();
+  }, 1000);
+}
+
+async function fetchTimeLeft() {
+  try {
+    const res = await apiFetch("/web/ad", {
+      method: "POST",
+      body: JSON.stringify({ game_name: "com.supercell.brawlstars" }),
+    });
+    const data = await res.json();
+    if (data.code === 0) {
+      startTimerBadge(data.data.timeSecLeft, data.data.unlimit);
+    }
+  } catch (_) {}
+}
+
+
   if (_cachedHost) return _cachedHost;
 
   const stored = sessionStorage.getItem("cm_host");
@@ -107,12 +154,15 @@ function showGames() {
   signinPanel.style.display = "none";
   gameSection.style.display = "block";
   window.scrollTo({ top: 0, behavior: "smooth" });
+  fetchTimeLeft();
 }
 
 function showSignin() {
   gameSection.style.display = "none";
   signinPanel.style.display = "grid";
   window.scrollTo({ top: 0, behavior: "smooth" });
+  clearInterval(_timeBadgeInterval);
+  if (timeBadge) timeBadge.style.display = "none";
 }
 
 function showError(msg) {

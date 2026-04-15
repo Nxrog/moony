@@ -38,9 +38,24 @@
       padding: 0 18px;
       display: flex;
       align-items: center;
+      gap: 10px;
       background: rgba(8,8,8,0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+    }
+
+    #time-badge {
+      display: none;
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      padding: 3px 9px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      letter-spacing: 0.3px;
+      font-family: inherit;
     }
 
     .brand {
@@ -379,6 +394,7 @@
       <img src="/images/MoonPielogo.png" alt="" />
       MoonPie
     </div>
+    <span id="time-badge"></span>
   </header>
 
   <div class="page">
