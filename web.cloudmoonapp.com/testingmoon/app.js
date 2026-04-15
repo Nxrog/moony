@@ -1,8 +1,3 @@
-// ============================================================
-// CloudMoon — testingmoon/app.js
-// ============================================================
-
-
 const PRIMARY_HOSTS = [
   "https://api.cloudmoon.cloudbatata.com",
   "https://api.prod.cloudmoonapp.com",
@@ -11,12 +6,9 @@ const PRIMARY_HOSTS = [
 const BACKUP_HOSTS = [
   "https://hrz5zfjq02.execute-api.us-east-1.amazonaws.com",
 ];
-
 const VALID_SERVERS = ["21", "22", "23", "3", "4"];
 
-
 let _cachedHost = null;
-
 
 const signinPanel     = document.getElementById("signin-panel");
 const gameSection     = document.getElementById("game-section");
@@ -25,8 +17,8 @@ const signoutBtn      = document.getElementById("signout");
 const searchInput     = document.getElementById("game-search");
 const gamesGrid       = document.getElementById("games-grid");
 const errorMsg        = document.getElementById("error-msg");
-const serverSelect    = document.getElementById("server-select");    // game section
-const signinServer    = document.getElementById("signin-server");    // sign-in form
+const serverSelect    = document.getElementById("server-select");
+const signinServer    = document.getElementById("signin-server");
 const connectingOverlay = document.getElementById("connecting-overlay");
 const connectingMsg     = document.getElementById("connecting-msg");
 const needAccountBtn    = document.getElementById("need-account-btn");
@@ -53,13 +45,10 @@ async function discoverApiHost() {
         sessionStorage.setItem("cm_host", host);
         return host;
       }
-    } catch (_) {
-     
-    }
+    } catch (_) {}
   }
   throw new Error("No CloudMoon API host is reachable right now.");
 }
-
 
 async function apiFetch(path, opts = {}) {
   const host = await discoverApiHost();
@@ -76,7 +65,6 @@ async function apiFetch(path, opts = {}) {
   return fetch(url.toString(), { ...opts, headers });
 }
 
-
 function getStoredUser() {
   try { return JSON.parse(localStorage.getItem("userData") || "null"); }
   catch { return null; }
@@ -90,7 +78,6 @@ function clearUser() {
   localStorage.removeItem("userData");
 }
 
-
 function getSelectedServer() {
   return localStorage.getItem("selectedServer") || "0";
 }
@@ -101,7 +88,6 @@ function storeServer(id) {
     localStorage.setItem("selectedServer", s);
   }
 }
-
 
 function showGames() {
   signinPanel.style.display = "none";
@@ -137,12 +123,10 @@ function hideConnecting() {
   if (connectingOverlay) connectingOverlay.style.display = "none";
 }
 
-
 function syncServerSelects(value) {
   if (serverSelect) serverSelect.value = value;
   if (signinServer) signinServer.value = value;
 }
-
 
 async function login(email, password) {
   const res = await apiFetch("/login/pwd", {
@@ -163,7 +147,6 @@ async function login(email, password) {
   return { ok: false, code: data.code, msg };
 }
 
-
 async function getAndroidId() {
   const res = await apiFetch("/phone/list");
   const data = await res.json();
@@ -172,7 +155,6 @@ async function getAndroidId() {
   }
   return null;
 }
-
 
 async function launchGame(packageName) {
   const user = getStoredUser();
@@ -219,7 +201,7 @@ async function launchGame(packageName) {
         const sidRes  = await apiFetch(`/web/sid?sid=${encodeURIComponent(sid)}`);
         const sidJson = await sidRes.json();
         if (sidJson.code === 0) sidData = sidJson.data;
-      } catch (_) { /* non-fatal — run-site will try its own /web/sid */ }
+      } catch (_) {}
 
       showConnecting("Launching game…");
 
@@ -241,19 +223,15 @@ async function launchGame(packageName) {
       window.location.href = `../run-site/run.html?${p.toString()}`;
     } else {
       hideConnecting();
-      alert(data.message || "Failed to connect to game server. Please try again.");
+      alert(data.message || "Failed to connect to game server, This can be because of the l.");
     }
   } catch (err) {
     hideConnecting();
     alert("Network error: " + err.message);
-  }
+````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````  }
 }
-
-// ============================================================
-// INIT  
-// ============================================================
+````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 (function init() {
-
   const saved = getSelectedServer();
   if (VALID_SERVERS.includes(saved)) syncServerSelects(saved);
 
@@ -263,10 +241,6 @@ async function launchGame(packageName) {
   }
 })();
 
-// ============================================================
-// EVENT LISTENERS
-// ============================================================
-
 signinForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   hideError();
@@ -274,7 +248,6 @@ signinForm.addEventListener("submit", async (e) => {
   const email    = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  // Save server choice from sign-in panel
   if (signinServer) storeServer(signinServer.value);
   if (signinServer) syncServerSelects(signinServer.value);
 
