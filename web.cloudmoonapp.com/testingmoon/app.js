@@ -1,4 +1,4 @@
-﻿const PRIMARY_HOSTS = [
+const PRIMARY_HOSTS = [
   "https://api.cloudmoon.cloudbatata.com",
   "https://api.prod.cloudmoonapp.com",
   "https://api.prod.geometry.today",
