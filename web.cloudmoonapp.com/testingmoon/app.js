@@ -67,17 +67,21 @@ function startTimerBadge(secLeft, isUnlimited) {
   }, 1000);
 }
 
+const TIME_CHECK_GAME = "com.supercell.brawlstars";
+
 async function fetchTimeLeft() {
   try {
     const res = await apiFetch("/web/ad", {
       method: "POST",
-      body: JSON.stringify({ game_name: "com.supercell.brawlstars" }),
+      body: JSON.stringify({ game_name: TIME_CHECK_GAME }),
     });
     const data = await res.json();
     if (data.code === 0) {
       startTimerBadge(data.data.timeSecLeft, data.data.unlimit);
     }
-  } catch (_) {}
+  } catch (err) {
+    console.error("fetchTimeLeft:", err);
+  }
 }
 
 
