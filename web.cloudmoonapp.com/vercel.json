@@ -15,7 +15,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/",            "destination": "/testingmoon/index.html" },
-    { "source": "/index.html",  "destination": "/testingmoon/index.html" }
+    { "source": "/",            "destination": "/MoonPieLauncher/index.html" },
+    { "source": "/index.html",  "destination": "/MoonPieLauncher/index.html" }
   ]
 }
