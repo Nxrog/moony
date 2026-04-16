@@ -59,6 +59,54 @@
       object-fit: cover;
     }
 
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-battery,
+    .status-clock {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .battery-bar {
+      width: 22px;
+      height: 10px;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 2.5px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 1.5px;
+    }
+    .battery-bar::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2.5px;
+      height: 5px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 0 1px 1px 0;
+    }
+    .battery-fill {
+      height: 100%;
+      background: rgba(255,255,255,0.55);
+      border-radius: 1px;
+      transition: width 0.4s;
+    }
+    .battery-fill.low { background: #f87171; }
+    .battery-fill.mid { background: #fbbf24; }
+
     .page {
       min-height: calc(100vh - 44px);
       display: flex;
@@ -434,6 +482,18 @@
     }
     .game-card:hover .card-play-arrow { border-left-color: #000; }
 
+    .card-outline {
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+      z-index: 2;
+      transition: border-color 0.2s;
+    }
+    .game-card:hover .card-outline { border-color: rgba(255,255,255,0.28); }
+    .small-card .card-outline { border-radius: 10px; }
+
     .game-card button {
       position: absolute;
       inset: 0;
@@ -559,6 +619,13 @@
     <div class="brand">
       <img src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="" />
       MoonPie
+    </div>
+    <div class="topbar-right">
+      <div class="status-battery" id="status-battery" title="Battery">
+        <div class="battery-bar"><div class="battery-fill" id="battery-fill" style="width:0%"></div></div>
+        <span id="battery-pct">—</span>
+      </div>
+      <div class="status-clock" id="status-clock">00:00</div>
     </div>
   </header>
 
@@ -894,6 +961,44 @@
         }
         if (prevBtn) prevBtn.addEventListener('click', function() { nudge(-1); });
         if (nextBtn) nextBtn.addEventListener('click', function() { nudge(1); });
+      }
+      // Add outline ring to all game cards
+      document.querySelectorAll('.game-card').forEach(function(card) {
+        var o = document.createElement('div');
+        o.className = 'card-outline';
+        card.appendChild(o);
+      });
+
+      // Clock
+      function updateClock() {
+        var now = new Date();
+        var h = now.getHours().toString().padStart(2,'0');
+        var m = now.getMinutes().toString().padStart(2,'0');
+        var el = document.getElementById('status-clock');
+        if (el) el.textContent = h + ':' + m;
+      }
+      updateClock();
+      setInterval(updateClock, 10000);
+
+      // Battery
+      if (navigator.getBattery) {
+        navigator.getBattery().then(function(bat) {
+          function updateBat() {
+            var pct = Math.round(bat.level * 100);
+            var fill = document.getElementById('battery-fill');
+            var label = document.getElementById('battery-pct');
+            if (fill) {
+              fill.style.width = pct + '%';
+              fill.className = 'battery-fill' + (pct <= 20 ? ' low' : pct <= 40 ? ' mid' : '');
+            }
+            if (label) label.textContent = pct + '%';
+          }
+          updateBat();
+          bat.addEventListener('levelchange', updateBat);
+        });
+      } else {
+        var bEl = document.getElementById('status-battery');
+        if (bEl) bEl.style.display = 'none';
       }
     })();
   </script>
