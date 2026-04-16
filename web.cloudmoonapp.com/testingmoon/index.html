@@ -169,17 +169,15 @@
 
     #game-section {
       display: none;
-      padding: 14px 18px 48px;
       width: 100%;
-      max-width: 1140px;
-      margin: 0 auto;
+      padding-bottom: 48px;
     }
 
     .toolbar {
       display: flex;
       align-items: center;
       gap: 7px;
-      margin-bottom: 14px;
+      padding: 14px 18px 14px;
       flex-wrap: wrap;
     }
 
@@ -227,43 +225,121 @@
     }
     .btn-signout:hover { color: var(--text); border-color: var(--border-hi); }
 
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
+    .section-label {
+      padding: 16px 18px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.3px;
     }
+
+    .big-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0 18px 6px;
+      cursor: grab;
+      user-select: none;
+    }
+    .big-row:active { cursor: grabbing; }
+    .big-row::-webkit-scrollbar { display: none; }
+
+    .small-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0 18px 6px;
+      cursor: grab;
+      user-select: none;
+    }
+    .small-row:active { cursor: grabbing; }
+    .small-row::-webkit-scrollbar { display: none; }
 
     .game-card {
+      flex: 0 0 300px;
+      height: 188px;
+      scroll-snap-align: start;
+      border-radius: 14px;
       position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px 12px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      overflow: hidden;
       cursor: pointer;
-      text-align: center;
+      transition: transform 0.18s;
+      flex-shrink: 0;
       user-select: none;
-      transition: border-color 0.12s, transform 0.1s;
     }
-    .game-card:hover { border-color: var(--border-hi); }
-    .game-card:active { transform: scale(0.96); }
+    .game-card:hover { transform: scale(1.03); }
+    .game-card:active { transform: scale(0.97); }
 
     .game-card img {
-      width: 72px;
-      height: 72px;
-      border-radius: 14px;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      object-position: center;
+      transform: scale(1.08);
+      filter: brightness(0.88);
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .game-card:hover img {
+      transform: scale(1.14);
+      filter: brightness(0.7);
+    }
+
+    .card-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.08) 55%, transparent 100%);
     }
 
     .game-name {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.3;
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+      letter-spacing: -0.2px;
     }
+
+    .card-play {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+      pointer-events: none;
+    }
+    .game-card:hover .card-play {
+      background: #fff;
+      border-color: #fff;
+      transform: scale(1.1);
+    }
+
+    .card-play-arrow {
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 6px 0 6px 10px;
+      border-color: transparent transparent transparent rgba(255,255,255,0.9);
+      margin-left: 2px;
+      transition: border-color 0.15s;
+    }
+    .game-card:hover .card-play-arrow { border-left-color: #000; }
 
     .game-card button {
       position: absolute;
@@ -274,6 +350,11 @@
       background: none;
       border-radius: inherit;
     }
+
+    .small-card { flex: 0 0 160px; height: 100px; }
+    .small-card .game-name { font-size: 12px; bottom: 8px; left: 10px; }
+    .small-card .card-play { width: 28px; height: 28px; bottom: 7px; right: 8px; }
+    .small-card .card-play-arrow { border-width: 4px 0 4px 7px; }
 
     #account-modal {
       display: none;
@@ -346,8 +427,11 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 480px) {
-      .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
-      #game-section { padding: 12px 12px 32px; }
+      .toolbar { padding: 12px 12px 12px; }
+      .big-row { padding: 0 12px 6px; }
+      .small-row { padding: 0 12px 6px; }
+      .game-card { flex: 0 0 220px; height: 138px; }
+      .small-card { flex: 0 0 130px; height: 82px; }
     }
   </style>
 </head>
@@ -398,84 +482,118 @@
         <input id="game-search" type="text" placeholder="Search…" />
         <select id="server-select">
           <option value="0">All regions</option>
-          <option value="3">🌏 Asia</option>
-          <option value="4">🌍 Europe</option>
-          <option value="22">🌎 US West</option>
-          <option value="23">🌎 US East</option>
-          <option value="21">🌎 South America</option>
+          <option value="3">Asia</option>
+          <option value="4">Europe</option>
+          <option value="22">US West</option>
+          <option value="23">US East</option>
+          <option value="21">South America</option>
         </select>
         <button class="btn-signout" id="signout">Sign out</button>
       </div>
-      <div class="games-grid" id="games-grid">
-        <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
-          <div class="game-name">Fortnite</div>
-          <button type="button">Play now</button>
+      <div id="games-grid">
+        <div class="section-label">Top Games</div>
+        <div class="big-row" id="big-row">
+          <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
+            <div class="card-grad"></div>
+            <div class="game-name">Roblox</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
+            <div class="card-grad"></div>
+            <div class="game-name">Fortnite</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
+            <div class="card-grad"></div>
+            <div class="game-name">Genshin Impact</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
+            <div class="card-grad"></div>
+            <div class="game-name">Brawl Stars</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
+            <div class="card-grad"></div>
+            <div class="game-name">Free Fire</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" />
+            <div class="card-grad"></div>
+            <div class="game-name">Call of Duty</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
+            <div class="card-grad"></div>
+            <div class="game-name">Clash Royale</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
+            <div class="card-grad"></div>
+            <div class="game-name">Stumble Guys</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
+          <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
+            <div class="card-grad"></div>
+            <div class="game-name">Among Us</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Play</button>
+          </div>
         </div>
-        <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
-          <div class="game-name">Brawl Stars</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
-          <div class="game-name">Genshin Impact</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
-          <div class="game-name">Roblox</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
-          <div class="game-name">Free Fire</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
-          <div class="game-name">Clash Royale</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
-          <div class="game-name">Stumble Guys</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
-          <div class="game-name">Among Us</div>
-          <button type="button">Play now</button>
-        </div>
-        <div class="game-card" data-name="TikTok" data-pkg="com.zhiliaoapp.musically">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" />
-          <div class="game-name">TikTok</div>
-          <button type="button">Open</button>
-        </div>
-        <div class="game-card" data-name="YouTube" data-pkg="com.google.android.youtube">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" />
-          <div class="game-name">YouTube</div>
-          <button type="button">Open</button>
-        </div>
-        <div class="game-card" data-name="Spotify" data-pkg="com.spotify.music">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" />
-          <div class="game-name">Spotify</div>
-          <button type="button">Open</button>
-        </div>
-        <div class="game-card" data-name="Chrome" data-pkg="com.android.chrome">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" />
-          <div class="game-name">Chrome</div>
-          <button type="button">Open</button>
-        </div>
-        <div class="game-card" data-name="Discord" data-pkg="com.discord">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" />
-          <div class="game-name">Discord</div>
-          <button type="button">Open</button>
-        </div>
-        <div class="game-card" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter">
-          <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" />
-          <div class="game-name">Call of Duty</div>
-          <button type="button">Play now</button>
+        <div class="section-label">Apps</div>
+        <div class="small-row" id="small-row">
+          <div class="game-card small-card" data-name="TikTok" data-pkg="com.zhiliaoapp.musically">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" />
+            <div class="card-grad"></div>
+            <div class="game-name">TikTok</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="YouTube" data-pkg="com.google.android.youtube">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" />
+            <div class="card-grad"></div>
+            <div class="game-name">YouTube</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="Spotify" data-pkg="com.spotify.music">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" />
+            <div class="card-grad"></div>
+            <div class="game-name">Spotify</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="Chrome" data-pkg="com.android.chrome">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" />
+            <div class="card-grad"></div>
+            <div class="game-name">Chrome</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="Discord" data-pkg="com.discord">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" />
+            <div class="card-grad"></div>
+            <div class="game-name">Discord</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
         </div>
       </div>
     </section>
@@ -497,5 +615,35 @@
   </div>
 
   <script src="/testingmoon/app.js"></script>
+  <script>
+    (function() {
+      function dragScroll(id) {
+        var row = document.getElementById(id);
+        if (!row) return;
+        var isDown = false, startX, scrollLeft;
+        row.addEventListener('mousedown', function(e) { isDown = true; startX = e.pageX - row.offsetLeft; scrollLeft = row.scrollLeft; });
+        row.addEventListener('mouseleave', function() { isDown = false; });
+        row.addEventListener('mouseup', function() { isDown = false; });
+        row.addEventListener('mousemove', function(e) { if (!isDown) return; e.preventDefault(); row.scrollLeft = scrollLeft - (e.pageX - row.offsetLeft - startX) * 1.5; });
+      }
+      dragScroll('big-row');
+      dragScroll('small-row');
+
+      var bigRow = document.getElementById('big-row');
+      if (bigRow) {
+        var slideTimer;
+        function startSlide() {
+          slideTimer = setInterval(function() {
+            var max = bigRow.scrollWidth - bigRow.clientWidth;
+            if (bigRow.scrollLeft >= max - 10) { bigRow.scrollTo({ left: 0, behavior: 'smooth' }); }
+            else { bigRow.scrollBy({ left: 312, behavior: 'smooth' }); }
+          }, 3500);
+        }
+        startSlide();
+        bigRow.addEventListener('mouseenter', function() { clearInterval(slideTimer); });
+        bigRow.addEventListener('mouseleave', startSlide);
+      }
+    })();
+  </script>
 </body>
 </html>
