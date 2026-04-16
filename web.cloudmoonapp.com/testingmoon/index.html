@@ -213,20 +213,22 @@
 
     .btn-profile {
       margin-left: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: rgba(255,255,255,0.55);
-      padding: 5px 12px;
-      border-radius: 7px;
-      font-size: 11px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.8);
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
       font-family: inherit;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
-      transition: color 0.12s, border-color 0.12s;
+      gap: 6px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      white-space: nowrap;
     }
-    .btn-profile:hover { color: var(--text); border-color: var(--border-hi); }
+    .btn-profile:hover { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.28); color: #fff; }
 
     #profile-modal {
       display: none;
@@ -573,7 +575,7 @@
           <option value="23">US East</option>
           <option value="21">South America</option>
         </select>
-        <button class="btn-profile" id="profile-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Profile</button>
+        <button class="btn-profile" id="profile-btn" onclick="if(window.openProfileModal)openProfileModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Profile</button>
       </div>
       <div id="games-grid">
         <div class="section-label">Top Games</div>
