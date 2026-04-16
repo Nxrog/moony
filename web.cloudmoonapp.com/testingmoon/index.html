@@ -356,6 +356,32 @@
     .small-card .card-play { width: 28px; height: 28px; bottom: 7px; right: 8px; }
     .small-card .card-play-arrow { border-width: 4px 0 4px 7px; }
 
+    .row-wrap { position: relative; }
+    .row-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 34px;
+      height: 34px;
+      background: rgba(14,14,14,0.9);
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .row-nav:hover { background: rgba(255,255,255,0.14); }
+    .row-nav-prev { left: 4px; }
+    .row-nav-next { right: 4px; }
+
     #account-modal {
       display: none;
       position: fixed;
@@ -492,105 +518,233 @@
       </div>
       <div id="games-grid">
         <div class="section-label">Top Games</div>
-        <div class="big-row" id="big-row">
-          <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
-            <div class="card-grad"></div>
-            <div class="game-name">Roblox</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
+        <div class="row-wrap">
+          <button class="row-nav row-nav-prev" id="big-prev">&#8249;</button>
+          <div class="big-row" id="big-row">
+            <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
+              <div class="card-grad"></div><div class="game-name">Roblox</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
+              <div class="card-grad"></div><div class="game-name">Fortnite</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
+              <div class="card-grad"></div><div class="game-name">Genshin Impact</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
+              <div class="card-grad"></div><div class="game-name">Brawl Stars</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
+              <div class="card-grad"></div><div class="game-name">Free Fire</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" />
+              <div class="card-grad"></div><div class="game-name">Call of Duty</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
+              <div class="card-grad"></div><div class="game-name">Clash Royale</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
+              <div class="card-grad"></div><div class="game-name">Stumble Guys</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
+              <div class="card-grad"></div><div class="game-name">Among Us</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Clash of Clans" data-pkg="com.supercell.clashofclans">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_clash_of_clans.webp" alt="Clash of Clans" />
+              <div class="card-grad"></div><div class="game-name">Clash of Clans</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Honkai: Star Rail" data-pkg="com.HoYoverse.hkrpgoversea">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Star_Rail.webp" alt="Honkai: Star Rail" />
+              <div class="card-grad"></div><div class="game-name">Honkai: Star Rail</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="PUBG Mobile" data-pkg="com.tencent.ig">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pubg_Mobile.webp" alt="PUBG Mobile" />
+              <div class="card-grad"></div><div class="game-name">PUBG Mobile</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Wuthering Waves" data-pkg="com.kurogame.wutheringwaves.global">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_wuthering_waves.webp" alt="Wuthering Waves" />
+              <div class="card-grad"></div><div class="game-name">Wuthering Waves</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Zenless Zone Zero" data-pkg="com.HoYoverse.Nap">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_zenless_zone_zero_new.webp" alt="Zenless Zone Zero" />
+              <div class="card-grad"></div><div class="game-name">Zenless Zone Zero</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Mobile Legends" data-pkg="com.mobile.legends">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Mobile_Legends_Bang_Bang.webp" alt="Mobile Legends" />
+              <div class="card-grad"></div><div class="game-name">Mobile Legends</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Pokémon TCG Pocket" data-pkg="jp.pokemon.pokemontcgp">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pokemon_TCG_Pocket.webp" alt="Pokémon TCG Pocket" />
+              <div class="card-grad"></div><div class="game-name">Pokémon TCG Pocket</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Geometry Dash Lite" data-pkg="com.robtopx.geometryjumplite">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Geometry_Dash_Lite.webp" alt="Geometry Dash Lite" />
+              <div class="card-grad"></div><div class="game-name">Geometry Dash Lite</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Rocket League Sideswipe" data-pkg="com.Psyonix.RL2D">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rocket_League_Sideswipe.webp" alt="Rocket League Sideswipe" />
+              <div class="card-grad"></div><div class="game-name">Rocket League Sideswipe</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="EA SPORTS FC Mobile" data-pkg="com.ea.gp.fifamobile">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_EA_SPORTS_FC_Mobile.webp" alt="EA SPORTS FC Mobile" />
+              <div class="card-grad"></div><div class="game-name">EA SPORTS FC Mobile</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Rainbow Six Mobile" data-pkg="com.ubisoft.rainbowsixmobile.r6.fps.pvp.shooter">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rainbow_Six_Mobile.webp" alt="Rainbow Six Mobile" />
+              <div class="card-grad"></div><div class="game-name">Rainbow Six Mobile</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Solo Leveling: Arise" data-pkg="com.netmarble.sololv">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_solo_leveling.webp" alt="Solo Leveling: Arise" />
+              <div class="card-grad"></div><div class="game-name">Solo Leveling: Arise</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Dragon Ball Legends" data-pkg="com.bandainamcoent.dblegends_ww">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_DRAGON_BALL_LEGENDS_251020.webp" alt="Dragon Ball Legends" />
+              <div class="card-grad"></div><div class="game-name">Dragon Ball Legends</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Granny" data-pkg="com.dvloper.granny">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Granny.webp" alt="Granny" />
+              <div class="card-grad"></div><div class="game-name">Granny</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Melon Sandbox" data-pkg="com.studio27.MelonPlayground">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Melon_Sandbox.webp" alt="Melon Sandbox" />
+              <div class="card-grad"></div><div class="game-name">Melon Sandbox</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Candy Crush Saga" data-pkg="com.king.candycrushsaga">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Candy_Crush_Saga.webp" alt="Candy Crush Saga" />
+              <div class="card-grad"></div><div class="game-name">Candy Crush Saga</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Honkai Impact 3rd" data-pkg="com.miHoYo.bh3global">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Impact_3rd.webp" alt="Honkai Impact 3rd" />
+              <div class="card-grad"></div><div class="game-name">Honkai Impact 3rd</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="League of Legends: Wild Rift" data-pkg="com.riotgames.league.wildrift">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_League_of_Legends.webp" alt="League of Legends: Wild Rift" />
+              <div class="card-grad"></div><div class="game-name">Wild Rift</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
+            <div class="game-card" data-name="Blue Archive" data-pkg="com.nexon.bluearchive">
+              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_blue_archive.webp" alt="Blue Archive" />
+              <div class="card-grad"></div><div class="game-name">Blue Archive</div>
+              <div class="card-play"><div class="card-play-arrow"></div></div>
+              <button type="button">Play</button>
+            </div>
           </div>
-          <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
-            <div class="card-grad"></div>
-            <div class="game-name">Fortnite</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
-            <div class="card-grad"></div>
-            <div class="game-name">Genshin Impact</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
-            <div class="card-grad"></div>
-            <div class="game-name">Brawl Stars</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
-            <div class="card-grad"></div>
-            <div class="game-name">Free Fire</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" />
-            <div class="card-grad"></div>
-            <div class="game-name">Call of Duty</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
-            <div class="card-grad"></div>
-            <div class="game-name">Clash Royale</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
-            <div class="card-grad"></div>
-            <div class="game-name">Stumble Guys</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
-          <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
-            <div class="card-grad"></div>
-            <div class="game-name">Among Us</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Play</button>
-          </div>
+          <button class="row-nav row-nav-next" id="big-next">&#8250;</button>
         </div>
         <div class="section-label">Apps</div>
         <div class="small-row" id="small-row">
           <div class="game-card small-card" data-name="TikTok" data-pkg="com.zhiliaoapp.musically">
             <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" />
-            <div class="card-grad"></div>
-            <div class="game-name">TikTok</div>
+            <div class="card-grad"></div><div class="game-name">TikTok</div>
             <div class="card-play"><div class="card-play-arrow"></div></div>
             <button type="button">Open</button>
           </div>
           <div class="game-card small-card" data-name="YouTube" data-pkg="com.google.android.youtube">
             <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" />
-            <div class="card-grad"></div>
-            <div class="game-name">YouTube</div>
+            <div class="card-grad"></div><div class="game-name">YouTube</div>
             <div class="card-play"><div class="card-play-arrow"></div></div>
             <button type="button">Open</button>
           </div>
           <div class="game-card small-card" data-name="Spotify" data-pkg="com.spotify.music">
             <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" />
-            <div class="card-grad"></div>
-            <div class="game-name">Spotify</div>
+            <div class="card-grad"></div><div class="game-name">Spotify</div>
             <div class="card-play"><div class="card-play-arrow"></div></div>
             <button type="button">Open</button>
           </div>
           <div class="game-card small-card" data-name="Chrome" data-pkg="com.android.chrome">
             <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" />
-            <div class="card-grad"></div>
-            <div class="game-name">Chrome</div>
+            <div class="card-grad"></div><div class="game-name">Chrome</div>
             <div class="card-play"><div class="card-play-arrow"></div></div>
             <button type="button">Open</button>
           </div>
           <div class="game-card small-card" data-name="Discord" data-pkg="com.discord">
             <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" />
-            <div class="card-grad"></div>
-            <div class="game-name">Discord</div>
+            <div class="card-grad"></div><div class="game-name">Discord</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="Character AI" data-pkg="ai.character.app">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Character_AI.webp" alt="Character AI" />
+            <div class="card-grad"></div><div class="game-name">Character AI</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="ChatGPT" data-pkg="com.openai.chatgpt">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_ChatGPT.webp" alt="ChatGPT" />
+            <div class="card-grad"></div><div class="game-name">ChatGPT</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="PolyBuzz" data-pkg="ai.socialapps.speakmaster">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_PolyBuzz.webp" alt="PolyBuzz" />
+            <div class="card-grad"></div><div class="game-name">PolyBuzz</div>
+            <div class="card-play"><div class="card-play-arrow"></div></div>
+            <button type="button">Open</button>
+          </div>
+          <div class="game-card small-card" data-name="Highrise" data-pkg="com.pz.life.android">
+            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Highrise.webp" alt="Highrise" />
+            <div class="card-grad"></div><div class="game-name">Highrise</div>
             <div class="card-play"><div class="card-play-arrow"></div></div>
             <button type="button">Open</button>
           </div>
@@ -632,16 +786,27 @@
       var bigRow = document.getElementById('big-row');
       if (bigRow) {
         var slideTimer;
+        var STEP = 312;
         function startSlide() {
           slideTimer = setInterval(function() {
             var max = bigRow.scrollWidth - bigRow.clientWidth;
             if (bigRow.scrollLeft >= max - 10) { bigRow.scrollTo({ left: 0, behavior: 'smooth' }); }
-            else { bigRow.scrollBy({ left: 312, behavior: 'smooth' }); }
-          }, 3500);
+            else { bigRow.scrollBy({ left: STEP, behavior: 'smooth' }); }
+          }, 6000);
         }
         startSlide();
         bigRow.addEventListener('mouseenter', function() { clearInterval(slideTimer); });
         bigRow.addEventListener('mouseleave', startSlide);
+
+        var prevBtn = document.getElementById('big-prev');
+        var nextBtn = document.getElementById('big-next');
+        function nudge(dir) {
+          clearInterval(slideTimer);
+          bigRow.scrollBy({ left: dir * STEP, behavior: 'smooth' });
+          startSlide();
+        }
+        if (prevBtn) prevBtn.addEventListener('click', function() { nudge(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { nudge(1); });
       }
     })();
   </script>
