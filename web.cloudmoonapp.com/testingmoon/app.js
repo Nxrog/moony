@@ -102,6 +102,7 @@ function showSignin() {
   openProfileModal();
 }
 
+window.openProfileModal = openProfileModal;
 function openProfileModal() {
   const user = getStoredUser();
   if (user?.token) {
