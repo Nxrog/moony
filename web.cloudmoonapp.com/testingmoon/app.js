@@ -10,10 +10,16 @@ const VALID_SERVERS = ["21", "22", "23", "3", "4"];
 
 let _cachedHost = null;
 
-const signinPanel     = document.getElementById("signin-panel");
+const profileModal      = document.getElementById("profile-modal");
+const profileSigninView = document.getElementById("profile-signin-view");
+const profileLoggedIn   = document.getElementById("profile-loggedin-view");
+const profileEmailEl    = document.getElementById("profile-email-text");
+const profileRegion     = document.getElementById("profile-region");
+const profileBtn        = document.getElementById("profile-btn");
+const profileSignout    = document.getElementById("profile-signout");
+const closeProfileModal = document.getElementById("close-profile-modal");
 const gameSection     = document.getElementById("game-section");
 const signinForm      = document.getElementById("signin-form");
-const signoutBtn      = document.getElementById("signout");
 const searchInput     = document.getElementById("game-search");
 const gamesGrid       = document.getElementById("games-grid");
 const errorMsg        = document.getElementById("error-msg");
@@ -22,8 +28,6 @@ const signinServer    = document.getElementById("signin-server");
 const connectingOverlay = document.getElementById("connecting-overlay");
 const connectingMsg     = document.getElementById("connecting-msg");
 const needAccountBtn    = document.getElementById("need-account-btn");
-const accountModal      = document.getElementById("account-modal");
-const closeAccountModal = document.getElementById("close-account-modal");
 
 async function discoverApiHost() {
   if (_cachedHost) return _cachedHost;
@@ -70,8 +74,8 @@ function getStoredUser() {
   catch { return null; }
 }
 
-function storeUser(userId, token) {
-  localStorage.setItem("userData", JSON.stringify({ userId, token, init: true }));
+function storeUser(userId, token, email) {
+  localStorage.setItem("userData", JSON.stringify({ userId, token, email: email || "", init: true }));
 }
 
 function clearUser() {
@@ -90,15 +94,27 @@ function storeServer(id) {
 }
 
 function showGames() {
-  signinPanel.style.display = "none";
   gameSection.style.display = "block";
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function showSignin() {
-  gameSection.style.display = "none";
-  signinPanel.style.display = "grid";
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  openProfileModal();
+}
+
+function openProfileModal() {
+  const user = getStoredUser();
+  if (user?.token) {
+    profileSigninView.style.display = "none";
+    profileLoggedIn.style.display = "block";
+    if (profileEmailEl) profileEmailEl.textContent = user.email || "Signed in";
+    const saved = getSelectedServer();
+    if (profileRegion && VALID_SERVERS.includes(saved)) profileRegion.value = saved;
+  } else {
+    profileSigninView.style.display = "block";
+    profileLoggedIn.style.display = "none";
+  }
+  if (profileModal) profileModal.style.display = "flex";
 }
 
 function showError(msg) {
@@ -234,11 +250,7 @@ async function launchGame(packageName) {
 (function init() {
   const saved = getSelectedServer();
   if (VALID_SERVERS.includes(saved)) syncServerSelects(saved);
-
-  const user = getStoredUser();
-  if (user?.token && user?.init) {
-    showGames();
-  }
+  showGames();
 })();
 
 signinForm.addEventListener("submit", async (e) => {
@@ -261,6 +273,10 @@ signinForm.addEventListener("submit", async (e) => {
   try {
     const result = await login(email, password);
     if (result.ok) {
+      // also persist email for profile display
+      const ud = getStoredUser();
+      if (ud) { ud.email = email; localStorage.setItem("userData", JSON.stringify(ud)); }
+      if (profileModal) profileModal.style.display = "none";
       showGames();
     } else {
       showError(result.msg);
@@ -274,24 +290,38 @@ signinForm.addEventListener("submit", async (e) => {
   }
 });
 
-signoutBtn.addEventListener("click", () => {
-  clearUser();
-  showSignin();
+if (profileBtn) profileBtn.addEventListener("click", openProfileModal);
+
+if (closeProfileModal) closeProfileModal.addEventListener("click", () => {
+  if (profileModal) profileModal.style.display = "none";
 });
+
+if (profileModal) {
+  profileModal.addEventListener("click", (e) => {
+    if (e.target === profileModal) profileModal.style.display = "none";
+  });
+}
+
+if (profileSignout) {
+  profileSignout.addEventListener("click", () => {
+    clearUser();
+    profileLoggedIn.style.display = "none";
+    profileSigninView.style.display = "block";
+    // stay on games page, just update profile modal state
+  });
+}
+
+if (profileRegion) {
+  profileRegion.addEventListener("change", () => {
+    storeServer(profileRegion.value);
+    if (serverSelect) serverSelect.value = profileRegion.value;
+    if (signinServer) signinServer.value = profileRegion.value;
+  });
+}
 
 if (needAccountBtn) {
   needAccountBtn.addEventListener("click", () => {
-    if (accountModal) accountModal.style.display = "flex";
-  });
-}
-if (closeAccountModal) {
-  closeAccountModal.addEventListener("click", () => {
-    if (accountModal) accountModal.style.display = "none";
-  });
-}
-if (accountModal) {
-  accountModal.addEventListener("click", (e) => {
-    if (e.target === accountModal) accountModal.style.display = "none";
+    window.open("https://cloudmoonapp.com", "_blank", "noopener");
   });
 }
 
