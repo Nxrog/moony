@@ -211,19 +211,110 @@
     }
     .toolbar select:focus { border-color: var(--border-hi); }
 
-    .btn-signout {
+    .btn-profile {
       margin-left: auto;
-      background: none;
+      background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 5px 11px;
+      color: rgba(255,255,255,0.55);
+      padding: 5px 12px;
       border-radius: 7px;
       font-size: 11px;
       font-family: inherit;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
       transition: color 0.12s, border-color 0.12s;
     }
-    .btn-signout:hover { color: var(--text); border-color: var(--border-hi); }
+    .btn-profile:hover { color: var(--text); border-color: var(--border-hi); }
+
+    #profile-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.84);
+      backdrop-filter: blur(10px);
+      z-index: 9998;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 20px 22px;
+      max-width: 300px;
+      width: 90%;
+    }
+
+    .profile-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .profile-modal-head h3 { font-size: 14px; font-weight: 600; }
+
+    .profile-close-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-family: inherit;
+    }
+    .profile-close-btn:hover { color: var(--text); }
+
+    .profile-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      margin-bottom: 14px;
+    }
+
+    .profile-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .profile-email-text {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .btn-signout-full {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      background: none;
+      border: 1px solid rgba(248,113,113,0.2);
+      color: #f87171;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .btn-signout-full:hover { background: rgba(248,113,113,0.07); }
 
     .section-label {
       padding: 16px 18px 10px;
@@ -464,46 +555,14 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <img src="/images/MoonPielogo.png" alt="" />
+      <img src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="" />
       MoonPie
     </div>
   </header>
 
   <div class="page">
 
-    <section id="signin-panel">
-      <div class="signin-card">
-        <h2>Sign in</h2>
-        <form id="signin-form">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" type="text" autocomplete="email" placeholder="you@example.com" required />
-          </div>
-          <div class="field">
-            <label for="password">Password</label>
-            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
-          </div>
-          <div class="field">
-            <label for="signin-server">Region</label>
-            <select id="signin-server">
-              <option value="0">Select region…</option>
-              <option value="3"> Asia</option>
-              <option value="4"> Europe</option>
-              <option value="22"> US West</option>
-              <option value="23"> US East</option>
-              <option value="21"> South America</option>
-            </select>
-          </div>
-          <div id="error-msg"></div>
-          <button class="btn-primary" type="submit">Continue →</button>
-        </form>
-        <div class="signin-hint">
-          No account? <button type="button" id="need-account-btn">cloudmoonapp.com</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="game-section">
+    <section id="game-section" style="display:block">
       <div class="toolbar">
         <input id="game-search" type="text" placeholder="Search…" />
         <select id="server-select">
@@ -514,7 +573,7 @@
           <option value="23">US East</option>
           <option value="21">South America</option>
         </select>
-        <button class="btn-signout" id="signout">Sign out</button>
+        <button class="btn-profile" id="profile-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Profile</button>
       </div>
       <div id="games-grid">
         <div class="section-label">Top Games</div>
@@ -730,12 +789,62 @@
 
   </div>
 
-  <div id="account-modal">
-    <div class="modal-box">
-      <h3>Account required</h3>
-      <p>Sign in with your <strong>CloudMoon</strong> account credentials. Create a free account at cloudmoonapp.com.</p>
-      <a href="https://cloudmoonapp.com" target="_blank" rel="noopener" class="modal-cta">cloudmoonapp.com →</a>
-      <button id="close-account-modal" class="modal-dismiss">Dismiss</button>
+  <div id="profile-modal">
+    <div class="profile-box">
+      <div class="profile-modal-head">
+        <h3 id="profile-modal-title">Profile</h3>
+        <button id="close-profile-modal" class="profile-close-btn">✕</button>
+      </div>
+
+      <!-- Not signed in -->
+      <div id="profile-signin-view">
+        <form id="signin-form">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="text" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+          </div>
+          <div class="field">
+            <label for="signin-server">Region</label>
+            <select id="signin-server">
+              <option value="0">Select region…</option>
+              <option value="3">🌏 Asia</option>
+              <option value="4">🌍 Europe</option>
+              <option value="22">🌎 US West</option>
+              <option value="23">🌎 US East</option>
+              <option value="21">🌎 South America</option>
+            </select>
+          </div>
+          <div id="error-msg"></div>
+          <button class="btn-primary" type="submit">Sign in →</button>
+        </form>
+        <div class="signin-hint">
+          No account? <button type="button" id="need-account-btn">cloudmoonapp.com</button>
+        </div>
+      </div>
+
+      <!-- Signed in -->
+      <div id="profile-loggedin-view" style="display:none">
+        <div class="profile-user-info">
+          <div class="profile-avatar">🌙</div>
+          <div id="profile-email-text" class="profile-email-text">Signed in</div>
+        </div>
+        <div class="field">
+          <label for="profile-region">Region</label>
+          <select id="profile-region">
+            <option value="0">Select region…</option>
+            <option value="3">🌏 Asia</option>
+            <option value="4">🌍 Europe</option>
+            <option value="22">🌎 US West</option>
+            <option value="23">🌎 US East</option>
+            <option value="21">🌎 South America</option>
+          </select>
+        </div>
+        <button id="profile-signout" class="btn-signout-full">Sign out</button>
+      </div>
     </div>
   </div>
 
@@ -744,7 +853,7 @@
     <div id="connecting-msg" style="font-size:13px;color:#555;font-weight:500;">Connecting…</div>
   </div>
 
-   <script src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/testingmoon/app.js"></script>
+  <script src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/testingmoon/app.js"></script>
   <script>
     (function() {
       function dragScroll(id) {
