@@ -1,4 +1,4 @@
-﻿const PRIMARY_HOSTS = [
+const PRIMARY_HOSTS = [
   "https://api.cloudmoon.cloudbatata.com",
   "https://api.prod.cloudmoonapp.com",
   "https://api.prod.geometry.today",
@@ -28,6 +28,10 @@ const signinServer    = document.getElementById("signin-server");
 const connectingOverlay = document.getElementById("connecting-overlay");
 const connectingMsg     = document.getElementById("connecting-msg");
 const needAccountBtn    = document.getElementById("need-account-btn");
+const blankTabToggle    = document.getElementById("blank-tab-toggle");
+
+function getBlankTab() { return localStorage.getItem("blankTab") === "1"; }
+function setBlankTab(v) { localStorage.setItem("blankTab", v ? "1" : "0"); }
 
 async function discoverApiHost() {
   if (_cachedHost) return _cachedHost;
@@ -111,6 +115,7 @@ function openProfileModal() {
     if (profileEmailEl) profileEmailEl.textContent = user.email || "Signed in";
     const saved = getSelectedServer();
     if (profileRegion && VALID_SERVERS.includes(saved)) profileRegion.value = saved;
+    if (blankTabToggle) blankTabToggle.checked = getBlankTab();
   } else {
     profileSigninView.style.display = "block";
     profileLoggedIn.style.display = "none";
@@ -237,7 +242,18 @@ async function launchGame(packageName) {
         if (u?.userId) p.set("userid", u.userId);
       }
 
-      window.location.href = `../run-site/run.html?${p.toString()}`;
+      const finalUrl = `../run-site/run.html?${p.toString()}`;
+      if (getBlankTab()) {
+        const w = window.open('about:blank', '_blank');
+        if (w) {
+          w.document.write('<style>*{margin:0;padding:0;overflow:hidden}</style><iframe src="' + finalUrl + '" style="border:none;width:100vw;height:100vh;display:block"></iframe>');
+          w.document.close();
+        } else {
+          window.location.href = finalUrl; // popup blocked fallback
+        }
+      } else {
+        window.location.href = finalUrl;
+      }
     } else {
       hideConnecting();
       alert(data.message || "Failed to connect to game server, This can be because of the l.");
@@ -318,6 +334,10 @@ if (profileRegion) {
     if (serverSelect) serverSelect.value = profileRegion.value;
     if (signinServer) signinServer.value = profileRegion.value;
   });
+}
+
+if (blankTabToggle) {
+  blankTabToggle.addEventListener("change", () => setBlankTab(blankTabToggle.checked));
 }
 
 if (needAccountBtn) {
