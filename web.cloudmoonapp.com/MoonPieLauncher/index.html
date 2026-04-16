@@ -366,6 +366,55 @@
     }
     .btn-signout-full:hover { background: rgba(248,113,113,0.07); }
 
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 10px;
+    }
+    .setting-row-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.4;
+    }
+    .setting-row-label span {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 2px;
+      top: 2px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .toggle-switch input:checked + .toggle-track { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
+    .toggle-switch input:checked + .toggle-track::before { transform: translateX(16px); background: #fff; }
+
     .section-label {
       padding: 16px 18px 10px;
       font-size: 13px;
@@ -904,6 +953,16 @@
             <option value="23">🌎 US East</option>
             <option value="21">🌎 South America</option>
           </select>
+        </div>
+        <div class="setting-row">
+          <div class="setting-row-label">
+            Blank Tab Mode
+            <span>Opens games in a hidden about:blank tab</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="blank-tab-toggle" />
+            <div class="toggle-track"></div>
+          </label>
         </div>
         <button id="profile-signout" class="btn-signout-full">Sign out</button>
       </div>
