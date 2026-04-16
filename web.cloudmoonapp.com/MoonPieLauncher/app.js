@@ -122,6 +122,7 @@ function openProfileModal() {
   }
   if (profileModal) profileModal.style.display = "flex";
 }
+window.openProfileModal = openProfileModal;
 
 function showError(msg) {
   if (!errorMsg) return;
