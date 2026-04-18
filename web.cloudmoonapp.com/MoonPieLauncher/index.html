@@ -709,7 +709,7 @@
     <div class="profilebox">
       <div class="profilehead">
         <h3>Profile</h3>
-        <button id="close-profilemodal" class="profileclosebtn">Close</button>
+        <button id="closeprofilemodal" class="profileclosebtn">Close</button>
       </div>
       <div id="signinview">
         <form id="signinform">
@@ -856,7 +856,7 @@
       updateClock();
       setInterval(updateClock, 10000);
 
-      // â”€â”€ Battery â”€â”€
+
       if (navigator.getBattery) {
         navigator.getBattery().then(function(bat) {
           function updateBat() {
