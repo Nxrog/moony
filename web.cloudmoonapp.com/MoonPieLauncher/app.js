@@ -74,11 +74,7 @@ function applyProfilePic(src) {
 // Load saved pic on startup
 applyProfilePic(getProfilePic());
 
-const changePicBtn  = document.getElementById("change-pic-btn");
 const picFileInput  = document.getElementById("pic-file-input");
-const profilePicWrap = document.getElementById("profile-pic-wrap");
-if (changePicBtn)  changePicBtn.addEventListener("click", () => picFileInput && picFileInput.click());
-if (profilePicWrap) profilePicWrap.addEventListener("click", () => picFileInput && picFileInput.click());
 if (picFileInput) {
   picFileInput.addEventListener("change", () => {
     const file = picFileInput.files[0];
