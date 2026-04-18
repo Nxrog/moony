@@ -22,7 +22,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
+    html, body { height: 100%; overflow: hidden; }
 
     body {
       font-family: "Inter", system-ui, -apple-system, sans-serif;
@@ -30,370 +30,364 @@
       color: var(--text);
       font-size: 13px;
       -webkit-font-smoothing: antialiased;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      height: 44px;
-      padding: 0 18px;
       display: flex;
-      align-items: center;
-      background: rgba(8,8,8,0.96);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      flex-direction: column;
     }
 
-    .brand {
+
+    .app-layout {
       display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-      color: rgba(255,255,255,0.7);
+      flex: 1;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    .brand img {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      object-fit: cover;
+    /*â”€â”€ */
+    .main-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
     }
 
-    .topbar-right {
-      margin-left: auto;
+    .main-toolbar {
       display: flex;
       align-items: center;
       gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(12px);
     }
 
-    .status-battery,
-    .status-clock {
+    .main-search {
+      flex: 1;
+      max-width: 190px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.12s;
+    }
+    .main-search:focus { border-color: var(--border-hi); }
+
+    .nav-tabs-group {
+      display: flex;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 3px;
+      margin-left: auto;
+    }
+    .nav-tab {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      padding: 5px 22px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+      letter-spacing: 0.2px;
+    }
+    .nav-tab:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.75); }
+    .nav-tab.active { background: var(--surface-2); color: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+
+    .main-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.08) transparent;
+    }
+    .main-scroll::-webkit-scrollbar { width: 4px; }
+    .main-scroll::-webkit-scrollbar-track { background: transparent; }
+    .main-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+
+    .view-section { display: none; }
+    .view-section.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+
+    .game-tile {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 16/10;
+      background: var(--surface);
+      transition: transform 0.18s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .game-tile:hover { transform: scale(1.025); }
+    .game-tile:active { transform: scale(0.97); }
+    .game-tile img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.85);
+      transition: filter 0.25s;
+    }
+    .game-tile:hover img { filter: brightness(0.65); }
+    .game-tile .tile-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .game-tile .tile-name {
+      position: absolute;
+      bottom: 7px;
+      left: 8px;
+      right: 8px;
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+      z-index: 2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-tile .tile-outline {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      pointer-events: none;
+      z-index: 3;
+      transition: border-color 0.2s;
+    }
+    .game-tile:hover .tile-outline { border-color: rgba(255,255,255,0.3); }
+    .game-tile button {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-radius: inherit;
+    }
+
+   
+    .sidebar {
+      width: 168px;
+      flex-shrink: 0;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 22px 14px 18px;
+      gap: 11px;
+      background: var(--surface);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .sidebar::-webkit-scrollbar { display: none; }
+
+    .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+    .sidebar-brand {
+      font-size: 11px;
+      font-weight: 700;
       color: rgba(255,255,255,0.45);
-      letter-spacing: 0.3px;
+      letter-spacing: 0.5px;
+      margin-top: -5px;
+    }
+    .sidebar-sep {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .sidebar-avatar-wrap {
+      position: relative;
+      cursor: pointer;
+    }
+    .sidebar-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border-hi);
+      display: block;
+      transition: border-color 0.15s;
+    }
+    .sidebar-avatar-wrap:hover .sidebar-avatar { border-color: rgba(255,255,255,0.45); }
+    .sidebar-avatar-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      pointer-events: none;
+      letter-spacing: 0.2px;
+    }
+    .sidebar-avatar-wrap:hover .sidebar-avatar-overlay { opacity: 1; }
+
+    .sidebar-email {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .sidebar-profile-btn {
+      width: 100%;
+      padding: 7px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sidebar-profile-btn:hover { background: rgba(255,255,255,0.12); }
+
+    .sidebar-region-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .sidebar-region-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+    }
+    .sidebar-region-select {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      padding: 6px 8px;
+      font-size: 11px;
+      font-family: inherit;
+      appearance: none;
+      -webkit-appearance: none;
+      outline: none;
+      cursor: pointer;
+    }
+    .sidebar-region-select:focus { border-color: var(--border-hi); }
+
+    .sidebar-signout-btn {
+      width: 100%;
+      padding: 6px;
+      background: none;
+      border: 1px solid rgba(248,113,113,0.2);
+      color: #f87171;
+      border-radius: 7px;
+      font-size: 10px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.12s;
+      display: none;
+    }
+    .sidebar-signout-btn:hover { background: rgba(248,113,113,0.07); }
+
+    .sidebar-status {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    .status-battery {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
       display: flex;
       align-items: center;
       gap: 4px;
     }
-
     .battery-bar {
-      width: 22px;
-      height: 10px;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      border-radius: 2.5px;
+      width: 20px;
+      height: 9px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 2px;
       position: relative;
       display: flex;
       align-items: center;
-      padding: 1.5px;
+      padding: 1px;
     }
     .battery-bar::after {
       content: '';
       position: absolute;
-      right: -4px;
+      right: -3.5px;
       top: 50%;
       transform: translateY(-50%);
-      width: 2.5px;
-      height: 5px;
-      background: rgba(255,255,255,0.3);
+      width: 2px;
+      height: 4px;
+      background: rgba(255,255,255,0.25);
       border-radius: 0 1px 1px 0;
     }
     .battery-fill {
       height: 100%;
-      background: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.5);
       border-radius: 1px;
       transition: width 0.4s;
     }
     .battery-fill.low { background: #f87171; }
     .battery-fill.mid { background: #fbbf24; }
-
-    .page {
-      min-height: calc(100vh - 44px);
-      display: flex;
-      flex-direction: column;
-    }
-
-    #signin-panel {
-      flex: 1;
-      display: grid;
-      place-items: center;
-      padding: 40px 16px;
-    }
-
-    .signin-card {
-      width: 100%;
-      max-width: 320px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 22px 20px;
-    }
-
-    .signin-card h2 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-
-    .field { margin-bottom: 10px; }
-
-    .field label {
-      display: block;
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      padding: 8px 10px;
-      font-size: 13px;
-      font-family: inherit;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      transition: border-color 0.12s;
-    }
-
-    .field input:focus,
-    .field select:focus { border-color: var(--border-hi); }
-
-    #error-msg {
-      display: none;
-      margin: 8px 0;
-      padding: 7px 10px;
-      background: rgba(248,113,113,0.07);
-      border: 1px solid rgba(248,113,113,0.15);
-      border-radius: 7px;
-      color: #f87171;
+    .status-clock {
       font-size: 11px;
-      line-height: 1.55;
-    }
-
-    .btn-primary {
-      width: 100%;
-      margin-top: 12px;
-      padding: 9px;
-      background: #eee;
-      color: #080808;
-      border: none;
-      border-radius: var(--radius);
-      font-size: 13px;
       font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
-      transition: opacity 0.12s;
-    }
-    .btn-primary:hover { opacity: 0.88; }
-    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
-
-    .signin-hint {
-      margin-top: 14px;
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
+      color: rgba(255,255,255,0.38);
+      letter-spacing: 0.5px;
     }
 
-    .signin-hint button {
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.22);
-      font-size: 11px;
-      font-family: inherit;
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      padding: 0;
-    }
 
-    #game-section {
-      display: none;
+    .sidebar-toggle-row {
       width: 100%;
-      padding-bottom: 48px;
-    }
-
-    .toolbar {
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 14px 18px 14px;
-      flex-wrap: wrap;
-    }
-
-    .toolbar input {
-      flex: 1;
-      min-width: 130px;
-      max-width: 220px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      color: var(--text);
-      padding: 6px 10px;
-      font-size: 12px;
-      font-family: inherit;
-      outline: none;
-    }
-    .toolbar input:focus { border-color: var(--border-hi); }
-
-    .toolbar select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      color: var(--text);
-      padding: 6px 10px;
-      font-size: 12px;
-      font-family: inherit;
-      appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-      cursor: pointer;
-    }
-    .toolbar select:focus { border-color: var(--border-hi); }
-
-    .btn-profile {
-      margin-left: auto;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.14);
-      color: rgba(255,255,255,0.8);
-      padding: 7px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
+      justify-content: space-between;
       gap: 6px;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
-      white-space: nowrap;
     }
-    .btn-profile:hover { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.28); color: #fff; }
-
-    #profile-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.84);
-      backdrop-filter: blur(10px);
-      z-index: 9998;
-      align-items: center;
-      justify-content: center;
+    .sidebar-toggle-label {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.3;
     }
-
-    .profile-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px 20px 22px;
-      max-width: 300px;
-      width: 90%;
-    }
-
-    .profile-modal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .profile-modal-head h3 { font-size: 14px; font-weight: 600; }
-
-    .profile-close-btn {
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 16px;
-      line-height: 1;
-      padding: 2px 6px;
-      border-radius: 5px;
-      font-family: inherit;
-    }
-    .profile-close-btn:hover { color: var(--text); }
-
-    .profile-user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      margin-bottom: 14px;
-    }
-
-    .profile-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      flex-shrink: 0;
-    }
-
-    .profile-email-text {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      word-break: break-all;
-      line-height: 1.4;
-    }
-
-    .btn-signout-full {
-      width: 100%;
-      margin-top: 10px;
-      padding: 8px;
-      background: none;
-      border: 1px solid rgba(248,113,113,0.2);
-      color: #f87171;
-      border-radius: 8px;
-      font-size: 12px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: background 0.12s;
-    }
-    .btn-signout-full:hover { background: rgba(248,113,113,0.07); }
-
-    .setting-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 0;
-      border-top: 1px solid var(--border);
-      margin-top: 10px;
-    }
-    .setting-row-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.4;
-    }
-    .setting-row-label span {
+    .sidebar-toggle-label small {
       display: block;
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--muted);
-      margin-top: 1px;
     }
-    .toggle-switch {
-      position: relative;
-      width: 36px;
-      height: 20px;
-      flex-shrink: 0;
-    }
+    .toggle-switch { position: relative; width: 34px; height: 19px; flex-shrink: 0; }
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
     .toggle-track {
       position: absolute;
@@ -407,8 +401,8 @@
     .toggle-track::before {
       content: '';
       position: absolute;
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       left: 2px;
       top: 2px;
       background: rgba(255,255,255,0.5);
@@ -416,178 +410,10 @@
       transition: transform 0.2s, background 0.2s;
     }
     .toggle-switch input:checked + .toggle-track { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
-    .toggle-switch input:checked + .toggle-track::before { transform: translateX(16px); background: #fff; }
+    .toggle-switch input:checked + .toggle-track::before { transform: translateX(15px); background: #fff; }
 
-    .section-label {
-      padding: 16px 18px 10px;
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.3px;
-    }
 
-    .big-row {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 0 18px 6px;
-      cursor: grab;
-      user-select: none;
-    }
-    .big-row:active { cursor: grabbing; }
-    .big-row::-webkit-scrollbar { display: none; }
-
-    .small-row {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 0 18px 6px;
-      cursor: grab;
-      user-select: none;
-    }
-    .small-row:active { cursor: grabbing; }
-    .small-row::-webkit-scrollbar { display: none; }
-
-    .game-card {
-      flex: 0 0 300px;
-      height: 188px;
-      scroll-snap-align: start;
-      border-radius: 14px;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.18s;
-      flex-shrink: 0;
-      user-select: none;
-    }
-    .game-card:hover { transform: scale(1.03); }
-    .game-card:active { transform: scale(0.97); }
-
-    .game-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      transform: scale(1.08);
-      filter: brightness(0.88);
-      transition: transform 0.3s, filter 0.3s;
-    }
-    .game-card:hover img {
-      transform: scale(1.14);
-      filter: brightness(0.7);
-    }
-
-    .card-grad {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.08) 55%, transparent 100%);
-    }
-
-    .game-name {
-      position: absolute;
-      bottom: 12px;
-      left: 14px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.9);
-      letter-spacing: -0.2px;
-    }
-
-    .card-play {
-      position: absolute;
-      bottom: 10px;
-      right: 12px;
-      width: 40px;
-      height: 40px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
-      border: 1.5px solid rgba(255,255,255,0.25);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s, border-color 0.15s, transform 0.15s;
-      pointer-events: none;
-    }
-    .game-card:hover .card-play {
-      background: #fff;
-      border-color: #fff;
-      transform: scale(1.1);
-    }
-
-    .card-play-arrow {
-      width: 0; height: 0;
-      border-style: solid;
-      border-width: 6px 0 6px 10px;
-      border-color: transparent transparent transparent rgba(255,255,255,0.9);
-      margin-left: 2px;
-      transition: border-color 0.15s;
-    }
-    .game-card:hover .card-play-arrow { border-left-color: #000; }
-
-    .card-outline {
-      position: absolute;
-      inset: 0;
-      border-radius: 14px;
-      border: 1.5px solid rgba(255,255,255,0.12);
-      pointer-events: none;
-      z-index: 2;
-      transition: border-color 0.2s;
-    }
-    .game-card:hover .card-outline { border-color: rgba(255,255,255,0.28); }
-    .small-card .card-outline { border-radius: 10px; }
-
-    .game-card button {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      border: none;
-      background: none;
-      border-radius: inherit;
-    }
-
-    .small-card { flex: 0 0 160px; height: 100px; }
-    .small-card .game-name { font-size: 12px; bottom: 8px; left: 10px; }
-    .small-card .card-play { width: 28px; height: 28px; bottom: 7px; right: 8px; }
-    .small-card .card-play-arrow { border-width: 4px 0 4px 7px; }
-
-    .row-wrap { position: relative; }
-    .row-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 34px;
-      height: 34px;
-      background: rgba(14,14,14,0.9);
-      border: 1px solid rgba(255,255,255,0.13);
-      border-radius: 50%;
-      color: #fff;
-      font-size: 18px;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: background 0.15s;
-      user-select: none;
-    }
-    .row-nav:hover { background: rgba(255,255,255,0.14); }
-    .row-nav-prev { left: 4px; }
-    .row-nav-next { right: 4px; }
-
-    #account-modal {
+    #profile-modal {
       display: none;
       position: fixed;
       inset: 0;
@@ -597,89 +423,226 @@
       align-items: center;
       justify-content: center;
     }
-
-    .modal-box {
+    .profile-box {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 26px 22px;
-      max-width: 320px;
+      padding: 20px 20px 22px;
+      max-width: 300px;
       width: 90%;
-      text-align: center;
+    }
+    .profile-modal-head {
       display: flex;
-      flex-direction: column;
-      gap: 11px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
     }
-
-    .modal-box h3 { font-size: 14px; font-weight: 600; }
-
-    .modal-box p {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.6;
+    .profile-modal-head h3 { font-size: 14px; font-weight: 600; }
+    .profile-close-btn {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 16px; line-height: 1;
+      padding: 2px 6px; border-radius: 5px; font-family: inherit;
     }
-
-    .modal-box p strong { color: rgba(255,255,255,0.45); font-weight: 500; }
-
-    .modal-cta {
-      display: block;
-      padding: 9px;
-      background: #eee;
-      color: #080808;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
-      text-decoration: none;
+    .profile-close-btn:hover { color: var(--text); }
+    .field { margin-bottom: 10px; }
+    .field label {
+      display: block; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.7px;
+      color: var(--muted); margin-bottom: 4px;
     }
-
-    .modal-dismiss {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 11px;
-      font-family: inherit;
-      cursor: pointer;
+    .field input, .field select {
+      width: 100%; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--text); padding: 8px 10px; font-size: 13px;
+      font-family: inherit; outline: none;
+      appearance: none; -webkit-appearance: none;
+      transition: border-color 0.12s;
     }
+    .field input:focus, .field select:focus { border-color: var(--border-hi); }
+    #error-msg {
+      display: none; margin: 8px 0; padding: 7px 10px;
+      background: rgba(248,113,113,0.07);
+      border: 1px solid rgba(248,113,113,0.15);
+      border-radius: 7px; color: #f87171;
+      font-size: 11px; line-height: 1.55;
+    }
+    .btn-primary {
+      width: 100%; margin-top: 12px; padding: 9px;
+      background: #eee; color: #080808; border: none;
+      border-radius: var(--radius); font-size: 13px;
+      font-weight: 600; font-family: inherit; cursor: pointer;
+      transition: opacity 0.12s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+    .signin-hint { margin-top: 14px; font-size: 11px; color: var(--muted); text-align: center; }
+    .signin-hint button {
+      background: none; border: none; color: rgba(255,255,255,0.22);
+      font-size: 11px; font-family: inherit; cursor: pointer;
+      text-decoration: underline; text-underline-offset: 2px; padding: 0;
+    }
+    .profile-user-info {
+      padding: 10px 12px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 9px; margin-bottom: 14px;
+    }
+    #profile-email-text { font-size: 12px; color: rgba(255,255,255,0.55); word-break: break-all; line-height: 1.4; }
+    .setting-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 9px 0; border-top: 1px solid var(--border); margin-top: 10px;
+    }
+    .setting-row-label { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.4; }
+    .setting-row-label span { display: block; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-signout-full {
+      width: 100%; margin-top: 10px; padding: 8px; background: none;
+      border: 1px solid rgba(248,113,113,0.2); color: #f87171;
+      border-radius: 8px; font-size: 12px; font-family: inherit; cursor: pointer;
+      transition: background 0.12s;
+    }
+    .btn-signout-full:hover { background: rgba(248,113,113,0.07); }
 
     #connecting-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(8,8,8,0.97);
-      z-index: 9999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
+      display: none; position: fixed; inset: 0;
+      background: rgba(8,8,8,0.97); z-index: 9999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 16px;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    @media (max-width: 480px) {
-      .toolbar { padding: 12px 12px 12px; }
-      .big-row { padding: 0 12px 6px; }
-      .small-row { padding: 0 12px 6px; }
-      .game-card { flex: 0 0 220px; height: 138px; }
-      .small-card { flex: 0 0 130px; height: 82px; }
+    #game-section { display: block; }
+
+    .hamburger-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 38px;
+      height: 36px;
+      padding: 7px 7px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s;
     }
+    .hamburger-btn:hover { background: var(--surface-2); border-color: var(--border-hi); }
+    .hamburger-btn.active { background: var(--surface-2); border-color: var(--border-hi); }
+    .hamburger-btn span {
+      display: block;
+      width: 100%;
+      height: 2.5px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.65);
+      transition: background 0.15s;
+    }
+    .hamburger-btn:hover span,
+    .hamburger-btn.active span { background: rgba(255,255,255,0.95); }
+
+    .sidebar-wrap {
+      position: relative;
+      display: flex;
+      flex-shrink: 0;
+    }
+    .sidebar {
+      transition: width 0.28s ease, opacity 0.25s ease, padding 0.28s ease;
+      overflow: hidden;
+    }
+    .sidebar-wrap.collapsed .sidebar {
+      display: flex;
+      width: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      opacity: 0;
+      pointer-events: none;
+      border-left: none;
+    }
+    .sidebar-wrap.collapsed { width: 0; }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <img src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="" />
-      MoonPie
+
+  <div class="app-layout">
+
+   
+    <div class="main-col">
+      <div class="main-toolbar">
+        <input id="game-search" type="text" class="main-search" placeholder="Search..." />
+        <div class="nav-tabs-group">
+          <button class="nav-tab active" id="nav-selection">Selection</button>
+          <button class="nav-tab" id="nav-apps">Apps</button>
+        </div>
+        <button class="hamburger-btn active" id="sidebar-toggle-btn" title="Toggle sidebar">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <div class="main-scroll" id="game-section">
+        <div id="games-grid">
+          <div class="view-section active" id="view-selection">
+            <div class="game-tile" data-name="Roblox" data-pkg="com.roblox.client"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" /><div class="tile-grad"></div><div class="tile-name">Roblox</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Fortnite" data-pkg="com.epicgames.fortnite"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" /><div class="tile-grad"></div><div class="tile-name">Fortnite</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" /><div class="tile-grad"></div><div class="tile-name">Genshin Impact</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" /><div class="tile-grad"></div><div class="tile-name">Brawl Stars</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Free Fire" data-pkg="com.dts.freefireth"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" /><div class="tile-grad"></div><div class="tile-name">Free Fire</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" /><div class="tile-grad"></div><div class="tile-name">Call of Duty</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="PUBG Mobile" data-pkg="com.tencent.ig"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pubg_Mobile.webp" alt="PUBG Mobile" /><div class="tile-grad"></div><div class="tile-name">PUBG Mobile</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Clash of Clans" data-pkg="com.supercell.clashofclans"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_clash_of_clans.webp" alt="Clash of Clans" /><div class="tile-grad"></div><div class="tile-name">Clash of Clans</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Clash Royale" data-pkg="com.supercell.clashroyale"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" /><div class="tile-grad"></div><div class="tile-name">Clash Royale</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Mobile Legends" data-pkg="com.mobile.legends"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Mobile_Legends_Bang_Bang.webp" alt="Mobile Legends" /><div class="tile-grad"></div><div class="tile-name">Mobile Legends</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" /><div class="tile-grad"></div><div class="tile-name">Stumble Guys</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Among Us" data-pkg="com.innersloth.spacemafia"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" /><div class="tile-grad"></div><div class="tile-name">Among Us</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Honkai: Star Rail" data-pkg="com.HoYoverse.hkrpgoversea"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Star_Rail.webp" alt="Honkai: Star Rail" /><div class="tile-grad"></div><div class="tile-name">Honkai: Star Rail</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Wuthering Waves" data-pkg="com.kurogame.wutheringwaves.global"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_wuthering_waves.webp" alt="Wuthering Waves" /><div class="tile-grad"></div><div class="tile-name">Wuthering Waves</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Zenless Zone Zero" data-pkg="com.HoYoverse.Nap"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_zenless_zone_zero_new.webp" alt="Zenless Zone Zero" /><div class="tile-grad"></div><div class="tile-name">Zenless Zone Zero</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Wild Rift" data-pkg="com.riotgames.league.wildrift"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_League_of_Legends.webp" alt="Wild Rift" /><div class="tile-grad"></div><div class="tile-name">Wild Rift</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Dragon Ball Legends" data-pkg="com.bandainamcoent.dblegends_ww"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_DRAGON_BALL_LEGENDS_251020.webp" alt="Dragon Ball Legends" /><div class="tile-grad"></div><div class="tile-name">Dragon Ball Legends</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Geometry Dash Lite" data-pkg="com.robtopx.geometryjumplite"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Geometry_Dash_Lite.webp" alt="Geometry Dash Lite" /><div class="tile-grad"></div><div class="tile-name">Geometry Dash</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="EA SPORTS FC Mobile" data-pkg="com.ea.gp.fifamobile"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_EA_SPORTS_FC_Mobile.webp" alt="EA SPORTS FC Mobile" /><div class="tile-grad"></div><div class="tile-name">FC Mobile</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Solo Leveling: Arise" data-pkg="com.netmarble.sololv"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_solo_leveling.webp" alt="Solo Leveling" /><div class="tile-grad"></div><div class="tile-name">Solo Leveling</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Granny" data-pkg="com.dvloper.granny"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Granny.webp" alt="Granny" /><div class="tile-grad"></div><div class="tile-name">Granny</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Melon Sandbox" data-pkg="com.studio27.MelonPlayground"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Melon_Sandbox.webp" alt="Melon Sandbox" /><div class="tile-grad"></div><div class="tile-name">Melon Sandbox</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Honkai Impact 3rd" data-pkg="com.miHoYo.bh3global"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Impact_3rd.webp" alt="Honkai Impact 3rd" /><div class="tile-grad"></div><div class="tile-name">Honkai Impact 3rd</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="PokÃ©mon TCG Pocket" data-pkg="jp.pokemon.pokemontcgp"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pokemon_TCG_Pocket.webp" alt="PokÃ©mon TCG Pocket" /><div class="tile-grad"></div><div class="tile-name">PokÃ©mon TCG Pocket</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Rocket League Sideswipe" data-pkg="com.Psyonix.RL2D"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rocket_League_Sideswipe.webp" alt="Rocket League Sideswipe" /><div class="tile-grad"></div><div class="tile-name">Rocket League Sideswipe</div><div class="tile-outline"></div><button type="button">Play</button></div>
+            <div class="game-tile" data-name="Rainbow Six Mobile" data-pkg="com.ubisoft.rainbowsixmobile.r6.fps.pvp.shooter"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rainbow_Six_Mobile.webp" alt="Rainbow Six Mobile" /><div class="tile-grad"></div><div class="tile-name">Rainbow Six Mobile</div><div class="tile-outline"></div><button type="button">Play</button></div>
+          </div>
+          <div class="view-section" id="view-apps">
+            <div class="game-tile" data-name="TikTok" data-pkg="com.zhiliaoapp.musically"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" /><div class="tile-grad"></div><div class="tile-name">TikTok</div><div class="tile-outline"></div><button type="button">Open</button></div>
+            <div class="game-tile" data-name="YouTube" data-pkg="com.google.android.youtube"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" /><div class="tile-grad"></div><div class="tile-name">YouTube</div><div class="tile-outline"></div><button type="button">Open</button></div>
+            <div class="game-tile" data-name="Spotify" data-pkg="com.spotify.music"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" /><div class="tile-grad"></div><div class="tile-name">Spotify</div><div class="tile-outline"></div><button type="button">Open</button></div>
+            <div class="game-tile" data-name="Chrome" data-pkg="com.android.chrome"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" /><div class="tile-grad"></div><div class="tile-name">Chrome</div><div class="tile-outline"></div><button type="button">Open</button></div>
+            <div class="game-tile" data-name="Discord" data-pkg="com.discord"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" /><div class="tile-grad"></div><div class="tile-name">Discord</div><div class="tile-outline"></div><button type="button">Open</button></div>
+            <div class="game-tile" data-name="Character AI" data-pkg="ai.character.app"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Character_AI.webp" alt="Character AI" /><div class="tile-grad"></div><div class="tile-name">Character AI</div><div class="tile-outline"></div><button type="button">Open</button></div>
+            <div class="game-tile" data-name="ChatGPT" data-pkg="com.openai.chatgpt"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_ChatGPT.webp" alt="ChatGPT" /><div class="tile-grad"></div><div class="tile-name">ChatGPT</div><div class="tile-outline"></div><button type="button">Open</button></div>
+          </div>
+
+        </div>
+      </div>
     </div>
-  </header>
 
-  <div class="page">
+    <div class="sidebar-wrap" id="sidebar-wrap">
+      <aside class="sidebar">
+      <img class="sidebar-logo" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="MoonPie" />
+      <div class="sidebar-brand">MoonPie</div>
+      <div class="sidebar-sep"></div>
 
-    <section id="game-section" style="display:block">
-      <div class="toolbar">
-        <input id="game-search" type="text" placeholder="Search…" />
-        <select id="server-select">
+      <div class="sidebar-avatar-wrap" id="profile-pic-wrap">
+        <img class="sidebar-avatar" id="topbar-avatar" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="Profile" />
+        <img id="profile-pic-img" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" style="display:none" alt="" />
+        <div class="sidebar-avatar-overlay">Change<br>photo</div>
+      </div>
+      <input type="file" id="pic-file-input" accept="image/*" style="display:none" />
+
+      <div class="sidebar-email" id="sidebar-email-disp">Not signed in</div>
+      <button class="sidebar-profile-btn" id="profile-btn">Sign in</button>
+      <button class="sidebar-signout-btn" id="sidebar-signout">Sign out</button>
+
+      <div class="sidebar-sep"></div>
+
+      
+      <div class="sidebar-region-wrap">
+        <div class="sidebar-region-label">Region</div>
+        <select id="server-select" class="sidebar-region-select">
           <option value="0">All regions</option>
           <option value="3">Asia</option>
           <option value="4">Europe</option>
@@ -687,344 +650,136 @@
           <option value="23">US East</option>
           <option value="21">South America</option>
         </select>
-        <button class="btn-profile" id="profile-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Profile</button>
       </div>
-      <div id="games-grid">
-        <div class="section-label">Top Games</div>
-        <div class="row-wrap">
-          <button class="row-nav row-nav-prev" id="big-prev">&#8249;</button>
-          <div class="big-row" id="big-row">
-            <div class="game-card" data-name="Roblox" data-pkg="com.roblox.client">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" />
-              <div class="card-grad"></div><div class="game-name">Roblox</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Fortnite" data-pkg="com.epicgames.fortnite">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" />
-              <div class="card-grad"></div><div class="game-name">Fortnite</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" />
-              <div class="card-grad"></div><div class="game-name">Genshin Impact</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" />
-              <div class="card-grad"></div><div class="game-name">Brawl Stars</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Free Fire" data-pkg="com.dts.freefireth">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" />
-              <div class="card-grad"></div><div class="game-name">Free Fire</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" />
-              <div class="card-grad"></div><div class="game-name">Call of Duty</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Clash Royale" data-pkg="com.supercell.clashroyale">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" />
-              <div class="card-grad"></div><div class="game-name">Clash Royale</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" />
-              <div class="card-grad"></div><div class="game-name">Stumble Guys</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Among Us" data-pkg="com.innersloth.spacemafia">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" />
-              <div class="card-grad"></div><div class="game-name">Among Us</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Clash of Clans" data-pkg="com.supercell.clashofclans">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_clash_of_clans.webp" alt="Clash of Clans" />
-              <div class="card-grad"></div><div class="game-name">Clash of Clans</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Honkai: Star Rail" data-pkg="com.HoYoverse.hkrpgoversea">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Star_Rail.webp" alt="Honkai: Star Rail" />
-              <div class="card-grad"></div><div class="game-name">Honkai: Star Rail</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="PUBG Mobile" data-pkg="com.tencent.ig">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pubg_Mobile.webp" alt="PUBG Mobile" />
-              <div class="card-grad"></div><div class="game-name">PUBG Mobile</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Wuthering Waves" data-pkg="com.kurogame.wutheringwaves.global">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_wuthering_waves.webp" alt="Wuthering Waves" />
-              <div class="card-grad"></div><div class="game-name">Wuthering Waves</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Zenless Zone Zero" data-pkg="com.HoYoverse.Nap">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_zenless_zone_zero_new.webp" alt="Zenless Zone Zero" />
-              <div class="card-grad"></div><div class="game-name">Zenless Zone Zero</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Mobile Legends" data-pkg="com.mobile.legends">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Mobile_Legends_Bang_Bang.webp" alt="Mobile Legends" />
-              <div class="card-grad"></div><div class="game-name">Mobile Legends</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Pokémon TCG Pocket" data-pkg="jp.pokemon.pokemontcgp">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pokemon_TCG_Pocket.webp" alt="Pokémon TCG Pocket" />
-              <div class="card-grad"></div><div class="game-name">Pokémon TCG Pocket</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Geometry Dash Lite" data-pkg="com.robtopx.geometryjumplite">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Geometry_Dash_Lite.webp" alt="Geometry Dash Lite" />
-              <div class="card-grad"></div><div class="game-name">Geometry Dash Lite</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Rocket League Sideswipe" data-pkg="com.Psyonix.RL2D">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rocket_League_Sideswipe.webp" alt="Rocket League Sideswipe" />
-              <div class="card-grad"></div><div class="game-name">Rocket League Sideswipe</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="EA SPORTS FC Mobile" data-pkg="com.ea.gp.fifamobile">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_EA_SPORTS_FC_Mobile.webp" alt="EA SPORTS FC Mobile" />
-              <div class="card-grad"></div><div class="game-name">EA SPORTS FC Mobile</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Rainbow Six Mobile" data-pkg="com.ubisoft.rainbowsixmobile.r6.fps.pvp.shooter">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rainbow_Six_Mobile.webp" alt="Rainbow Six Mobile" />
-              <div class="card-grad"></div><div class="game-name">Rainbow Six Mobile</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Solo Leveling: Arise" data-pkg="com.netmarble.sololv">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_solo_leveling.webp" alt="Solo Leveling: Arise" />
-              <div class="card-grad"></div><div class="game-name">Solo Leveling: Arise</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Dragon Ball Legends" data-pkg="com.bandainamcoent.dblegends_ww">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_DRAGON_BALL_LEGENDS_251020.webp" alt="Dragon Ball Legends" />
-              <div class="card-grad"></div><div class="game-name">Dragon Ball Legends</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Granny" data-pkg="com.dvloper.granny">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Granny.webp" alt="Granny" />
-              <div class="card-grad"></div><div class="game-name">Granny</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Melon Sandbox" data-pkg="com.studio27.MelonPlayground">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Melon_Sandbox.webp" alt="Melon Sandbox" />
-              <div class="card-grad"></div><div class="game-name">Melon Sandbox</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="Honkai Impact 3rd" data-pkg="com.miHoYo.bh3global">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Impact_3rd.webp" alt="Honkai Impact 3rd" />
-              <div class="card-grad"></div><div class="game-name">Honkai Impact 3rd</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-            <div class="game-card" data-name="League of Legends: Wild Rift" data-pkg="com.riotgames.league.wildrift">
-              <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_League_of_Legends.webp" alt="League of Legends: Wild Rift" />
-              <div class="card-grad"></div><div class="game-name">Wild Rift</div>
-              <div class="card-play"><div class="card-play-arrow"></div></div>
-              <button type="button">Play</button>
-            </div>
-          </div>
-          <button class="row-nav row-nav-next" id="big-next">&#8250;</button>
-        </div>
-        <div class="section-label">Apps</div>
-        <div class="small-row" id="small-row">
-          <div class="game-card small-card" data-name="TikTok" data-pkg="com.zhiliaoapp.musically">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" />
-            <div class="card-grad"></div><div class="game-name">TikTok</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-          <div class="game-card small-card" data-name="YouTube" data-pkg="com.google.android.youtube">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" />
-            <div class="card-grad"></div><div class="game-name">YouTube</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-          <div class="game-card small-card" data-name="Spotify" data-pkg="com.spotify.music">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" />
-            <div class="card-grad"></div><div class="game-name">Spotify</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-          <div class="game-card small-card" data-name="Chrome" data-pkg="com.android.chrome">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" />
-            <div class="card-grad"></div><div class="game-name">Chrome</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-          <div class="game-card small-card" data-name="Discord" data-pkg="com.discord">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" />
-            <div class="card-grad"></div><div class="game-name">Discord</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-          <div class="game-card small-card" data-name="Character AI" data-pkg="ai.character.app">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Character_AI.webp" alt="Character AI" />
-            <div class="card-grad"></div><div class="game-name">Character AI</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-          <div class="game-card small-card" data-name="ChatGPT" data-pkg="com.openai.chatgpt">
-            <img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_ChatGPT.webp" alt="ChatGPT" />
-            <div class="card-grad"></div><div class="game-name">ChatGPT</div>
-            <div class="card-play"><div class="card-play-arrow"></div></div>
-            <button type="button">Open</button>
-          </div>
-        </div>
+
+      
+      <div class="sidebar-toggle-row">
+        <div class="sidebar-toggle-label">Blank Tab<small>about:blank tab</small></div>
+        <label class="toggle-switch"><input type="checkbox" id="blank-tab-toggle" /><div class="toggle-track"></div></label>
       </div>
-    </section>
+      <div class="sidebar-status">
+        <div class="status-battery" id="status-battery">
+          <div class="battery-bar"><div class="battery-fill" id="battery-fill" style="width:100%"></div></div>
+          <span id="battery-pct">100%</span>
+        </div>
+        <div class="status-clock" id="status-clock">00:00</div>
+      </div>
+    </aside>
+    </div>
 
   </div>
-
   <div id="profile-modal">
     <div class="profile-box">
       <div class="profile-modal-head">
-        <h3 id="profile-modal-title">Profile</h3>
-        <button id="close-profile-modal" class="profile-close-btn">✕</button>
+        <h3>Profile</h3>
+        <button id="close-profile-modal" class="profile-close-btn">âœ•</button>
       </div>
-
-      <!-- Not signed in -->
       <div id="profile-signin-view">
         <form id="signin-form">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" type="text" autocomplete="email" placeholder="you@example.com" required />
-          </div>
-          <div class="field">
-            <label for="password">Password</label>
-            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
-          </div>
-          <div class="field">
-            <label for="signin-server">Region</label>
+          <div class="field"><label>Email</label><input id="email" type="text" autocomplete="email" placeholder="you@example.com" required /></div>
+          <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required /></div>
+          <div class="field"><label>Region</label>
             <select id="signin-server">
-              <option value="0">Select region…</option>
-              <option value="3">🌏 Asia</option>
-              <option value="4">🌍 Europe</option>
-              <option value="22">🌎 US West</option>
-              <option value="23">🌎 US East</option>
-              <option value="21">🌎 South America</option>
+              <option value="0">select region...</option>
+              <option value="3">Asia</option>
+              <option value="4">Europe</option>
+              <option value="22">US west</option>
+              <option value="23">US east</option>
+              <option value="21">South america</option>
             </select>
           </div>
           <div id="error-msg"></div>
-          <button class="btn-primary" type="submit">Sign in →</button>
+          <button class="btn-primary" type="submit">Sign in &rarr;</button>
         </form>
-        <div class="signin-hint">
-          No account? <button type="button" id="need-account-btn">cloudmoonapp.com</button>
-        </div>
+        <div class="signin-hint">No account? <button type="button" id="need-account-btn">cloudmoonapp.com</button></div>
       </div>
-
-      <!-- Signed in -->
       <div id="profile-loggedin-view" style="display:none">
         <div class="profile-user-info">
-          <div class="profile-avatar">🌙</div>
           <div id="profile-email-text" class="profile-email-text">Signed in</div>
         </div>
-        <div class="field">
-          <label for="profile-region">Region</label>
+        <div class="field"><label>Region</label>
           <select id="profile-region">
-            <option value="0">Select region…</option>
-            <option value="3">🌏 Asia</option>
-            <option value="4">🌍 Europe</option>
-            <option value="22">🌎 US West</option>
-            <option value="23">🌎 US East</option>
-            <option value="21">🌎 South America</option>
+            <option value="0">Select region...</option>
+            <option value="3">Asia</option>
+            <option value="4">Europe</option>
+            <option value="22">US West</option>
+            <option value="23">US East</option>
+            <option value="21">South America</option>
           </select>
         </div>
         <div class="setting-row">
-          <div class="setting-row-label">
-            Blank Tab Mode
-            <span>Opens games in a hidden about:blank tab</span>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="blank-tab-toggle" />
-            <div class="toggle-track"></div>
-          </label>
+          <div class="setting-row-label">Blank Tab Mode<span>Opens games in a hidden about:blank tab</span></div>
+          <label class="toggle-switch"><input type="checkbox" id="blank-tab-toggle-modal" onchange="localStorage.setItem('blankTab',this.checked?'1':'0');document.getElementById('blank-tab-toggle').checked=this.checked" /><div class="toggle-track"></div></label>
         </div>
         <button id="profile-signout" class="btn-signout-full">Sign out</button>
       </div>
     </div>
   </div>
-
   <div id="connecting-overlay">
     <div style="width:38px;height:38px;border:2px solid rgba(255,255,255,0.08);border-top-color:#ccc;border-radius:50%;animation:spin 0.65s linear infinite;"></div>
-    <div id="connecting-msg" style="font-size:13px;color:#555;font-weight:500;">Connecting…</div>
+    <div id="connecting-msg" style="font-size:13px;color:#555;font-weight:500;">Connecting...</div>
   </div>
 
   <script src="./app.js"></script>
   <script>
     (function() {
-      function dragScroll(id) {
-        var row = document.getElementById(id);
-        if (!row) return;
-        var isDown = false, startX, scrollLeft;
-        row.addEventListener('mousedown', function(e) { isDown = true; startX = e.pageX - row.offsetLeft; scrollLeft = row.scrollLeft; });
-        row.addEventListener('mouseleave', function() { isDown = false; });
-        row.addEventListener('mouseup', function() { isDown = false; });
-        row.addEventListener('mousemove', function(e) { if (!isDown) return; e.preventDefault(); row.scrollLeft = scrollLeft - (e.pageX - row.offsetLeft - startX) * 1.5; });
+      var sidebarWrap = document.getElementById('sidebar-wrap');
+      var toggleBtn   = document.getElementById('sidebar-toggle-btn');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          sidebarWrap.classList.toggle('collapsed');
+          toggleBtn.classList.toggle('active');
+        });
       }
-      dragScroll('big-row');
-      dragScroll('small-row');
 
-      var bigRow = document.getElementById('big-row');
-      if (bigRow) {
-        var slideTimer;
-        var STEP = 312;
-        function startSlide() {
-          slideTimer = setInterval(function() {
-            var max = bigRow.scrollWidth - bigRow.clientWidth;
-            if (bigRow.scrollLeft >= max - 10) { bigRow.scrollTo({ left: 0, behavior: 'smooth' }); }
-            else { bigRow.scrollBy({ left: STEP, behavior: 'smooth' }); }
-          }, 6000);
-        }
-        startSlide();
-        bigRow.addEventListener('mouseenter', function() { clearInterval(slideTimer); });
-        bigRow.addEventListener('mouseleave', startSlide);
-
-        var prevBtn = document.getElementById('big-prev');
-        var nextBtn = document.getElementById('big-next');
-        function nudge(dir) {
-          clearInterval(slideTimer);
-          bigRow.scrollBy({ left: dir * STEP, behavior: 'smooth' });
-          startSlide();
-        }
-        if (prevBtn) prevBtn.addEventListener('click', function() { nudge(-1); });
-        if (nextBtn) nextBtn.addEventListener('click', function() { nudge(1); });
-      }
-      // Add outline ring to all game cards
-      document.querySelectorAll('.game-card').forEach(function(card) {
-        var o = document.createElement('div');
-        o.className = 'card-outline';
-        card.appendChild(o);
+      var sideSignout = document.getElementById('sidebar-signout');
+      if (sideSignout) sideSignout.addEventListener('click', function() {
+        localStorage.removeItem('userData');
+        updateSidebarState();
+        var lv = document.getElementById('profile-loggedin-view');
+        var sv = document.getElementById('profile-signin-view');
+        if (lv) lv.style.display = 'none';
+        if (sv) sv.style.display = 'block';
       });
 
-      // Clock
+      // â”€â”€
+      function updateSidebarState() {
+        var ud = null;
+        try { ud = JSON.parse(localStorage.getItem('userData') || 'null'); } catch(e){}
+        var emailEl  = document.getElementById('sidebar-email-disp');
+        var profBtn  = document.getElementById('profile-btn');
+        var soBtn    = document.getElementById('sidebar-signout');
+        if (ud && ud.token) {
+          if (emailEl) emailEl.textContent = ud.email || 'Signed in';
+          if (profBtn) profBtn.textContent = 'Profile';
+          if (soBtn)   soBtn.style.display = 'block';
+        } else {
+          if (emailEl) emailEl.textContent = 'Not signed in';
+          if (profBtn) profBtn.textContent = 'Sign in';
+          if (soBtn)   soBtn.style.display = 'none';
+        }
+      }
+      updateSidebarState();
+
+      var origClose = document.getElementById('close-profile-modal');
+      if (origClose) origClose.addEventListener('click', updateSidebarState);
+      var pModal = document.getElementById('profile-modal');
+      if (pModal) pModal.addEventListener('click', function(e){
+        if (e.target === pModal) updateSidebarState();
+      });
+      var sf = document.getElementById('signin-form');
+      if (sf) sf.addEventListener('submit', function() {
+        setTimeout(updateSidebarState, 500);
+      });
+
+      var mainToggle  = document.getElementById('blank-tab-toggle');
+      var modalToggle = document.getElementById('blank-tab-toggle-modal');
+      if (mainToggle && modalToggle) {
+        modalToggle.checked = mainToggle.checked;
+        mainToggle.addEventListener('change', function()  { modalToggle.checked = mainToggle.checked; });
+        modalToggle.addEventListener('change', function() { mainToggle.checked = modalToggle.checked; localStorage.setItem('blankTab', modalToggle.checked ? '1' : '0'); });
+      }
+
       function updateClock() {
         var now = new Date();
         var h = now.getHours().toString().padStart(2,'0');
@@ -1035,17 +790,14 @@
       updateClock();
       setInterval(updateClock, 10000);
 
-      // Battery
+      // â”€â”€ Battery â”€â”€
       if (navigator.getBattery) {
         navigator.getBattery().then(function(bat) {
           function updateBat() {
             var pct = Math.round(bat.level * 100);
-            var fill = document.getElementById('battery-fill');
+            var fill  = document.getElementById('battery-fill');
             var label = document.getElementById('battery-pct');
-            if (fill) {
-              fill.style.width = pct + '%';
-              fill.className = 'battery-fill' + (pct <= 20 ? ' low' : pct <= 40 ? ' mid' : '');
-            }
+            if (fill) { fill.style.width = pct + '%'; fill.className = 'battery-fill' + (pct <= 20 ? ' low' : pct <= 40 ? ' mid' : ''); }
             if (label) label.textContent = pct + '%';
           }
           updateBat();
