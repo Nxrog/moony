@@ -418,9 +418,7 @@ searchInput.addEventListener("input", (e) => {
 });
 
 gamesGrid.addEventListener("click", (e) => {
-  const btn  = e.target.closest("button");
-  if (!btn) return;
-  const card = btn.closest(".gametile");
+  const card = e.target.closest(".gametile");
   if (!card) return;
   const pkg  = card.dataset.pkg;
   if (!pkg) return;
@@ -451,3 +449,4 @@ if (signinServer) {
     if (serverSelect) serverSelect.value = signinServer.value;
   });
 }
+// Keep APP.JS
