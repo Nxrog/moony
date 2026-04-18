@@ -657,6 +657,10 @@
         <div class="sidebar-toggle-label">Blank Tab<small>about:blank tab</small></div>
         <label class="toggle-switch"><input type="checkbox" id="blank-tab-toggle" /><div class="toggle-track"></div></label>
       </div>
+      <div class="sidebar-toggle-row">
+        <div class="sidebar-toggle-label">Military Time<small>24-hour clock</small></div>
+        <label class="toggle-switch"><input type="checkbox" id="military-time-toggle" /><div class="toggle-track"></div></label>
+      </div>
       <div class="sidebar-status">
         <div class="status-battery" id="status-battery">
           <div class="battery-bar"><div class="battery-fill" id="battery-fill" style="width:100%"></div></div>
@@ -710,6 +714,10 @@
         <div class="setting-row">
           <div class="setting-row-label">Blank Tab Mode<span>Opens games in a hidden about:blank tab</span></div>
           <label class="toggle-switch"><input type="checkbox" id="blank-tab-toggle-modal" onchange="localStorage.setItem('blankTab',this.checked?'1':'0');document.getElementById('blank-tab-toggle').checked=this.checked" /><div class="toggle-track"></div></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-row-label">Military Time<span>Show clock in 24-hour format</span></div>
+          <label class="toggle-switch"><input type="checkbox" id="military-time-toggle-modal" onchange="localStorage.setItem('militaryTime',this.checked?'1':'0');document.getElementById('military-time-toggle').checked=this.checked;if(window.updateClock)updateClock();" /><div class="toggle-track"></div></label>
         </div>
         <button id="profile-signout" class="btn-signout-full">Sign out</button>
       </div>
@@ -780,17 +788,42 @@
         modalToggle.addEventListener('change', function() { mainToggle.checked = modalToggle.checked; localStorage.setItem('blankTab', modalToggle.checked ? '1' : '0'); });
       }
 
+      var milMain  = document.getElementById('military-time-toggle');
+      var milModal = document.getElementById('military-time-toggle-modal');
+      if (milMain) milMain.checked = localStorage.getItem('militaryTime') === '1';
+      if (milModal) milModal.checked = localStorage.getItem('militaryTime') === '1';
+      if (milMain && milModal) {
+        milMain.addEventListener('change', function() {
+          milModal.checked = milMain.checked;
+          localStorage.setItem('militaryTime', milMain.checked ? '1' : '0');
+          updateClock();
+        });
+        milModal.addEventListener('change', function() {
+          milMain.checked = milModal.checked;
+          localStorage.setItem('militaryTime', milModal.checked ? '1' : '0');
+          updateClock();
+        });
+      }
+
       function updateClock() {
         var now = new Date();
-        var h = now.getHours().toString().padStart(2,'0');
+        var h = now.getHours();
         var m = now.getMinutes().toString().padStart(2,'0');
         var el = document.getElementById('status-clock');
-        if (el) el.textContent = h + ':' + m;
+        if (!el) return;
+        if (localStorage.getItem('militaryTime') === '1') {
+          el.textContent = h.toString().padStart(2,'0') + ':' + m;
+        } else {
+          var ampm = h >= 12 ? 'PM' : 'AM';
+          h = h % 12 || 12;
+          el.textContent = h + ':' + m + ' ' + ampm;
+        }
       }
+      window.updateClock = updateClock;
       updateClock();
       setInterval(updateClock, 10000);
 
-      
+      // â”€â”€ Battery â”€â”€
       if (navigator.getBattery) {
         navigator.getBattery().then(function(bat) {
           function updateBat() {
