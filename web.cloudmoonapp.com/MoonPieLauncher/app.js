@@ -71,7 +71,7 @@ function applyProfilePic(src) {
 }
 applyProfilePic(getProfilePic());
 
-const picFileInput  = document.getElementById("pic-file-input");
+const picFileInput  = document.getElementById("picfileinput");
 if (picFileInput) {
   picFileInput.addEventListener("change", () => {
     const file = picFileInput.files[0];
@@ -82,10 +82,10 @@ if (picFileInput) {
     picFileInput.value = "";
   });
 }
-const connectingOverlay = document.getElementById("connecting-overlay");
-const connectingMsg     = document.getElementById("connecting-msg");
-const needAccountBtn    = document.getElementById("need-account-btn");
-const blankTabToggle    = document.getElementById("blank-tab-toggle");
+const connectingOverlay = document.getElementById("connectingoverlay");
+const connectingMsg     = document.getElementById("connectingmsg");
+const needAccountBtn    = document.getElementById("needaccountbtn");
+const blankTabToggle    = document.getElementById("blanktabtoggle");
 
 function getBlankTab() { return localStorage.getItem("blankTab") === "1"; }
 function setBlankTab(v) { localStorage.setItem("blankTab", v ? "1" : "0"); }
@@ -407,7 +407,7 @@ if (needAccountBtn) {
 
 searchInput.addEventListener("input", (e) => {
   const q = e.target.value.toLowerCase();
-  gamesGrid.querySelectorAll(".game-tile").forEach((card) => {
+  gamesGrid.querySelectorAll(".gametile").forEach((card) => {
     card.style.display = card.dataset.name.toLowerCase().includes(q) ? "" : "none";
   });
   if (topGamesGrid) {
