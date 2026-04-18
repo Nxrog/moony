@@ -35,7 +35,7 @@
     }
 
 
-    .app-layout {
+    .applayout {
       display: flex;
       flex: 1;
       height: 100vh;
@@ -43,7 +43,7 @@
     }
 
     /*â”€â”€ */
-    .main-col {
+    .maincol {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -51,7 +51,7 @@
       min-width: 0;
     }
 
-    .main-toolbar {
+    .maintoolbar {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -62,7 +62,7 @@
       backdrop-filter: blur(12px);
     }
 
-    .main-search {
+    .mainsearch {
       flex: 1;
       max-width: 190px;
       background: var(--surface);
@@ -75,9 +75,9 @@
       outline: none;
       transition: border-color 0.12s;
     }
-    .main-search:focus { border-color: var(--border-hi); }
+    .mainsearch:focus { border-color: var(--border-hi); }
 
-    .nav-tabs-group {
+    .navtabsgroup {
       display: flex;
       gap: 0;
       background: var(--surface);
@@ -86,7 +86,7 @@
       padding: 3px;
       margin-left: auto;
     }
-    .nav-tab {
+    .navtab {
       background: none;
       border: none;
       color: rgba(255,255,255,0.4);
@@ -100,10 +100,10 @@
       white-space: nowrap;
       letter-spacing: 0.2px;
     }
-    .nav-tab:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.75); }
-    .nav-tab.active { background: var(--surface-2); color: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    .navtab:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.75); }
+    .navtab.active { background: var(--surface-2); color: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
 
-    .main-scroll {
+    .mainscroll {
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
@@ -111,15 +111,15 @@
       scrollbar-width: thin;
       scrollbar-color: rgba(255,255,255,0.08) transparent;
     }
-    .main-scroll::-webkit-scrollbar { width: 4px; }
-    .main-scroll::-webkit-scrollbar-track { background: transparent; }
-    .main-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .mainscroll::-webkit-scrollbar { width: 4px; }
+    .mainscroll::-webkit-scrollbar-track { background: transparent; }
+    .mainscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
 
-    .view-section { display: none; }
-    .view-section.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .viewsection { display: none; }
+    .viewsection.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
 
-    .game-tile {
+    .gametile {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
@@ -130,9 +130,9 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
-    .game-tile:hover { transform: scale(1.025); }
-    .game-tile:active { transform: scale(0.97); }
-    .game-tile img {
+    .gametile:hover { transform: scale(1.025); }
+    .gametile:active { transform: scale(0.97); }
+    .gametile img {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -141,14 +141,14 @@
       filter: brightness(0.85);
       transition: filter 0.25s;
     }
-    .game-tile:hover img { filter: brightness(0.65); }
-    .game-tile .tile-grad {
+    .gametile:hover img { filter: brightness(0.65); }
+    .gametile .tilegrad {
       position: absolute;
       inset: 0;
       background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 55%);
       pointer-events: none;
     }
-    .game-tile .tile-name {
+    .gametile .tilename {
       position: absolute;
       bottom: 7px;
       left: 8px;
@@ -162,7 +162,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .game-tile .tile-outline {
+    .gametile .tileoutline {
       position: absolute;
       inset: 0;
       border-radius: 12px;
@@ -171,8 +171,8 @@
       z-index: 3;
       transition: border-color 0.2s;
     }
-    .game-tile:hover .tile-outline { border-color: rgba(255,255,255,0.3); }
-    .game-tile button {
+    .gametile:hover .tileoutline { border-color: rgba(255,255,255,0.3); }
+    .gametile button {
       position: absolute;
       inset: 0;
       opacity: 0;
@@ -198,31 +198,31 @@
     }
     .sidebar::-webkit-scrollbar { display: none; }
 
-    .sidebar-logo {
+    .sidebarlogo {
       width: 42px;
       height: 42px;
       border-radius: 50%;
       object-fit: cover;
       opacity: 0.9;
     }
-    .sidebar-brand {
+    .sidebarbrand {
       font-size: 11px;
       font-weight: 700;
       color: rgba(255,255,255,0.45);
       letter-spacing: 0.5px;
       margin-top: -5px;
     }
-    .sidebar-sep {
+    .sidebarsep {
       width: 100%;
       height: 1px;
       background: var(--border);
     }
 
-    .sidebar-avatar-wrap {
+    .sidebaravatarwrap {
       position: relative;
       cursor: pointer;
     }
-    .sidebar-avatar {
+    .sidebaravatar {
       width: 64px;
       height: 64px;
       border-radius: 50%;
@@ -231,8 +231,8 @@
       display: block;
       transition: border-color 0.15s;
     }
-    .sidebar-avatar-wrap:hover .sidebar-avatar { border-color: rgba(255,255,255,0.45); }
-    .sidebar-avatar-overlay {
+    .sidebaravatarwrap:hover .sidebaravatar { border-color: rgba(255,255,255,0.45); }
+    .sidebaravataroverlay {
       position: absolute;
       inset: 0;
       border-radius: 50%;
@@ -249,9 +249,9 @@
       pointer-events: none;
       letter-spacing: 0.2px;
     }
-    .sidebar-avatar-wrap:hover .sidebar-avatar-overlay { opacity: 1; }
+    .sidebaravatarwrap:hover .sidebaravataroverlay { opacity: 1; }
 
-    .sidebar-email {
+    .sidebaremail {
       font-size: 10.5px;
       color: rgba(255,255,255,0.4);
       text-align: center;
@@ -259,7 +259,7 @@
       line-height: 1.4;
     }
 
-    .sidebar-profile-btn {
+    .sidebarprofilebtn {
       width: 100%;
       padding: 7px;
       background: rgba(255,255,255,0.06);
@@ -272,22 +272,22 @@
       cursor: pointer;
       transition: background 0.15s;
     }
-    .sidebar-profile-btn:hover { background: rgba(255,255,255,0.12); }
+    .sidebarprofilebtn:hover { background: rgba(255,255,255,0.12); }
 
-    .sidebar-region-wrap {
+    .sidebarregionwrap {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 5px;
     }
-    .sidebar-region-label {
+    .sidebarregionlabel {
       font-size: 9.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.7px;
       color: var(--muted);
     }
-    .sidebar-region-select {
+    .sidebarregionselect {
       width: 100%;
       background: var(--surface-2);
       border: 1px solid var(--border);
@@ -301,9 +301,9 @@
       outline: none;
       cursor: pointer;
     }
-    .sidebar-region-select:focus { border-color: var(--border-hi); }
+    .sidebarregionselect:focus { border-color: var(--border-hi); }
 
-    .sidebar-signout-btn {
+    .sidebarsignoutbtn {
       width: 100%;
       padding: 6px;
       background: none;
@@ -316,16 +316,45 @@
       transition: background 0.12s;
       display: none;
     }
-    .sidebar-signout-btn:hover { background: rgba(248,113,113,0.07); }
+    .sidebarsignoutbtn:hover { background: rgba(248,113,113,0.07); }
 
-    .sidebar-status {
+    .sidebardiscord {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: calc(100% - 8px);
+      padding: 8px 10px;
+      margin: 4px 4px 6px;
+      background: rgba(88,101,242,0.15);
+      border: 1px solid rgba(88,101,242,0.35);
+      border-radius: 9px;
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      cursor: pointer;
+    }
+    .sidebardiscord:hover {
+      background: rgba(88,101,242,0.3);
+      border-color: rgba(88,101,242,0.65);
+      color: #fff;
+    }
+    .sidebardiscord img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .sidebarstatus {
       margin-top: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 5px;
     }
-    .status-battery {
+    .statusbattery {
       font-size: 10px;
       font-weight: 500;
       color: rgba(255,255,255,0.35);
@@ -333,7 +362,7 @@
       align-items: center;
       gap: 4px;
     }
-    .battery-bar {
+    .batterybar {
       width: 20px;
       height: 9px;
       border: 1.5px solid rgba(255,255,255,0.25);
@@ -343,7 +372,7 @@
       align-items: center;
       padding: 1px;
     }
-    .battery-bar::after {
+    .batterybar::after {
       content: '';
       position: absolute;
       right: -3.5px;
@@ -354,15 +383,15 @@
       background: rgba(255,255,255,0.25);
       border-radius: 0 1px 1px 0;
     }
-    .battery-fill {
+    .batteryfill {
       height: 100%;
       background: rgba(255,255,255,0.5);
       border-radius: 1px;
       transition: width 0.4s;
     }
-    .battery-fill.low { background: #f87171; }
-    .battery-fill.mid { background: #fbbf24; }
-    .status-clock {
+    .batteryfill.low { background: #f87171; }
+    .batteryfill.mid { background: #fbbf24; }
+    .statusclock {
       font-size: 11px;
       font-weight: 600;
       color: rgba(255,255,255,0.38);
@@ -370,26 +399,26 @@
     }
 
 
-    .sidebar-toggle-row {
+    .sidebartogglerow {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
     }
-    .sidebar-toggle-label {
+    .sidebartogglelabel {
       font-size: 10.5px;
       color: rgba(255,255,255,0.5);
       line-height: 1.3;
     }
-    .sidebar-toggle-label small {
+    .sidebartogglelabel small {
       display: block;
       font-size: 9.5px;
       color: var(--muted);
     }
-    .toggle-switch { position: relative; width: 34px; height: 19px; flex-shrink: 0; }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .toggle-track {
+    .toggleswitch { position: relative; width: 34px; height: 19px; flex-shrink: 0; }
+    .toggleswitch input { opacity: 0; width: 0; height: 0; }
+    .toggletrack {
       position: absolute;
       inset: 0;
       background: rgba(255,255,255,0.1);
@@ -398,7 +427,7 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .toggle-track::before {
+    .toggletrack::before {
       content: '';
       position: absolute;
       width: 13px;
@@ -409,11 +438,11 @@
       border-radius: 50%;
       transition: transform 0.2s, background 0.2s;
     }
-    .toggle-switch input:checked + .toggle-track { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
-    .toggle-switch input:checked + .toggle-track::before { transform: translateX(15px); background: #fff; }
+    .toggleswitch input:checked + .toggletrack { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
+    .toggleswitch input:checked + .toggletrack::before { transform: translateX(15px); background: #fff; }
 
 
-    #profile-modal {
+    #profilemodal {
       display: none;
       position: fixed;
       inset: 0;
@@ -423,7 +452,7 @@
       align-items: center;
       justify-content: center;
     }
-    .profile-box {
+    .profilebox {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -431,19 +460,19 @@
       max-width: 300px;
       width: 90%;
     }
-    .profile-modal-head {
+    .profilehead {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 16px;
     }
-    .profile-modal-head h3 { font-size: 14px; font-weight: 600; }
-    .profile-close-btn {
+    .profilehead h3 { font-size: 14px; font-weight: 600; }
+    .profileclosebtn {
       background: none; border: none; color: var(--muted);
       cursor: pointer; font-size: 16px; line-height: 1;
       padding: 2px 6px; border-radius: 5px; font-family: inherit;
     }
-    .profile-close-btn:hover { color: var(--text); }
+    .profileclosebtn:hover { color: var(--text); }
     .field { margin-bottom: 10px; }
     .field label {
       display: block; font-size: 10px; font-weight: 600;
@@ -459,7 +488,7 @@
       transition: border-color 0.12s;
     }
     .field input:focus, .field select:focus { border-color: var(--border-hi); }
-    #error-msg {
+    #errormsg {
       display: none; margin: 8px 0; padding: 7px 10px;
       background: rgba(248,113,113,0.07);
       border: 1px solid rgba(248,113,113,0.15);
@@ -485,32 +514,32 @@
       padding: 10px 12px; background: var(--surface-2);
       border: 1px solid var(--border); border-radius: 9px; margin-bottom: 14px;
     }
-    #profile-email-text { font-size: 12px; color: rgba(255,255,255,0.55); word-break: break-all; line-height: 1.4; }
-    .setting-row {
+    #profileemailtext { font-size: 12px; color: rgba(255,255,255,0.55); word-break: break-all; line-height: 1.4; }
+    .settingrow {
       display: flex; align-items: center;
       justify-content: space-between;
       padding: 9px 0; border-top: 1px solid var(--border); margin-top: 10px;
     }
-    .setting-row-label { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.4; }
-    .setting-row-label span { display: block; font-size: 10px; color: var(--muted); margin-top: 1px; }
-    .btn-signout-full {
+    .settingrowlabel { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.4; }
+    .settingrowlabel span { display: block; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .fullsignoutbtn {
       width: 100%; margin-top: 10px; padding: 8px; background: none;
       border: 1px solid rgba(248,113,113,0.2); color: #f87171;
       border-radius: 8px; font-size: 12px; font-family: inherit; cursor: pointer;
       transition: background 0.12s;
     }
-    .btn-signout-full:hover { background: rgba(248,113,113,0.07); }
+    .fullsignoutbtn:hover { background: rgba(248,113,113,0.07); }
 
-    #connecting-overlay {
+    #connectingoverlay {
       display: none; position: fixed; inset: 0;
       background: rgba(8,8,8,0.97); z-index: 9999;
       flex-direction: column; align-items: center; justify-content: center; gap: 16px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    #game-section { display: block; }
+    #gamesection { display: block; }
 
-    .hamburger-btn {
+    .hamburgerbtn {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -525,9 +554,9 @@
       flex-shrink: 0;
       transition: background 0.15s, border-color 0.15s;
     }
-    .hamburger-btn:hover { background: var(--surface-2); border-color: var(--border-hi); }
-    .hamburger-btn.active { background: var(--surface-2); border-color: var(--border-hi); }
-    .hamburger-btn span {
+    .hamburgerbtn:hover { background: var(--surface-2); border-color: var(--border-hi); }
+    .hamburgerbtn.active { background: var(--surface-2); border-color: var(--border-hi); }
+    .hamburgerbtn span {
       display: block;
       width: 100%;
       height: 2.5px;
@@ -535,10 +564,10 @@
       background: rgba(255,255,255,0.65);
       transition: background 0.15s;
     }
-    .hamburger-btn:hover span,
-    .hamburger-btn.active span { background: rgba(255,255,255,0.95); }
+    .hamburgerbtn:hover span,
+    .hamburgerbtn.active span { background: rgba(255,255,255,0.95); }
 
-    .sidebar-wrap {
+    .sidebarwrap {
       position: relative;
       display: flex;
       flex-shrink: 0;
@@ -547,7 +576,7 @@
       transition: width 0.28s ease, opacity 0.25s ease, padding 0.28s ease;
       overflow: hidden;
     }
-    .sidebar-wrap.collapsed .sidebar {
+    .sidebarwrap.collapsed .sidebar {
       display: flex;
       width: 0 !important;
       padding-left: 0 !important;
@@ -556,93 +585,93 @@
       pointer-events: none;
       border-left: none;
     }
-    .sidebar-wrap.collapsed { width: 0; }
+    .sidebarwrap.collapsed { width: 0; }
   </style>
 </head>
 <body>
 
-  <div class="app-layout">
+  <div class="applayout">
 
    
-    <div class="main-col">
-      <div class="main-toolbar">
-        <input id="game-search" type="text" class="main-search" placeholder="Search..." />
-        <div class="nav-tabs-group">
-          <button class="nav-tab active" id="nav-selection">Selection</button>
-          <button class="nav-tab" id="nav-apps">Apps</button>
+    <div class="maincol">
+      <div class="maintoolbar">
+        <input id="gamesearch" type="text" class="mainsearch" placeholder="Search..." />
+        <div class="navtabsgroup">
+          <button class="navtab active" id="navselection">Selection</button>
+          <button class="navtab" id="navapps">Apps</button>
         </div>
-        <button class="hamburger-btn active" id="sidebar-toggle-btn" title="Toggle sidebar">
+        <button class="hamburgerbtn active" id="sidebartogglebtn" title="Toggle sidebar">
           <span></span><span></span><span></span>
         </button>
       </div>
 
-      <div class="main-scroll" id="game-section">
-        <div id="games-grid">
-          <div class="view-section active" id="view-selection">
-            <div class="game-tile" data-name="Roblox" data-pkg="com.roblox.client"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" /><div class="tile-grad"></div><div class="tile-name">Roblox</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Fortnite" data-pkg="com.epicgames.fortnite"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" /><div class="tile-grad"></div><div class="tile-name">Fortnite</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" /><div class="tile-grad"></div><div class="tile-name">Genshin Impact</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" /><div class="tile-grad"></div><div class="tile-name">Brawl Stars</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Free Fire" data-pkg="com.dts.freefireth"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" /><div class="tile-grad"></div><div class="tile-name">Free Fire</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" /><div class="tile-grad"></div><div class="tile-name">Call of Duty</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="PUBG Mobile" data-pkg="com.tencent.ig"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pubg_Mobile.webp" alt="PUBG Mobile" /><div class="tile-grad"></div><div class="tile-name">PUBG Mobile</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Clash of Clans" data-pkg="com.supercell.clashofclans"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_clash_of_clans.webp" alt="Clash of Clans" /><div class="tile-grad"></div><div class="tile-name">Clash of Clans</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Clash Royale" data-pkg="com.supercell.clashroyale"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" /><div class="tile-grad"></div><div class="tile-name">Clash Royale</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Mobile Legends" data-pkg="com.mobile.legends"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Mobile_Legends_Bang_Bang.webp" alt="Mobile Legends" /><div class="tile-grad"></div><div class="tile-name">Mobile Legends</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" /><div class="tile-grad"></div><div class="tile-name">Stumble Guys</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Among Us" data-pkg="com.innersloth.spacemafia"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" /><div class="tile-grad"></div><div class="tile-name">Among Us</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Honkai: Star Rail" data-pkg="com.HoYoverse.hkrpgoversea"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Star_Rail.webp" alt="Honkai: Star Rail" /><div class="tile-grad"></div><div class="tile-name">Honkai: Star Rail</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Wuthering Waves" data-pkg="com.kurogame.wutheringwaves.global"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_wuthering_waves.webp" alt="Wuthering Waves" /><div class="tile-grad"></div><div class="tile-name">Wuthering Waves</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Zenless Zone Zero" data-pkg="com.HoYoverse.Nap"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_zenless_zone_zero_new.webp" alt="Zenless Zone Zero" /><div class="tile-grad"></div><div class="tile-name">Zenless Zone Zero</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Wild Rift" data-pkg="com.riotgames.league.wildrift"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_League_of_Legends.webp" alt="Wild Rift" /><div class="tile-grad"></div><div class="tile-name">Wild Rift</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Dragon Ball Legends" data-pkg="com.bandainamcoent.dblegends_ww"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_DRAGON_BALL_LEGENDS_251020.webp" alt="Dragon Ball Legends" /><div class="tile-grad"></div><div class="tile-name">Dragon Ball Legends</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Geometry Dash Lite" data-pkg="com.robtopx.geometryjumplite"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Geometry_Dash_Lite.webp" alt="Geometry Dash Lite" /><div class="tile-grad"></div><div class="tile-name">Geometry Dash</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="EA SPORTS FC Mobile" data-pkg="com.ea.gp.fifamobile"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_EA_SPORTS_FC_Mobile.webp" alt="EA SPORTS FC Mobile" /><div class="tile-grad"></div><div class="tile-name">FC Mobile</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Solo Leveling: Arise" data-pkg="com.netmarble.sololv"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_solo_leveling.webp" alt="Solo Leveling" /><div class="tile-grad"></div><div class="tile-name">Solo Leveling</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Granny" data-pkg="com.dvloper.granny"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Granny.webp" alt="Granny" /><div class="tile-grad"></div><div class="tile-name">Granny</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Melon Sandbox" data-pkg="com.studio27.MelonPlayground"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Melon_Sandbox.webp" alt="Melon Sandbox" /><div class="tile-grad"></div><div class="tile-name">Melon Sandbox</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Honkai Impact 3rd" data-pkg="com.miHoYo.bh3global"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Impact_3rd.webp" alt="Honkai Impact 3rd" /><div class="tile-grad"></div><div class="tile-name">Honkai Impact 3rd</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="PokÃ©mon TCG Pocket" data-pkg="jp.pokemon.pokemontcgp"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pokemon_TCG_Pocket.webp" alt="PokÃ©mon TCG Pocket" /><div class="tile-grad"></div><div class="tile-name">PokÃ©mon TCG Pocket</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Rocket League Sideswipe" data-pkg="com.Psyonix.RL2D"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rocket_League_Sideswipe.webp" alt="Rocket League Sideswipe" /><div class="tile-grad"></div><div class="tile-name">Rocket League Sideswipe</div><div class="tile-outline"></div><button type="button">Play</button></div>
-            <div class="game-tile" data-name="Rainbow Six Mobile" data-pkg="com.ubisoft.rainbowsixmobile.r6.fps.pvp.shooter"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rainbow_Six_Mobile.webp" alt="Rainbow Six Mobile" /><div class="tile-grad"></div><div class="tile-name">Rainbow Six Mobile</div><div class="tile-outline"></div><button type="button">Play</button></div>
+      <div class="mainscroll" id="gamesection">
+        <div id="gamesgrid">
+          <div class="viewsection active" id="viewselection">
+            <div class="gametile" data-name="Roblox" data-pkg="com.roblox.client"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Roblox.webp" alt="Roblox" /><div class="tilegrad"></div><div class="tilename">Roblox</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Fortnite" data-pkg="com.epicgames.fortnite"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Fortnite.webp" alt="Fortnite" /><div class="tilegrad"></div><div class="tilename">Fortnite</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Genshin Impact" data-pkg="com.miHoYo.GenshinImpact"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Genshin_Impact.webp" alt="Genshin Impact" /><div class="tilegrad"></div><div class="tilename">Genshin Impact</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Brawl Stars" data-pkg="com.supercell.brawlstars"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Brawl_Stars.webp" alt="Brawl Stars" /><div class="tilegrad"></div><div class="tilename">Brawl Stars</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Free Fire" data-pkg="com.dts.freefireth"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_free_fire.webp" alt="Free Fire" /><div class="tilegrad"></div><div class="tilename">Free Fire</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Call of Duty" data-pkg="com.activision.callofduty.shooter"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_codm_us.webp" alt="Call of Duty" /><div class="tilegrad"></div><div class="tilename">Call of Duty</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="PUBG Mobile" data-pkg="com.tencent.ig"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pubg_Mobile.webp" alt="PUBG Mobile" /><div class="tilegrad"></div><div class="tilename">PUBG Mobile</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Clash of Clans" data-pkg="com.supercell.clashofclans"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_clash_of_clans.webp" alt="Clash of Clans" /><div class="tilegrad"></div><div class="tilename">Clash of Clans</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Clash Royale" data-pkg="com.supercell.clashroyale"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Clash_Royale.webp" alt="Clash Royale" /><div class="tilegrad"></div><div class="tilename">Clash Royale</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Mobile Legends" data-pkg="com.mobile.legends"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Mobile_Legends_Bang_Bang.webp" alt="Mobile Legends" /><div class="tilegrad"></div><div class="tilename">Mobile Legends</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Stumble Guys" data-pkg="com.kitkagames.fallbuddies"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Stumble_Guys.webp" alt="Stumble Guys" /><div class="tilegrad"></div><div class="tilename">Stumble Guys</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Among Us" data-pkg="com.innersloth.spacemafia"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Among_Us.webp" alt="Among Us" /><div class="tilegrad"></div><div class="tilename">Among Us</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Honkai: Star Rail" data-pkg="com.HoYoverse.hkrpgoversea"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Star_Rail.webp" alt="Honkai: Star Rail" /><div class="tilegrad"></div><div class="tilename">Honkai: Star Rail</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Wuthering Waves" data-pkg="com.kurogame.wutheringwaves.global"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_wuthering_waves.webp" alt="Wuthering Waves" /><div class="tilegrad"></div><div class="tilename">Wuthering Waves</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Zenless Zone Zero" data-pkg="com.HoYoverse.Nap"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_zenless_zone_zero_new.webp" alt="Zenless Zone Zero" /><div class="tilegrad"></div><div class="tilename">Zenless Zone Zero</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Wild Rift" data-pkg="com.riotgames.league.wildrift"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_League_of_Legends.webp" alt="Wild Rift" /><div class="tilegrad"></div><div class="tilename">Wild Rift</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Dragon Ball Legends" data-pkg="com.bandainamcoent.dblegends_ww"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_DRAGON_BALL_LEGENDS_251020.webp" alt="Dragon Ball Legends" /><div class="tilegrad"></div><div class="tilename">Dragon Ball Legends</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Geometry Dash Lite" data-pkg="com.robtopx.geometryjumplite"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Geometry_Dash_Lite.webp" alt="Geometry Dash Lite" /><div class="tilegrad"></div><div class="tilename">Geometry Dash</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="EA SPORTS FC Mobile" data-pkg="com.ea.gp.fifamobile"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_EA_SPORTS_FC_Mobile.webp" alt="EA SPORTS FC Mobile" /><div class="tilegrad"></div><div class="tilename">FC Mobile</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Solo Leveling: Arise" data-pkg="com.netmarble.sololv"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_solo_leveling.webp" alt="Solo Leveling" /><div class="tilegrad"></div><div class="tilename">Solo Leveling</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Granny" data-pkg="com.dvloper.granny"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Granny.webp" alt="Granny" /><div class="tilegrad"></div><div class="tilename">Granny</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Melon Sandbox" data-pkg="com.studio27.MelonPlayground"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Melon_Sandbox.webp" alt="Melon Sandbox" /><div class="tilegrad"></div><div class="tilename">Melon Sandbox</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Honkai Impact 3rd" data-pkg="com.miHoYo.bh3global"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Honkai_Impact_3rd.webp" alt="Honkai Impact 3rd" /><div class="tilegrad"></div><div class="tilename">Honkai Impact 3rd</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="PokÃ©mon TCG Pocket" data-pkg="jp.pokemon.pokemontcgp"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Pokemon_TCG_Pocket.webp" alt="PokÃ©mon TCG Pocket" /><div class="tilegrad"></div><div class="tilename">PokÃ©mon TCG Pocket</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Rocket League Sideswipe" data-pkg="com.Psyonix.RL2D"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rocket_League_Sideswipe.webp" alt="Rocket League Sideswipe" /><div class="tilegrad"></div><div class="tilename">Rocket League Sideswipe</div><div class="tileoutline"></div><button type="button">Play</button></div>
+            <div class="gametile" data-name="Rainbow Six Mobile" data-pkg="com.ubisoft.rainbowsixmobile.r6.fps.pvp.shooter"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Rainbow_Six_Mobile.webp" alt="Rainbow Six Mobile" /><div class="tilegrad"></div><div class="tilename">Rainbow Six Mobile</div><div class="tileoutline"></div><button type="button">Play</button></div>
           </div>
-          <div class="view-section" id="view-apps">
-            <div class="game-tile" data-name="TikTok" data-pkg="com.zhiliaoapp.musically"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" /><div class="tile-grad"></div><div class="tile-name">TikTok</div><div class="tile-outline"></div><button type="button">Open</button></div>
-            <div class="game-tile" data-name="YouTube" data-pkg="com.google.android.youtube"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" /><div class="tile-grad"></div><div class="tile-name">YouTube</div><div class="tile-outline"></div><button type="button">Open</button></div>
-            <div class="game-tile" data-name="Spotify" data-pkg="com.spotify.music"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" /><div class="tile-grad"></div><div class="tile-name">Spotify</div><div class="tile-outline"></div><button type="button">Open</button></div>
-            <div class="game-tile" data-name="Chrome" data-pkg="com.android.chrome"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" /><div class="tile-grad"></div><div class="tile-name">Chrome</div><div class="tile-outline"></div><button type="button">Open</button></div>
-            <div class="game-tile" data-name="Discord" data-pkg="com.discord"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" /><div class="tile-grad"></div><div class="tile-name">Discord</div><div class="tile-outline"></div><button type="button">Open</button></div>
-            <div class="game-tile" data-name="Character AI" data-pkg="ai.character.app"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Character_AI.webp" alt="Character AI" /><div class="tile-grad"></div><div class="tile-name">Character AI</div><div class="tile-outline"></div><button type="button">Open</button></div>
-            <div class="game-tile" data-name="ChatGPT" data-pkg="com.openai.chatgpt"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_ChatGPT.webp" alt="ChatGPT" /><div class="tile-grad"></div><div class="tile-name">ChatGPT</div><div class="tile-outline"></div><button type="button">Open</button></div>
+          <div class="viewsection" id="viewapps">
+            <div class="gametile" data-name="TikTok" data-pkg="com.zhiliaoapp.musically"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_TikTok.webp" alt="TikTok" /><div class="tilegrad"></div><div class="tilename">TikTok</div><div class="tileoutline"></div><button type="button">Open</button></div>
+            <div class="gametile" data-name="YouTube" data-pkg="com.google.android.youtube"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_YouTube.webp" alt="YouTube" /><div class="tilegrad"></div><div class="tilename">YouTube</div><div class="tileoutline"></div><button type="button">Open</button></div>
+            <div class="gametile" data-name="Spotify" data-pkg="com.spotify.music"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Spotify.webp" alt="Spotify" /><div class="tilegrad"></div><div class="tilename">Spotify</div><div class="tileoutline"></div><button type="button">Open</button></div>
+            <div class="gametile" data-name="Chrome" data-pkg="com.android.chrome"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_chrome.webp" alt="Chrome" /><div class="tilegrad"></div><div class="tilename">Chrome</div><div class="tileoutline"></div><button type="button">Open</button></div>
+            <div class="gametile" data-name="Discord" data-pkg="com.discord"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Discord.webp" alt="Discord" /><div class="tilegrad"></div><div class="tilename">Discord</div><div class="tileoutline"></div><button type="button">Open</button></div>
+            <div class="gametile" data-name="Character AI" data-pkg="ai.character.app"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_Character_AI.webp" alt="Character AI" /><div class="tilegrad"></div><div class="tilename">Character AI</div><div class="tileoutline"></div><button type="button">Open</button></div>
+            <div class="gametile" data-name="ChatGPT" data-pkg="com.openai.chatgpt"><img src="https://cloudmoon-1305370474.cos.ap-singapore.myqcloud.com/cloudgame-icon/icon_ChatGPT.webp" alt="ChatGPT" /><div class="tilegrad"></div><div class="tilename">ChatGPT</div><div class="tileoutline"></div><button type="button">Open</button></div>
           </div>
 
         </div>
       </div>
     </div>
 
-    <div class="sidebar-wrap" id="sidebar-wrap">
+    <div class="sidebarwrap" id="sidebarwrap">
       <aside class="sidebar">
-      <img class="sidebar-logo" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="MoonPie" />
-      <div class="sidebar-brand">MoonPie</div>
-      <div class="sidebar-sep"></div>
+      <img class="sidebarlogo" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="MoonPie" />
+      <div class="sidebarbrand">MoonPie</div>
+      <div class="sidebarsep"></div>
 
-      <label class="sidebar-avatar-wrap" id="profile-pic-wrap" for="pic-file-input" style="cursor:pointer">
-        <img class="sidebar-avatar" id="topbar-avatar" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="Profile" />
-        <img id="profile-pic-img" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" style="display:none" alt="" />
-        <div class="sidebar-avatar-overlay">Change<br>photo</div>
-        <input type="file" id="pic-file-input" accept="image/*" style="display:none" />
+      <label class="sidebaravatarwrap" id="profilepicwrap" for="picfileinput" style="cursor:pointer">
+        <img class="sidebaravatar" id="topbaravatar" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="Profile" />
+        <img id="profilepicimg" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" style="display:none" alt="" />
+        <div class="sidebaravataroverlay">Change<br>photo</div>
+        <input type="file" id="picfileinput" accept="image/*" style="display:none" />
       </label>
 
-      <div class="sidebar-email" id="sidebar-email-disp">Not signed in</div>
-      <button class="sidebar-profile-btn" id="profile-btn">Sign in</button>
-      <button class="sidebar-signout-btn" id="sidebar-signout">Sign out</button>
+      <div class="sidebaremail" id="sidebaremaildisp">Not signed in</div>
+      <button class="sidebarprofilebtn" id="profilebtn">Sign in</button>
+      <button class="sidebarsignoutbtn" id="sidebarsignout">Sign out</button>
 
-      <div class="sidebar-sep"></div>
+      <div class="sidebarsep"></div>
 
       
-      <div class="sidebar-region-wrap">
-        <div class="sidebar-region-label">Region</div>
-        <select id="server-select" class="sidebar-region-select">
+      <div class="sidebarregionwrap">
+        <div class="sidebarregionlabel">Region</div>
+        <select id="serverselect" class="sidebarregionselect">
           <option value="0">All regions</option>
           <option value="3">Asia</option>
           <option value="4">Europe</option>
@@ -653,37 +682,41 @@
       </div>
 
       
-      <div class="sidebar-toggle-row">
-        <div class="sidebar-toggle-label">Blank Tab<small>about:blank tab</small></div>
-        <label class="toggle-switch"><input type="checkbox" id="blank-tab-toggle" /><div class="toggle-track"></div></label>
+      <div class="sidebartogglerow">
+        <div class="sidebartogglelabel">Blank Tab<small>about:blank tab</small></div>
+        <label class="toggleswitch"><input type="checkbox" id="blanktabtoggle" /><div class="toggletrack"></div></label>
       </div>
-      <div class="sidebar-toggle-row">
-        <div class="sidebar-toggle-label">24 hour time<small>24 hour clock</small></div>
-        <label class="toggle-switch"><input type="checkbox" id="military-time-toggle" /><div class="toggle-track"></div></label>
+      <div class="sidebartogglerow">
+        <div class="sidebartogglelabel">24 hour time<small>24 hour clock</small></div>
+        <label class="toggleswitch"><input type="checkbox" id="24hourtoggle" /><div class="toggletrack"></div></label>
       </div>
-      <div class="sidebar-status">
-        <div class="status-battery" id="status-battery">
-          <div class="battery-bar"><div class="battery-fill" id="battery-fill" style="width:100%"></div></div>
-          <span id="battery-pct">100%</span>
+      <div class="sidebarstatus">
+        <a class="sidebardiscord" href="https://discord.gg/UPRQynph" target="_blank" rel="noopener">
+          <img src="./images/discordicon.png" alt="Discord" />
+          Join Discord
+        </a>
+        <div class="statusbattery" id="statusbattery">
+          <div class="batterybar"><div class="batteryfill" id="batteryfill" style="width:100%"></div></div>
+          <span id="batterypct">100%</span>
         </div>
-        <div class="status-clock" id="status-clock">00:00</div>
+        <div class="statusclock" id="statusclock">00:00</div>
       </div>
     </aside>
     </div>
 
   </div>
-  <div id="profile-modal">
-    <div class="profile-box">
-      <div class="profile-modal-head">
+  <div id="profilemodal">
+    <div class="profilebox">
+      <div class="profilehead">
         <h3>Profile</h3>
-        <button id="close-profile-modal" class="profile-close-btn">âœ•</button>
+        <button id="close-profilemodal" class="profileclosebtn">âœ•</button>
       </div>
-      <div id="profile-signin-view">
-        <form id="signin-form">
+      <div id="signinview">
+        <form id="signinform">
           <div class="field"><label>Email</label><input id="email" type="text" autocomplete="email" placeholder="you@example.com" required /></div>
           <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required /></div>
           <div class="field"><label>Region</label>
-            <select id="signin-server">
+            <select id="signinserver">
               <option value="0">select region...</option>
               <option value="3">Asia</option>
               <option value="4">Europe</option>
@@ -692,17 +725,17 @@
               <option value="21">South america</option>
             </select>
           </div>
-          <div id="error-msg"></div>
+          <div id="errormsg"></div>
           <button class="btn-primary" type="submit">Sign in &rarr;</button>
         </form>
-        <div class="signin-hint">No account? <button type="button" id="need-account-btn">cloudmoonapp.com</button></div>
+        <div class="signin-hint">No account? <button type="button" id="needaccountbtn">cloudmoonapp.com</button></div>
       </div>
-      <div id="profile-loggedin-view" style="display:none">
+      <div id="loggedinview" style="display:none">
         <div class="profile-user-info">
-          <div id="profile-email-text" class="profile-email-text">Signed in</div>
+          <div id="profileemailtext" class="profileemailtext">Signed in</div>
         </div>
         <div class="field"><label>Region</label>
-          <select id="profile-region">
+          <select id="profileregion">
             <option value="0">Select region...</option>
             <option value="3">Asia</option>
             <option value="4">Europe</option>
@@ -711,28 +744,28 @@
             <option value="21">South America</option>
           </select>
         </div>
-        <div class="setting-row">
-          <div class="setting-row-label">Blank Tab Mode<span>Opens games in a hidden about:blank tab</span></div>
-          <label class="toggle-switch"><input type="checkbox" id="blank-tab-toggle-modal" onchange="localStorage.setItem('blankTab',this.checked?'1':'0');document.getElementById('blank-tab-toggle').checked=this.checked" /><div class="toggle-track"></div></label>
+        <div class="settingrow">
+          <div class="settingrowlabel">Blank Tab Mode<span>Opens games in a hidden about:blank tab</span></div>
+          <label class="toggleswitch"><input type="checkbox" id="blanktabtogglemodal" onchange="localStorage.setItem('blankTab',this.checked?'1':'0');document.getElementById('blanktabtoggle').checked=this.checked" /><div class="toggletrack"></div></label>
         </div>
-        <div class="setting-row">
-          <div class="setting-row-label">Military Time<span>Show clock in 24-hour format</span></div>
-          <label class="toggle-switch"><input type="checkbox" id="military-time-toggle-modal" onchange="localStorage.setItem('militaryTime',this.checked?'1':'0');document.getElementById('military-time-toggle').checked=this.checked;if(window.updateClock)updateClock();" /><div class="toggle-track"></div></label>
+        <div class="settingrow">
+          <div class="settingrowlabel">Military Time<span>Show clock in 24-hour format</span></div>
+          <label class="toggleswitch"><input type="checkbox" id="24hourtogglemodal" onchange="localStorage.setItem('militaryTime',this.checked?'1':'0');document.getElementById('24hourtoggle').checked=this.checked;if(window.updateClock)updateClock();" /><div class="toggletrack"></div></label>
         </div>
-        <button id="profile-signout" class="btn-signout-full">Sign out</button>
+        <button id="profilesignout" class="fullsignoutbtn">Sign out</button>
       </div>
     </div>
   </div>
-  <div id="connecting-overlay">
+  <div id="connectingoverlay">
     <div style="width:38px;height:38px;border:2px solid rgba(255,255,255,0.08);border-top-color:#ccc;border-radius:50%;animation:spin 0.65s linear infinite;"></div>
-    <div id="connecting-msg" style="font-size:13px;color:#555;font-weight:500;">Connecting...</div>
+    <div id="connectingmsg" style="font-size:13px;color:#555;font-weight:500;">Connecting...</div>
   </div>
 
   <script src="./app.js"></script>
   <script>
     (function() {
-      var sidebarWrap = document.getElementById('sidebar-wrap');
-      var toggleBtn   = document.getElementById('sidebar-toggle-btn');
+      var sidebarWrap = document.getElementById('sidebarwrap');
+      var toggleBtn   = document.getElementById('sidebartogglebtn');
       if (toggleBtn) {
         toggleBtn.addEventListener('click', function() {
           sidebarWrap.classList.toggle('collapsed');
@@ -740,12 +773,12 @@
         });
       }
 
-      var sideSignout = document.getElementById('sidebar-signout');
+      var sideSignout = document.getElementById('sidebarsignout');
       if (sideSignout) sideSignout.addEventListener('click', function() {
         localStorage.removeItem('userData');
         updateSidebarState();
-        var lv = document.getElementById('profile-loggedin-view');
-        var sv = document.getElementById('profile-signin-view');
+        var lv = document.getElementById('loggedinview');
+        var sv = document.getElementById('signinview');
         if (lv) lv.style.display = 'none';
         if (sv) sv.style.display = 'block';
       });
@@ -754,9 +787,9 @@
       function updateSidebarState() {
         var ud = null;
         try { ud = JSON.parse(localStorage.getItem('userData') || 'null'); } catch(e){}
-        var emailEl  = document.getElementById('sidebar-email-disp');
-        var profBtn  = document.getElementById('profile-btn');
-        var soBtn    = document.getElementById('sidebar-signout');
+        var emailEl  = document.getElementById('sidebaremaildisp');
+        var profBtn  = document.getElementById('profilebtn');
+        var soBtn    = document.getElementById('sidebarsignout');
         if (ud && ud.token) {
           if (emailEl) emailEl.textContent = ud.email || 'Signed in';
           if (profBtn) profBtn.textContent = 'Profile';
@@ -769,27 +802,27 @@
       }
       updateSidebarState();
 
-      var origClose = document.getElementById('close-profile-modal');
+      var origClose = document.getElementById('close-profilemodal');
       if (origClose) origClose.addEventListener('click', updateSidebarState);
-      var pModal = document.getElementById('profile-modal');
+      var pModal = document.getElementById('profilemodal');
       if (pModal) pModal.addEventListener('click', function(e){
         if (e.target === pModal) updateSidebarState();
       });
-      var sf = document.getElementById('signin-form');
+      var sf = document.getElementById('signinform');
       if (sf) sf.addEventListener('submit', function() {
         setTimeout(updateSidebarState, 500);
       });
 
-      var mainToggle  = document.getElementById('blank-tab-toggle');
-      var modalToggle = document.getElementById('blank-tab-toggle-modal');
+      var mainToggle  = document.getElementById('blanktabtoggle');
+      var modalToggle = document.getElementById('blanktabtogglemodal');
       if (mainToggle && modalToggle) {
         modalToggle.checked = mainToggle.checked;
         mainToggle.addEventListener('change', function()  { modalToggle.checked = mainToggle.checked; });
         modalToggle.addEventListener('change', function() { mainToggle.checked = modalToggle.checked; localStorage.setItem('blankTab', modalToggle.checked ? '1' : '0'); });
       }
 
-      var milMain  = document.getElementById('military-time-toggle');
-      var milModal = document.getElementById('military-time-toggle-modal');
+      var milMain  = document.getElementById('24hourtoggle');
+      var milModal = document.getElementById('24hourtogglemodal');
       if (milMain) milMain.checked = localStorage.getItem('militaryTime') === '1';
       if (milModal) milModal.checked = localStorage.getItem('militaryTime') === '1';
       if (milMain && milModal) {
@@ -809,7 +842,7 @@
         var now = new Date();
         var h = now.getHours();
         var m = now.getMinutes().toString().padStart(2,'0');
-        var el = document.getElementById('status-clock');
+        var el = document.getElementById('statusclock');
         if (!el) return;
         if (localStorage.getItem('militaryTime') === '1') {
           el.textContent = h.toString().padStart(2,'0') + ':' + m;
@@ -828,16 +861,16 @@
         navigator.getBattery().then(function(bat) {
           function updateBat() {
             var pct = Math.round(bat.level * 100);
-            var fill  = document.getElementById('battery-fill');
-            var label = document.getElementById('battery-pct');
-            if (fill) { fill.style.width = pct + '%'; fill.className = 'battery-fill' + (pct <= 20 ? ' low' : pct <= 40 ? ' mid' : ''); }
+            var fill  = document.getElementById('batteryfill');
+            var label = document.getElementById('batterypct');
+            if (fill) { fill.style.width = pct + '%'; fill.className = 'batteryfill' + (pct <= 20 ? ' low' : pct <= 40 ? ' mid' : ''); }
             if (label) label.textContent = pct + '%';
           }
           updateBat();
           bat.addEventListener('levelchange', updateBat);
         });
       } else {
-        var bEl = document.getElementById('status-battery');
+        var bEl = document.getElementById('statusbattery');
         if (bEl) bEl.style.display = 'none';
       }
     })();
