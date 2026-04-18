@@ -29,7 +29,7 @@ const errorMsg        = document.getElementById("errormsg");
 const serverSelect    = document.getElementById("serverselect");
 const signinServer    = document.getElementById("signinserver");
 
-// --- Nav tab switching ---
+
 function showView(name) {
   document.querySelectorAll(".viewsection").forEach(v => v.classList.remove("active"));
   document.querySelectorAll(".navtab").forEach(t => t.classList.remove("active"));
@@ -44,6 +44,7 @@ const navApps      = document.getElementById("navapps");
 if (navSelection) navSelection.addEventListener("click", () => showView("selection"));
 if (navApps)      navApps.addEventListener("click", () => showView("apps"));
 
+
 const featuredGrid = document.getElementById("featured-grid");
 if (featuredGrid) {
   featuredGrid.addEventListener("click", (e) => {
@@ -56,6 +57,7 @@ if (featuredGrid) {
     launchGame(pkg);
   });
 }
+
 
 const DEFAULT_AVATAR = "https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png";
 function getProfilePic() { return localStorage.getItem("profilePic") || DEFAULT_AVATAR; }
@@ -308,7 +310,7 @@ async function launchGame(packageName) {
           w.document.write('<style>*{margin:0;padding:0;overflow:hidden}</style><iframe src="' + finalUrl + '" style="border:none;width:100vw;height:100vh;display:block"></iframe>');
           w.document.close();
         } else {
-          window.location.href = finalUrl; // popup blocked fallback
+          window.location.href = finalUrl; 
         }
       } else {
         window.location.href = finalUrl;
@@ -329,7 +331,7 @@ async function launchGame(packageName) {
   showGames();
 })();
 
-signinForm.addEventListener("submit", async (e) => {
+if (signinForm) signinForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   hideError();
 
@@ -349,7 +351,6 @@ signinForm.addEventListener("submit", async (e) => {
   try {
     const result = await login(email, password);
     if (result.ok) {
-      // also persist email for profile display
       const ud = getStoredUser();
       if (ud) { ud.email = email; localStorage.setItem("userData", JSON.stringify(ud)); }
       if (profileModal) profileModal.style.display = "none";
@@ -383,7 +384,6 @@ if (profileSignout) {
     clearUser();
     profileLoggedIn.style.display = "none";
     profileSigninView.style.display = "block";
-    // stay on games page, just update profile modal state
   });
 }
 
@@ -420,14 +420,14 @@ searchInput.addEventListener("input", (e) => {
 gamesGrid.addEventListener("click", (e) => {
   const btn  = e.target.closest("button");
   if (!btn) return;
-  const card = btn.closest(".game-tile");
+  const card = btn.closest(".gametile");
   if (!card) return;
   const pkg  = card.dataset.pkg;
   if (!pkg) return;
   launchGame(pkg);
 });
 
-const topGamesGrid = document.getElementById("top-games-grid");
+const topGamesGrid = document.getElementById("top-gamesgrid");
 if (topGamesGrid) {
   topGamesGrid.addEventListener("click", (e) => {
     const item = e.target.closest(".ranked-item");
