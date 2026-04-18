@@ -28,6 +28,67 @@ const gamesGrid       = document.getElementById("games-grid");
 const errorMsg        = document.getElementById("error-msg");
 const serverSelect    = document.getElementById("server-select");
 const signinServer    = document.getElementById("signin-server");
+
+// --- Nav tab switching ---
+function showView(name) {
+  document.querySelectorAll(".view-section").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  const view = document.getElementById("view-" + name);
+  const tab  = document.getElementById("nav-" + name);
+  if (view) view.classList.add("active");
+  if (tab)  tab.classList.add("active");
+}
+
+const navSelection = document.getElementById("nav-selection");
+const navApps      = document.getElementById("nav-apps");
+if (navSelection) navSelection.addEventListener("click", () => showView("selection"));
+if (navApps)      navApps.addEventListener("click", () => showView("apps"));
+
+// Featured grid click
+const featuredGrid = document.getElementById("featured-grid");
+if (featuredGrid) {
+  featuredGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    const card = btn.closest(".featured-card");
+    if (!card) return;
+    const pkg = card.dataset.pkg;
+    if (!pkg) return;
+    launchGame(pkg);
+  });
+}
+
+// --- Profile picture ---
+const DEFAULT_AVATAR = "https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png";
+function getProfilePic() { return localStorage.getItem("profilePic") || DEFAULT_AVATAR; }
+function setProfilePic(dataUrl) {
+  localStorage.setItem("profilePic", dataUrl);
+  applyProfilePic(dataUrl);
+}
+function applyProfilePic(src) {
+  const topbarAvatar = document.getElementById("topbar-avatar");
+  const picImg       = document.getElementById("profile-pic-img");
+  if (topbarAvatar) topbarAvatar.src = src;
+  if (picImg)       picImg.src = src;
+}
+// Load saved pic on startup
+applyProfilePic(getProfilePic());
+
+const changePicBtn  = document.getElementById("change-pic-btn");
+const picFileInput  = document.getElementById("pic-file-input");
+const profilePicWrap = document.getElementById("profile-pic-wrap");
+if (changePicBtn)  changePicBtn.addEventListener("click", () => picFileInput && picFileInput.click());
+if (profilePicWrap) profilePicWrap.addEventListener("click", () => picFileInput && picFileInput.click());
+if (picFileInput) {
+  picFileInput.addEventListener("change", () => {
+    const file = picFileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => setProfilePic(e.target.result);
+    reader.readAsDataURL(file);
+    picFileInput.value = "";
+  });
+}
 const connectingOverlay = document.getElementById("connecting-overlay");
 const connectingMsg     = document.getElementById("connecting-msg");
 const needAccountBtn    = document.getElementById("need-account-btn");
@@ -119,6 +180,7 @@ function openProfileModal() {
     const saved = getSelectedServer();
     if (profileRegion && VALID_SERVERS.includes(saved)) profileRegion.value = saved;
     if (blankTabToggle) blankTabToggle.checked = getBlankTab();
+    applyProfilePic(getProfilePic());
   } else {
     profileSigninView.style.display = "block";
     profileLoggedIn.style.display = "none";
@@ -352,20 +414,36 @@ if (needAccountBtn) {
 
 searchInput.addEventListener("input", (e) => {
   const q = e.target.value.toLowerCase();
-  gamesGrid.querySelectorAll(".game-card").forEach((card) => {
-    card.style.display = card.dataset.name.toLowerCase().includes(q) ? "grid" : "none";
+  gamesGrid.querySelectorAll(".game-tile").forEach((card) => {
+    card.style.display = card.dataset.name.toLowerCase().includes(q) ? "" : "none";
   });
+  if (topGamesGrid) {
+    topGamesGrid.querySelectorAll(".ranked-item").forEach((item) => {
+      item.style.display = item.dataset.name.toLowerCase().includes(q) ? "flex" : "none";
+    });
+  }
 });
 
 gamesGrid.addEventListener("click", (e) => {
   const btn  = e.target.closest("button");
   if (!btn) return;
-  const card = btn.closest(".game-card");
+  const card = btn.closest(".game-tile");
   if (!card) return;
   const pkg  = card.dataset.pkg;
   if (!pkg) return;
   launchGame(pkg);
 });
+
+const topGamesGrid = document.getElementById("top-games-grid");
+if (topGamesGrid) {
+  topGamesGrid.addEventListener("click", (e) => {
+    const item = e.target.closest(".ranked-item");
+    if (!item) return;
+    const pkg = item.dataset.pkg;
+    if (!pkg) return;
+    launchGame(pkg);
+  });
+}
 
 if (serverSelect) {
   serverSelect.addEventListener("change", () => {
