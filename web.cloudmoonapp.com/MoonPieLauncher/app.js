@@ -8,7 +8,7 @@ const BACKUP_HOSTS = [
 ];
 const VALID_SERVERS = ["21", "22", "23", "3", "4"];
 
-const MP_VERSION = "1.0.0";
+const MP_VERSION = "1.1.0";
 console.log(`%cMoonPie Launcher %cv${MP_VERSION}`, "color:#fff;font-weight:700;font-size:13px", "color:#888;font-size:12px");
 
 let _cachedHost = null;
