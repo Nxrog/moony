@@ -13,38 +13,37 @@ console.log(`%cMoonPie Launcher %cv${MP_VERSION}`, "color:#fff;font-weight:700;f
 
 let _cachedHost = null;
 
-const profileModal      = document.getElementById("profile-modal");
-const profileSigninView = document.getElementById("profile-signin-view");
-const profileLoggedIn   = document.getElementById("profile-loggedin-view");
-const profileEmailEl    = document.getElementById("profile-email-text");
-const profileRegion     = document.getElementById("profile-region");
-const profileBtn        = document.getElementById("profile-btn");
-const profileSignout    = document.getElementById("profile-signout");
-const closeProfileModal = document.getElementById("close-profile-modal");
-const gameSection     = document.getElementById("game-section");
-const signinForm      = document.getElementById("signin-form");
-const searchInput     = document.getElementById("game-search");
-const gamesGrid       = document.getElementById("games-grid");
-const errorMsg        = document.getElementById("error-msg");
-const serverSelect    = document.getElementById("server-select");
-const signinServer    = document.getElementById("signin-server");
+const profileModal      = document.getElementById("profilemodal");
+const profileSigninView = document.getElementById("signinview");
+const profileLoggedIn   = document.getElementById("loggedinview");
+const profileEmailEl    = document.getElementById("profileemailtext");
+const profileRegion     = document.getElementById("profileregion");
+const profileBtn        = document.getElementById("profilebtn");
+const profileSignout    = document.getElementById("profilesignout");
+const closeProfileModal = document.getElementById("closeprofilemodal");
+const gameSection     = document.getElementById("gamesection");
+const signinForm      = document.getElementById("signinform");
+const searchInput     = document.getElementById("gamesearch");
+const gamesGrid       = document.getElementById("gamesgrid");
+const errorMsg        = document.getElementById("errormsg");
+const serverSelect    = document.getElementById("serverselect");
+const signinServer    = document.getElementById("signinserver");
 
 // --- Nav tab switching ---
 function showView(name) {
-  document.querySelectorAll(".view-section").forEach(v => v.classList.remove("active"));
-  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
-  const view = document.getElementById("view-" + name);
-  const tab  = document.getElementById("nav-" + name);
+  document.querySelectorAll(".viewsection").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".navtab").forEach(t => t.classList.remove("active"));
+  const view = document.getElementById("view" + name);
+  const tab  = document.getElementById("nav" + name);
   if (view) view.classList.add("active");
   if (tab)  tab.classList.add("active");
 }
 
-const navSelection = document.getElementById("nav-selection");
-const navApps      = document.getElementById("nav-apps");
+const navSelection = document.getElementById("navselection");
+const navApps      = document.getElementById("navapps");
 if (navSelection) navSelection.addEventListener("click", () => showView("selection"));
 if (navApps)      navApps.addEventListener("click", () => showView("apps"));
 
-// Featured grid click
 const featuredGrid = document.getElementById("featured-grid");
 if (featuredGrid) {
   featuredGrid.addEventListener("click", (e) => {
@@ -58,7 +57,6 @@ if (featuredGrid) {
   });
 }
 
-// --- Profile picture ---
 const DEFAULT_AVATAR = "https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png";
 function getProfilePic() { return localStorage.getItem("profilePic") || DEFAULT_AVATAR; }
 function setProfilePic(dataUrl) {
@@ -66,12 +64,11 @@ function setProfilePic(dataUrl) {
   applyProfilePic(dataUrl);
 }
 function applyProfilePic(src) {
-  const topbarAvatar = document.getElementById("topbar-avatar");
-  const picImg       = document.getElementById("profile-pic-img");
+  const topbarAvatar = document.getElementById("topbaravatar");
+  const picImg       = document.getElementById("profilepicimg");
   if (topbarAvatar) topbarAvatar.src = src;
   if (picImg)       picImg.src = src;
 }
-// Load saved pic on startup
 applyProfilePic(getProfilePic());
 
 const picFileInput  = document.getElementById("pic-file-input");
