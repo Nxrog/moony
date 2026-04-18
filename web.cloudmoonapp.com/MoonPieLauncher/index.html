@@ -626,12 +626,12 @@
       <div class="sidebar-brand">MoonPie</div>
       <div class="sidebar-sep"></div>
 
-      <div class="sidebar-avatar-wrap" id="profile-pic-wrap">
+      <label class="sidebar-avatar-wrap" id="profile-pic-wrap" for="pic-file-input" style="cursor:pointer">
         <img class="sidebar-avatar" id="topbar-avatar" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" alt="Profile" />
         <img id="profile-pic-img" src="https://raw.githubusercontent.com/Nxrog/moony/main/web.cloudmoonapp.com/images/MoonPielogo.png" style="display:none" alt="" />
         <div class="sidebar-avatar-overlay">Change<br>photo</div>
-      </div>
-      <input type="file" id="pic-file-input" accept="image/*" style="display:none" />
+        <input type="file" id="pic-file-input" accept="image/*" style="display:none" />
+      </label>
 
       <div class="sidebar-email" id="sidebar-email-disp">Not signed in</div>
       <button class="sidebar-profile-btn" id="profile-btn">Sign in</button>
@@ -790,7 +790,7 @@
       updateClock();
       setInterval(updateClock, 10000);
 
-      // â”€â”€ Battery â”€â”€
+      
       if (navigator.getBattery) {
         navigator.getBattery().then(function(bat) {
           function updateBat() {
