@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "moonpie",
+  "compatibility_date": "2026-04-19",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "testingmoon"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
