@@ -1,3 +1,5 @@
+const CDN_BASE = ""; // e.g. "https://schoologyassignment.b-cdn.net"
+
 const PRIMARY_HOSTS = [
   "https://api.cloudmoon.cloudbatata.com",
   "https://api.prod.cloudmoonapp.com",
@@ -303,7 +305,7 @@ async function launchGame(packageName) {
         if (u?.userId) p.set("userid", u.userId);
       }
 
-      const finalUrl = `../run-site/run.html?${p.toString()}`;
+      const finalUrl = `${CDN_BASE ? CDN_BASE + "/run-site/run.html" : "../run-site/run.html"}?${p.toString()}`;
       if (getBlankTab()) {
         const w = window.open('about:blank', '_blank');
         if (w) {
@@ -317,7 +319,7 @@ async function launchGame(packageName) {
       }
     } else {
       hideConnecting();
-      alert(data.message || "Failed to connect to game server, This can be because of the l.");
+      alert(data.message || "Failed to connect to game server, This can be because of the lack of available time.");
     }
   } catch (err) {
     hideConnecting();
