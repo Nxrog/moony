@@ -1,4 +1,4 @@
-const CDN_BASE = ""; // e.g. "https://schoologyassignment.b-cdn.net"
+const CDN_BASE = ""; // eg "https://schoologyassignment.b-cdn.net"
 
 const PRIMARY_HOSTS = [
   "https://api.cloudmoon.cloudbatata.com",
@@ -93,6 +93,8 @@ const blankTabToggle    = document.getElementById("blanktabtoggle");
 
 function getBlankTab() { return localStorage.getItem("blankTab") === "1"; }
 function setBlankTab(v) { localStorage.setItem("blankTab", v ? "1" : "0"); }
+function getAutoRetryConnect() { return localStorage.getItem("autoRetryConnect") === "1"; }
+function getShowFpsPing() { return localStorage.getItem("showFpsPing") === "1"; }
 
 async function discoverApiHost() {
   if (_cachedHost) return _cachedHost;
@@ -228,7 +230,7 @@ async function login(email, password) {
   let msg = data.message || "Login failed";
   if (data.code === 40030) msg = "This account uses Google sign-in. Visit cloudmoonapp.com to set a password first.";
   else if (data.code === 40031) msg = "Incorrect password. Please try again.";
-  else if (data.code === 40032) msg = "No account found for this email. Create one at cloudmoonapp.com, then sign in here.";
+  else if (data.code === 40032) msg = "No account found for this email. Create one using Google sign-up at cloudmoonapp.com.";
   return { ok: false, code: data.code, msg };
 }
 
@@ -239,6 +241,21 @@ async function getAndroidId() {
     return data.data.list[0].android_id;
   }
   return null;
+}
+
+async function requestGameSession(androidId, packageName, serverId) {
+  const res = await apiFetch("/phone/connect", {
+    method: "POST",
+    body: JSON.stringify({
+      android_id: androidId,
+      game_name: packageName,
+      screen_res: "720x1280",
+      server_id: parseInt(serverId),
+      params: JSON.stringify({ language: "en", locale: "" }),
+      ad_unblock: true,
+    }),
+  });
+  return res.json();
 }
 
 async function launchGame(packageName) {
@@ -264,18 +281,16 @@ async function launchGame(packageName) {
 
     showConnecting("Connecting to game server…");
 
-    const res = await apiFetch("/phone/connect", {
-      method: "POST",
-      body: JSON.stringify({
-        android_id: androidId,
-        game_name: packageName,
-        screen_res: "720x1280",
-        server_id: parseInt(serverId),
-        params: JSON.stringify({ language: "en", locale: "" }),
-        ad_unblock: true,
-      }),
-    });
-    const data = await res.json();
+    const maxAttempts = getAutoRetryConnect() ? 2 : 1;
+    let data = null;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      data = await requestGameSession(androidId, packageName, serverId);
+      if (data?.code === 0 && data?.data?.sid) break;
+      if (attempt < maxAttempts) {
+        showConnecting("Session preparing… retrying once…");
+        await new Promise((r) => setTimeout(r, 900));
+      }
+    }
 
     if (data.code === 0 && data.data?.sid) {
       const sid = data.data.sid;
@@ -292,6 +307,10 @@ async function launchGame(packageName) {
 
       const p = new URLSearchParams({ sid });
       p.set("game", packageName);
+      if (getShowFpsPing()) {
+        p.set("show_fps_ping", "1");
+        p.set("stats", "1");
+      }
       if (sidData) {
         if (sidData.token)               p.set("token",               sidData.token);
         if (sidData.email)               p.set("email",               sidData.email);
@@ -319,7 +338,13 @@ async function launchGame(packageName) {
       }
     } else {
       hideConnecting();
-      alert(data.message || "Failed to connect to game server, This can be because of the lack of available time.");
+      const apiMessage = String(data?.message || "").trim();
+      const friendlyRetry = "Failed to connect to game session, please try again.";
+      if (/^success$/i.test(apiMessage)) {
+        alert(friendlyRetry);
+      } else {
+        alert(apiMessage || "Failed to connect to game server, This can be because of the lack of available time.");
+      }
     }
   } catch (err) {
     hideConnecting();
@@ -352,6 +377,7 @@ if (signinForm) signinForm.addEventListener("submit", async (e) => {
 
   try {
     const result = await login(email, password);
+
     if (result.ok) {
       const ud = getStoredUser();
       if (ud) { ud.email = email; localStorage.setItem("userData", JSON.stringify(ud)); }
@@ -403,7 +429,7 @@ if (blankTabToggle) {
 
 if (needAccountBtn) {
   needAccountBtn.addEventListener("click", () => {
-    window.open("https://cloudmoonapp.com", "_blank", "noopener");
+    window.open("https://260324moon.firebaseapp.com/", "_blank", "noopener");
   });
 }
 
