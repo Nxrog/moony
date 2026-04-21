@@ -700,7 +700,7 @@
         <label class="toggleswitch"><input type="checkbox" id="autorretrytoggle" /><div class="toggletrack"></div></label>
       </div>
       <div class="sidebartogglerow">
-        <div class="sidebartogglelabel">Show FPS/Ping<small>Pass performance overlay flag if able</small></div>
+        <div class="sidebartogglelabel">Show FPS/Ping<small>Pass performance overlay flag</small></div>
         <label class="toggleswitch"><input type="checkbox" id="showstatstoggle" /><div class="toggletrack"></div></label>
       </div>
       <div class="sidebartogglerow">
@@ -746,6 +746,23 @@
           <button class="btn-primary" type="submit">Continue to game list</button>
         </form>
         <div class="signin-hint">No account? <button type="button" id="needaccountbtn">CloudMoon sign up</button></div>
+        
+        <div id="noAccountModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+          <div style="background:#222;padding:2em 2.5em;border-radius:16px;max-width:170vw;max-height:90vh;box-shadow:0 8px 32px #000b;position:relative;color:#fff;">
+            <button id="closeNoAccountModal" style="position:absolute;top:1em;right:1em;background:#444;border:none;color:#fff;font-size:1.5em;border-radius:50%;width:2em;height:2em;cursor:pointer;">&times;</button>
+            <h2 style="margin-top:0;font-size:2.1em;font-weight:800;letter-spacing:0.03em;text-align:center;">How to Get a <span style='color:#f4f4f4;'>MoonPie</span> Account</h2>
+            <div id="noAccountInstructions" style="font-size:1.25em;line-height:1.7;margin-top:1.2em;">
+              <ol style="padding-left:1.2em;">
+                <li><b>Go to</b> <a href="https://cloudmoonapp.com" target="_blank" style="color:#f4f4f4;font-weight:600;text-decoration:underline;">cloudmoonapp.com</a>. <span style="color:#aaa">If it's blocked, sign up on a device without any web filters.</span></li>
+                <li><b>Sign up</b> using your <b>Google account</b>.</li>
+                <li><b>Press your profile icon</b> on the top right, and press <b>Set Up Password</b>.</li>
+                <li><b>Change your password</b> to something you can remember easily.</li>
+                <li><b>Return here</b> and log in with your new account.</li>
+              </ol>
+              <div style="margin-top:1.5em;font-size:1.1em;color:#f4f4f4;font-weight:600;text-align:center;">If you need help join our <a href="https://discord.gg/UPRQynph" target="_blank" style="color:#fff;text-decoration:underline;">Discord</a> for support!</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="loggedinview" style="display:none">
         <div class="profile-user-info">
@@ -774,7 +791,7 @@
           <label class="toggleswitch"><input type="checkbox" id="autorretrytogglemodal" onchange="localStorage.setItem('autoRetryConnect',this.checked?'1':'0');document.getElementById('autorretrytoggle').checked=this.checked" /><div class="toggletrack"></div></label>
         </div>
         <div class="settingrow">
-          <div class="settingrowlabel">Show FPS/Ping<span>Ask run page to show performance stats</span></div>
+          <div class="settingrowlabel">Show FPS/Ping<span>Ask run page to show performance stats if allowed on run.html</span></div>
           <label class="toggleswitch"><input type="checkbox" id="showstatstogglemodal" onchange="localStorage.setItem('showFpsPing',this.checked?'1':'0');document.getElementById('showstatstoggle').checked=this.checked" /><div class="toggletrack"></div></label>
         </div>
         <div class="settingrow">
@@ -792,6 +809,25 @@
 
   <script src="./app.js"></script>
   <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var noAccountBtn = document.getElementById('needaccountbtn');
+      var modal = document.getElementById('noAccountModal');
+      var closeBtn = document.getElementById('closeNoAccountModal');
+      if (noAccountBtn && modal && closeBtn) {
+        noAccountBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.style.display = 'flex';
+        });
+        closeBtn.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) modal.style.display = 'none';
+        });
+      }
+    });
     (function() {
       var sidebarWrap = document.getElementById('sidebarwrap');
       var toggleBtn   = document.getElementById('sidebartogglebtn');
