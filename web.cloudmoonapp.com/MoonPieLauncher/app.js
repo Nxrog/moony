@@ -10,7 +10,7 @@ const BACKUP_HOSTS = [
 ];
 const VALID_SERVERS = ["21", "22", "23", "3", "4"];
 
-const MP_VERSION = "1.1.0   |   Nano";
+const MP_VERSION = "1.1.0";
 console.log(`%cMoonPie Launcher %cv${MP_VERSION}`, "color:#fff;font-weight:700;font-size:13px", "color:#888;font-size:12px");
 
 let _cachedHost = null;
@@ -34,7 +34,7 @@ const signinServer    = document.getElementById("signinserver");
 
 function showView(name) {
   document.querySelectorAll(".viewsection").forEach(v => v.classList.remove("active"));
-  document.querySelectorAll(".navtab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".topnav-tab").forEach(t => t.classList.remove("active"));
   const view = document.getElementById("view" + name);
   const tab  = document.getElementById("nav" + name);
   if (view) view.classList.add("active");
@@ -298,7 +298,11 @@ async function launchGame(packageName) {
 
       let sidData = null;
       try {
-        const sidRes  = await apiFetch(`/web/sid?sid=${encodeURIComponent(sid)}`);
+        // Use plain fetch (no custom headers) so the browser sends a simple GET.
+        // apiFetch would add Content-Type + X-User-Token, triggering a CORS preflight
+        // that CloudMoon rejects from third-party origins.
+        const apiHost = await discoverApiHost();
+        const sidRes  = await fetch(`${apiHost}/web/sid?sid=${encodeURIComponent(sid)}`);
         const sidJson = await sidRes.json();
         if (sidJson.code === 0) sidData = sidJson.data;
       } catch (_) {}
@@ -324,7 +328,8 @@ async function launchGame(packageName) {
         if (u?.userId) p.set("userid", u.userId);
       }
 
-      const finalUrl = `${CDN_BASE ? CDN_BASE + "/run-site/run.html" : "../run-site/run.html"}?${p.toString()}`;
+      const _runHtml = CDN_BASE ? CDN_BASE + "/run-site/run.html" : new URL("../run-site/run.html", window.location.href).href;
+      const finalUrl = `${_runHtml}?${p.toString()}`;
       if (getBlankTab()) {
         const w = window.open('about:blank', '_blank');
         if (w) {
@@ -356,6 +361,7 @@ async function launchGame(packageName) {
   const saved = getSelectedServer();
   if (VALID_SERVERS.includes(saved)) syncServerSelects(saved);
   showGames();
+  if (!getStoredUser()?.token) openProfileModal();
 })();
 
 if (signinForm) signinForm.addEventListener("submit", async (e) => {
@@ -382,6 +388,7 @@ if (signinForm) signinForm.addEventListener("submit", async (e) => {
       const ud = getStoredUser();
       if (ud) { ud.email = email; localStorage.setItem("userData", JSON.stringify(ud)); }
       if (profileModal) profileModal.style.display = "none";
+      if (window.updateSidebarState) window.updateSidebarState();
       showGames();
     } else {
       showError(result.msg);
@@ -412,6 +419,7 @@ if (profileSignout) {
     clearUser();
     profileLoggedIn.style.display = "none";
     profileSigninView.style.display = "block";
+    if (window.updateSidebarState) window.updateSidebarState();
   });
 }
 
@@ -429,6 +437,8 @@ if (blankTabToggle) {
 
 if (needAccountBtn) {
   needAccountBtn.addEventListener("click", () => {
+    // If the noAccountModal exists in the HTML, let it handle the click
+    if (document.getElementById("noAccountModal")) return;
     window.open("https://260324moon.firebaseapp.com/", "_blank", "noopener");
   });
 }
