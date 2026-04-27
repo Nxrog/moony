@@ -1,16 +1,5 @@
 {
   "hosting": {
-    "public": "./web.cloudmoonapp.com/MoonPieLauncher",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "public": "web.cloudmoonapp.com/MoonPieLauncher"
   }
 }
